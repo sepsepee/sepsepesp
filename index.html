@@ -7,7 +7,9 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>CERA+ PCM03S Max × Timemore Dot Smart Brew</title>
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/924/924514.png" />
+  <title>Sepsep'esp · Smart Espresso Brew</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Pretendard:wght@400;600;700&display=swap');
@@ -54,24 +56,22 @@
 
   <!-- 상단 듀얼 블루투스 연결 헤더 -->
   <header class="mb-2.5">
-    <div class="flex items-center justify-between mb-2">
-      <div>
-        <h1 class="text-sm font-extrabold tracking-tight text-white flex items-center gap-1.5">
-          <span>CERA+ <span class="text-orange-400">PCM03S MAX</span></span>
-          <span class="text-gray-500">×</span>
-          <span class="text-amber-400">DOT</span>
+    <div class="flex items-center justify-between gap-2 mb-2">
+      <div class="min-w-0">
+        <h1 class="text-sm sm:text-base font-extrabold tracking-tight text-white flex items-center whitespace-nowrap">
+          <span>Sepsep<span class="text-orange-400">'esp</span></span>
         </h1>
-        <p class="text-[11px] text-gray-400">목표 용량 도달 자동 정지 · 스마트 에스프레소 컨트롤러</p>
+        <p class="text-[10px] sm:text-[11px] text-gray-400 truncate">목표 용량 자동 정지 · 스마트 컨트롤러</p>
       </div>
-      <div class="flex items-center gap-1">
-        <button id="radarScanBtn" class="px-2 py-1.5 rounded-xl bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 text-[11px] font-bold border border-orange-500/40 btn-press" title="머신에 폰을 가까이 대어 신호 세기로 찾기">
+      <div class="flex items-center gap-1 shrink-0">
+        <button id="radarScanBtn" class="px-2 py-1.5 rounded-xl bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 text-[10px] sm:text-[11px] font-bold border border-orange-500/40 whitespace-nowrap btn-press" title="머신에 폰을 가까이 대어 신호 세기로 찾기">
           📡 근접탐색
         </button>
-        <button id="historyBtn" class="px-2 py-1.5 rounded-xl bg-gray-800/90 hover:bg-gray-700 text-amber-300 text-[11px] font-semibold border border-gray-700/70 btn-press flex items-center gap-1">
+        <button id="historyBtn" class="px-2 py-1.5 rounded-xl bg-gray-800/90 hover:bg-gray-700 text-amber-300 text-[10px] sm:text-[11px] font-semibold border border-gray-700/70 whitespace-nowrap btn-press flex items-center gap-1">
           <span>기록</span>
           <span id="historyBadge" class="px-1.5 rounded-full bg-amber-500/20 text-[10px] mono-num">0</span>
         </button>
-        <button id="bleConfigBtn" class="px-2 py-1.5 rounded-xl bg-gray-800/90 hover:bg-gray-700 text-cyan-300 text-[11px] font-semibold border border-gray-700/70 btn-press" title="와이어샤크 패킷 설정">
+        <button id="bleConfigBtn" class="px-2 py-1.5 rounded-xl bg-gray-800/90 hover:bg-gray-700 text-cyan-300 text-[10px] sm:text-[11px] font-semibold border border-gray-700/70 whitespace-nowrap btn-press" title="와이어샤크 패킷 설정">
           BLE설정
         </button>
       </div>
@@ -109,85 +109,85 @@
   <main class="flex-1 flex flex-col gap-2.5">
 
     <!-- 1. 핵심 기능: 목표 추출량 자동 정지 (Gravimetric Auto-Stop) -->
-    <section class="card-surface rounded-3xl p-4 relative overflow-hidden border-orange-500/20">
-      <div class="flex items-center justify-between mb-1">
-        <div class="flex items-center gap-1.5">
-          <span class="text-[11px] font-bold uppercase tracking-wider text-orange-400">Gravimetric Auto-Stop</span>
-          <label class="inline-flex items-center gap-1 cursor-pointer bg-orange-500/15 border border-orange-500/30 px-2 py-0.5 rounded-full">
+    <section class="card-surface rounded-3xl p-3.5 sm:p-4 relative overflow-hidden border-orange-500/20">
+      <div class="flex flex-wrap items-center justify-between gap-1.5 mb-1.5">
+        <div class="flex items-center gap-1.5 shrink-0">
+          <span class="text-[11px] font-bold uppercase tracking-tight text-orange-400">Auto-Stop</span>
+          <label class="inline-flex items-center gap-1 cursor-pointer bg-orange-500/15 border border-orange-500/30 px-2 py-0.5 rounded-full whitespace-nowrap">
             <input type="checkbox" id="autoStopToggle" checked class="accent-orange-500 w-3 h-3" />
             <span class="text-[10px] font-bold text-orange-300">자동정지 ON</span>
           </label>
         </div>
-        <span id="machinePhaseBadge" class="text-[11px] px-2 py-0.5 rounded-full bg-gray-800 text-gray-300 font-semibold">대기 중</span>
+        <span id="machinePhaseBadge" class="text-[10px] sm:text-[11px] px-2 py-0.5 rounded-full bg-gray-800 text-gray-300 font-semibold whitespace-nowrap">대기 중</span>
       </div>
 
       <!-- 실시간 무게 vs 목표 무게 -->
-      <div class="flex items-baseline justify-between my-1.5">
-        <div>
+      <div class="flex items-end justify-between gap-2 my-1.5">
+        <div class="min-w-0">
           <div class="text-[10px] text-gray-400">현재 추출량 (Dot 저울)</div>
-          <div class="flex items-baseline gap-1">
-            <span id="currentWeightDisplay" class="mono-num text-5xl font-extrabold text-white tracking-tight">0.0</span>
-            <span class="text-sm font-bold text-amber-400">g</span>
+          <div class="flex items-baseline gap-1 mt-0.5">
+            <span id="currentWeightDisplay" class="mono-num text-3xl sm:text-5xl font-extrabold text-white tracking-tight">0.0</span>
+            <span class="text-xs sm:text-sm font-bold text-amber-400">g</span>
           </div>
         </div>
 
-        <div class="text-right">
+        <div class="text-right shrink-0">
           <div class="text-[10px] text-gray-400">목표 정지 용량</div>
-          <div class="flex items-center justify-end gap-1.5 mt-0.5">
-            <button id="targetMinusBtn" class="w-7 h-7 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold btn-press">-</button>
-            <span id="targetWeightDisplay" class="mono-num text-2xl font-extrabold text-orange-400">36.0g</span>
-            <button id="targetPlusBtn" class="w-7 h-7 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold btn-press">+</button>
+          <div class="flex items-center justify-end gap-1 sm:gap-1.5 mt-0.5">
+            <button id="targetMinusBtn" class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold btn-press">-</button>
+            <span id="targetWeightDisplay" class="mono-num text-lg sm:text-2xl font-extrabold text-orange-400">36.0g</span>
+            <button id="targetPlusBtn" class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold btn-press">+</button>
           </div>
         </div>
       </div>
 
       <!-- 목표 도달 진행 게이지 바 -->
-      <div class="w-full h-2.5 bg-gray-900 rounded-full overflow-hidden border border-gray-800 my-2">
+      <div class="w-full h-2 bg-gray-900 rounded-full overflow-hidden border border-gray-800 my-2">
         <div id="yieldProgressBar" class="h-full bg-gradient-to-r from-amber-500 via-orange-500 to-emerald-400 transition-all duration-150" style="width: 0%"></div>
       </div>
 
-      <!-- 비율 & 잔여 낙하 보정값 설정 -->
-      <div class="flex items-center justify-between text-[11px] pt-1 text-gray-400">
-        <div class="flex items-center gap-1.5">
+      <!-- 비율 & 잔여 낙하 보정값 설정 (좁은 화면에서도 카드 폭 내에서 깔끔히 줄바꿈) -->
+      <div class="flex flex-wrap items-center justify-between gap-x-2 gap-y-1.5 text-[10px] sm:text-[11px] pt-1 text-gray-400">
+        <div class="flex items-center gap-1 whitespace-nowrap">
           <span>도징:</span>
-          <input id="doseInput" type="number" step="0.5" value="18.0" class="w-12 bg-gray-900 border border-gray-700 rounded px-1.5 py-0.5 text-center mono-num text-white font-bold" />
+          <input id="doseInput" type="number" step="0.5" value="18.0" class="w-10 sm:w-11 bg-gray-900 border border-gray-700 rounded px-1 py-0.5 text-center mono-num text-white font-bold" />
           <span>g</span>
           <button class="ratio-preset px-1.5 py-0.5 rounded bg-gray-800 hover:bg-gray-700 text-[10px] text-gray-300" data-ratio="1.5">1:1.5</button>
           <button class="ratio-preset px-1.5 py-0.5 rounded bg-gray-800 hover:bg-gray-700 text-[10px] text-amber-300" data-ratio="2.0">1:2</button>
           <button class="ratio-preset px-1.5 py-0.5 rounded bg-gray-800 hover:bg-gray-700 text-[10px] text-gray-300" data-ratio="2.5">1:2.5</button>
         </div>
-        <div class="flex items-center gap-1" title="펌프 정지 후 58mm 바스켓에서 추가로 떨어지는 방울 보정">
+        <div class="flex items-center gap-1 whitespace-nowrap ml-auto" title="펌프 정지 후 58mm 바스켓에서 추가로 떨어지는 방울 보정">
           <span>낙하보정:</span>
-          <button id="offsetMinusBtn" class="px-1.5 rounded bg-gray-800 text-gray-300 font-bold">-</button>
+          <button id="offsetMinusBtn" class="px-1.5 py-0.5 rounded bg-gray-800 text-gray-300 font-bold">-</button>
           <span id="offsetDisplay" class="mono-num text-cyan-300 font-bold">-1.2g</span>
-          <button id="offsetPlusBtn" class="px-1.5 rounded bg-gray-800 text-gray-300 font-bold">+</button>
+          <button id="offsetPlusBtn" class="px-1.5 py-0.5 rounded bg-gray-800 text-gray-300 font-bold">+</button>
         </div>
       </div>
     </section>
 
     <!-- 2. CERA+ PCM03S Max 공식 앱 제어 패널 (온도 · 프리인퓨전 · 프리셋) -->
     <section class="card-surface rounded-2xl p-3.5">
-      <div class="flex items-center justify-between mb-2.5">
-        <span class="text-xs font-bold text-gray-300">PCM03S Max 머신 프로파일</span>
+      <div class="flex flex-wrap items-center justify-between gap-1.5 mb-2.5">
+        <span class="text-xs font-bold text-gray-300 whitespace-nowrap">PCM03S Max 프로파일</span>
         <!-- 퀵 레시피 프리셋 -->
-        <div class="flex items-center gap-1">
-          <button class="profile-preset px-2 py-0.5 rounded-lg bg-orange-500/20 text-orange-300 border border-orange-500/30 text-[10px] font-bold btn-press" data-temp="92" data-pre="3" data-bloom="3" data-yield="36">표준 92°C</button>
-          <button class="profile-preset px-2 py-0.5 rounded-lg bg-gray-800 text-gray-300 text-[10px] font-semibold btn-press" data-temp="95" data-pre="5" data-bloom="5" data-yield="42">약배전 95°C</button>
-          <button class="profile-preset px-2 py-0.5 rounded-lg bg-gray-800 text-gray-300 text-[10px] font-semibold btn-press" data-temp="88" data-pre="2" data-bloom="0" data-yield="32">강배전 88°C</button>
+        <div class="flex items-center gap-1 shrink-0 ml-auto">
+          <button class="profile-preset px-2 py-0.5 rounded-lg bg-orange-500/20 text-orange-300 border border-orange-500/30 text-[10px] font-bold whitespace-nowrap btn-press" data-temp="92" data-pre="3" data-bloom="3" data-yield="36">표준 92°C</button>
+          <button class="profile-preset px-2 py-0.5 rounded-lg bg-gray-800 text-gray-300 text-[10px] font-semibold whitespace-nowrap btn-press" data-temp="95" data-pre="5" data-bloom="5" data-yield="42">약배전 95°C</button>
+          <button class="profile-preset px-2 py-0.5 rounded-lg bg-gray-800 text-gray-300 text-[10px] font-semibold whitespace-nowrap btn-press" data-temp="88" data-pre="2" data-bloom="0" data-yield="32">강배전 88°C</button>
         </div>
       </div>
 
       <!-- 온도 제어 & 실시간 수온 -->
       <div class="bg-[#0e1015] rounded-xl p-2.5 border border-gray-800/80 mb-2.5">
-        <div class="flex items-center justify-between mb-1.5">
-          <div class="flex items-center gap-2">
-            <span class="text-[11px] text-gray-400">현재 수온:</span>
-            <span id="currentTempDisplay" class="mono-num text-sm font-extrabold text-rose-400">25°C</span>
+        <div class="flex flex-wrap items-center justify-between gap-1.5 mb-1.5">
+          <div class="flex items-center gap-1.5 whitespace-nowrap">
+            <span class="text-[11px] text-gray-400">현재:</span>
+            <span id="currentTempDisplay" class="mono-num text-xs sm:text-sm font-extrabold text-rose-400">25°C</span>
             <span class="text-gray-600">/</span>
             <span class="text-[11px] text-gray-400">목표:</span>
-            <span id="targetTempDisplay" class="mono-num text-sm font-extrabold text-orange-400">92°C</span>
+            <span id="targetTempDisplay" class="mono-num text-xs sm:text-sm font-extrabold text-orange-400">92°C</span>
           </div>
-          <button id="heatToggleBtn" class="px-3 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 text-[11px] font-bold btn-press">
+          <button id="heatToggleBtn" class="px-2.5 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 text-[11px] font-bold whitespace-nowrap shrink-0 ml-auto btn-press">
             🔥 가열 시작
           </button>
         </div>
@@ -195,29 +195,29 @@
       </div>
 
       <!-- 프리인퓨전 & 블루밍 & 추출 텔레메트리 -->
-      <div class="grid grid-cols-3 gap-2 text-center">
-        <div class="bg-[#0e1015] rounded-xl p-2 border border-gray-800/80">
-          <div class="text-[10px] text-gray-400">프리인퓨전</div>
-          <div class="flex items-center justify-center gap-1.5 mt-1">
-            <button id="preMinusBtn" class="w-5 h-5 rounded bg-gray-800 text-xs font-bold">-</button>
+      <div class="grid grid-cols-3 gap-1.5 text-center">
+        <div class="bg-[#0e1015] rounded-xl px-1 py-2 border border-gray-800/80 min-w-0">
+          <div class="text-[10px] text-gray-400 truncate">프리인퓨전</div>
+          <div class="flex items-center justify-center gap-1 sm:gap-1.5 mt-1">
+            <button id="preMinusBtn" class="w-5 h-5 rounded bg-gray-800 text-xs font-bold shrink-0">-</button>
             <span id="preInfusionDisplay" class="mono-num text-xs font-bold text-white">3s</span>
-            <button id="prePlusBtn" class="w-5 h-5 rounded bg-gray-800 text-xs font-bold">+</button>
+            <button id="prePlusBtn" class="w-5 h-5 rounded bg-gray-800 text-xs font-bold shrink-0">+</button>
           </div>
         </div>
 
-        <div class="bg-[#0e1015] rounded-xl p-2 border border-gray-800/80">
-          <div class="text-[10px] text-gray-400">블루밍 대기</div>
-          <div class="flex items-center justify-center gap-1.5 mt-1">
-            <button id="bloomMinusBtn" class="w-5 h-5 rounded bg-gray-800 text-xs font-bold">-</button>
+        <div class="bg-[#0e1015] rounded-xl px-1 py-2 border border-gray-800/80 min-w-0">
+          <div class="text-[10px] text-gray-400 truncate">블루밍 대기</div>
+          <div class="flex items-center justify-center gap-1 sm:gap-1.5 mt-1">
+            <button id="bloomMinusBtn" class="w-5 h-5 rounded bg-gray-800 text-xs font-bold shrink-0">-</button>
             <span id="bloomDisplay" class="mono-num text-xs font-bold text-white">3s</span>
-            <button id="bloomPlusBtn" class="w-5 h-5 rounded bg-gray-800 text-xs font-bold">+</button>
+            <button id="bloomPlusBtn" class="w-5 h-5 rounded bg-gray-800 text-xs font-bold shrink-0">+</button>
           </div>
         </div>
 
-        <div class="bg-[#0e1015] rounded-xl p-2 border border-gray-800/80">
-          <div class="text-[10px] text-gray-400">추출시간 / 유속</div>
-          <div class="mt-1 mono-num text-xs font-bold text-cyan-300">
-            <span id="brewTimerDisplay">00:00</span> · <span id="flowRateDisplay">0.0</span>g/s
+        <div class="bg-[#0e1015] rounded-xl px-1 py-2 border border-gray-800/80 min-w-0">
+          <div class="text-[10px] text-gray-400 truncate">시간 · 유속</div>
+          <div class="mt-1 mono-num text-[10px] sm:text-xs font-bold text-cyan-300 tracking-tight truncate">
+            <span id="brewTimerDisplay">00:00</span>·<span id="flowRateDisplay">0.0</span>g/s
           </div>
         </div>
       </div>
@@ -245,12 +245,12 @@
     </section>
 
     <!-- 4. 통합 시뮬레이터 바 (기기 연결 전 전체 자동 정지 시퀀스 테스트) -->
-    <section class="bg-gray-900/75 border border-gray-800 rounded-2xl px-3 py-2 flex items-center justify-between">
-      <div>
-        <div class="text-[11px] font-bold text-gray-300">PCM03S Max + Dot 통합 시뮬레이터</div>
-        <div class="text-[10px] text-gray-500">프리인퓨전→추출→목표용량 도달 자동정지 테스트</div>
+    <section class="bg-gray-900/75 border border-gray-800 rounded-2xl px-3 py-2 flex items-center justify-between gap-2">
+      <div class="min-w-0">
+        <div class="text-[11px] font-bold text-gray-300 truncate">PCM03S Max + Dot 통합 시뮬레이터</div>
+        <div class="text-[10px] text-gray-500 break-keep leading-snug">프리인퓨전→추출→목표용량 도달 자동정지 테스트</div>
       </div>
-      <button id="simToggleBtn" class="px-3 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/30 text-xs font-bold btn-press">
+      <button id="simToggleBtn" class="px-2.5 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/30 text-[11px] font-bold whitespace-nowrap shrink-0 btn-press">
         시뮬레이션 실행
       </button>
     </section>
@@ -259,14 +259,14 @@
   <!-- 하단 메인 추출 컨트롤 버튼 -->
   <footer class="mt-2.5">
     <div class="grid grid-cols-3 gap-2">
-      <button id="tareScaleBtn" class="py-3.5 rounded-2xl bg-gray-800 hover:bg-gray-700 text-amber-300 font-extrabold text-sm border border-gray-700 transition btn-press flex flex-col items-center justify-center">
+      <button id="tareScaleBtn" class="py-3 rounded-2xl bg-gray-800 hover:bg-gray-700 text-amber-300 font-extrabold text-sm border border-gray-700 transition btn-press flex flex-col items-center justify-center px-1">
         <span>TARE</span>
         <span class="text-[10px] font-normal text-gray-400">저울 영점</span>
       </button>
 
-      <button id="brewActionBtn" class="col-span-2 py-3.5 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-gray-950 font-extrabold text-base shadow-lg shadow-orange-500/25 transition btn-press flex flex-col items-center justify-center">
+      <button id="brewActionBtn" class="col-span-2 py-3 px-2 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-gray-950 font-extrabold text-sm sm:text-base shadow-lg shadow-orange-500/25 transition btn-press flex flex-col items-center justify-center">
         <span id="brewActionLabel">▶ 스마트 추출 시작</span>
-        <span id="brewActionSub" class="text-[10px] font-semibold opacity-85">시작 시 저울 자동 영점 · 목표량 도달 시 정지</span>
+        <span id="brewActionSub" class="text-[10px] font-semibold opacity-85 break-keep leading-tight mt-0.5">시작 시 자동 영점 · 목표량 도달 시 정지</span>
       </button>
     </div>
 
@@ -611,6 +611,106 @@
     }
 
     /**
+     * 3-1. HappyGo 방식 자동 근접 재연결 (최초 1회 연결 후에는 탐색창 없이 자동 연결)
+     */
+    const SAVED_CERA_ID_KEY = 'cera_saved_device_id_v1';
+    const SAVED_DOT_ID_KEY  = 'dot_saved_device_id_v1';
+
+    async function initAutoProximityReconnect() {
+      if (!navigator.bluetooth || typeof navigator.bluetooth.getDevices !== 'function') return;
+      try {
+        const permittedDevices = await navigator.bluetooth.getDevices();
+        const savedCeraId = localStorage.getItem(SAVED_CERA_ID_KEY);
+        const savedDotId  = localStorage.getItem(SAVED_DOT_ID_KEY);
+
+        for (const dev of permittedDevices) {
+          if (savedCeraId && dev.id === savedCeraId && !ceraConnected) {
+            document.getElementById('ceraStatusText').textContent = '근접 자동 연결 대기...';
+            watchAndAutoConnect(dev, 'cera');
+          }
+          if (savedDotId && dev.id === savedDotId && !scaleConnected) {
+            document.getElementById('scaleStatusText').textContent = '근접 자동 연결 대기...';
+            watchAndAutoConnect(dev, 'dot');
+          }
+        }
+      } catch (e) {
+        logBle('AUTO-CONN', '기억된 기기 조회 불가: ' + e.message);
+      }
+    }
+
+    async function watchAndAutoConnect(device, type) {
+      // 즉시 연결 시도 (이미 전원이 켜져 근처에 있는 경우)
+      try {
+        if (type === 'cera') await bindConnectedCeraDevice(device);
+        else await bindConnectedDotDevice(device);
+        return;
+      } catch (e) {}
+
+      // 기기가 꺼져 있다면 광고 신호(가까이 가져옴)가 잡히는 순간 자동 연결
+      if (typeof device.watchAdvertisements === 'function') {
+        const abortCtrl = new AbortController();
+        device.addEventListener('advertisementreceived', async (ev) => {
+          const rssi = typeof ev.rssi === 'number' ? ev.rssi : -50;
+          if (rssi >= -75) { // 가까이 접근했을 때
+            abortCtrl.abort();
+            try {
+              if (type === 'cera' && !ceraConnected) await bindConnectedCeraDevice(device);
+              if (type === 'dot' && !scaleConnected) await bindConnectedDotDevice(device);
+            } catch (err) {}
+          }
+        }, { signal: abortCtrl.signal });
+
+        try {
+          await device.watchAdvertisements({ signal: abortCtrl.signal });
+        } catch (e) {}
+      }
+    }
+
+    async function bindConnectedDotDevice(device) {
+      scaleDevice = device;
+      scaleDevice.addEventListener('gattserverdisconnected', () => {
+        scaleConnected = false;
+        scaleWriteChar = null;
+        document.getElementById('scaleDot').className = 'w-2.5 h-2.5 rounded-full bg-gray-600 shrink-0';
+        document.getElementById('scaleStatusText').textContent = '연결 끊김';
+        document.getElementById('scaleBatBadge').classList.add('hidden');
+        logBle('DOT', '연결 해제됨');
+      });
+
+      const server = await scaleDevice.gatt.connect();
+      const service = await server.getPrimaryService(DOT_SERVICE_UUID);
+      const notifyChar = await service.getCharacteristic(DOT_NOTIFY_UUID);
+      scaleWriteChar = await service.getCharacteristic(DOT_WRITE_UUID);
+
+      await notifyChar.startNotifications();
+      notifyChar.addEventListener('characteristicvaluechanged', (ev) => {
+        const chunk = new Uint8Array(ev.target.value.buffer);
+        scaleRxBuffer.push(...chunk);
+        while (scaleRxBuffer.length >= 6) {
+          if (scaleRxBuffer[0] !== 0xA5 || scaleRxBuffer[1] !== 0x5A) {
+            scaleRxBuffer.shift();
+            continue;
+          }
+          const payloadLen = scaleRxBuffer[4] | (scaleRxBuffer[5] << 8);
+          const frameLen = 6 + payloadLen + 2;
+          if (scaleRxBuffer.length < frameLen) break;
+          const frame = scaleRxBuffer.splice(0, frameLen);
+          handleDotFrame(frame);
+        }
+      });
+
+      scaleConnected = true;
+      localStorage.setItem(SAVED_DOT_ID_KEY, scaleDevice.id);
+      document.getElementById('scaleDot').className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] shrink-0';
+      document.getElementById('scaleStatusText').textContent = scaleDevice.name || 'Dot 연결됨';
+      logBle('DOT', `연결 완료 (${scaleDevice.name})`);
+      showToast('Timemore Dot 저울이 자동 연결되었습니다.');
+
+      await writeDotCmd(DOT_CMD.INIT_GRAM);
+      setTimeout(() => writeDotCmd(DOT_CMD.REQ_BATTERY), 250);
+    }
+
+    /**
      * 4. CERA+ PCM03S Max BLE 연결 & 제어
      */
     const KNOWN_CERA_SERVICE_UUIDS = [
@@ -751,6 +851,7 @@
       }
 
       ceraConnected = true;
+      localStorage.setItem(SAVED_CERA_ID_KEY, ceraDevice.id);
       const connectedLabel = ceraDevice.name || `BLE 기기 (${ceraDevice.id.slice(0, 6)})`;
       document.getElementById('ceraDot').className = 'w-2.5 h-2.5 rounded-full bg-orange-400 shadow-[0_0_8px_#fb923c] shrink-0';
       document.getElementById('ceraStatusText').textContent = connectedLabel;
@@ -1359,68 +1460,6 @@
       packetLogBox.classList.toggle('hidden');
     });
 
-    // 백그라운드 PWA 매니페스트 및 앱 아이콘 자동 생성 (UI 버튼 없이 WebAPK 설치 지원)
-    (function setupBackgroundPwaManifest() {
-      try {
-        const iconCanvas = document.createElement('canvas');
-        iconCanvas.width = 512;
-        iconCanvas.height = 512;
-        const ctx = iconCanvas.getContext('2d');
-
-        // 다크 에스프레소 배경
-        ctx.fillStyle = '#0d0f13';
-        ctx.fillRect(0, 0, 512, 512);
-
-        // 오렌지 링 테두리
-        ctx.strokeStyle = '#f97316';
-        ctx.lineWidth = 24;
-        ctx.beginPath();
-        ctx.arc(256, 256, 200, 0, Math.PI * 2);
-        ctx.stroke();
-
-        // 중앙 텍스트 아이콘
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 92px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('CERA+', 256, 225);
-
-        ctx.fillStyle = '#fbbf24';
-        ctx.font = 'bold 54px sans-serif';
-        ctx.fillText('× DOT', 256, 310);
-
-        const iconDataUrl = iconCanvas.toDataURL('image/png');
-        const manifest = {
-          name: 'CERA+ PCM03S Max × Dot Brew',
-          short_name: 'CERA+ Brew',
-          start_url: location.href,
-          display: 'standalone',
-          background_color: '#0d0f13',
-          theme_color: '#0d0f13',
-          icons: [
-            { src: iconDataUrl, sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
-            { src: iconDataUrl, sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
-          ]
-        };
-
-        const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
-        const link = document.createElement('link');
-        link.rel = 'manifest';
-        link.href = URL.createObjectURL(blob);
-        document.head.appendChild(link);
-      } catch (e) {
-        // 매니페스트 생성 실패 시 무시
-      }
-    })();
-
     requestWakeLock();
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') requestWakeLock();
-    });
-
-    document.getElementById('historyBadge').textContent = getShotLogs().length;
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-  </script>
-</body>
-</html>
+// ... existing code ... -->
