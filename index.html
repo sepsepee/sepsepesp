@@ -117,7 +117,7 @@
   <!-- 메인 제어 영역 -->
   <main class="flex-1 flex flex-col gap-2.5 min-h-0">
 
-    <!-- 1. 저울부: 무게 · 유속 · 시간 · 목표 자동 정지 -->
+    <!-- 1. 저울부: 무게 · 유속 · 목표량 자동 정지 -->
     <section class="panel-card rounded-3xl p-3.5 relative overflow-hidden shrink-0">
       <div class="flex flex-wrap items-center justify-between gap-1.5 mb-1.5">
         <label class="flex items-center gap-1.5 cursor-pointer shrink-0">
@@ -129,24 +129,21 @@
         </span>
       </div>
 
-      <!-- 현재 추출량(중량) + 실시간 유속/시간 vs 목표 -->
-      <div class="grid grid-cols-12 items-end gap-1.5 my-1">
+      <!-- 현재 추출량(중량 + 작은 유속) vs 목표량 (좌우 수직 중앙 정렬) -->
+      <div class="grid grid-cols-12 items-center gap-2 my-1">
         <div class="col-span-7 min-w-0">
-          <div class="text-[11px] text-gray-300 font-semibold whitespace-nowrap">현재 추출량 (Yield)</div>
-          <div class="flex items-baseline gap-0.5">
+          <div class="flex items-center gap-2 whitespace-nowrap">
+            <span class="text-[11px] text-gray-300 font-semibold">현재 추출량</span>
+            <span class="text-[11px] text-gray-400">유속 <strong id="flowDisplay" class="mono-num text-cyan-300 font-bold">0.0 g/s</strong></span>
+          </div>
+          <div class="flex items-baseline gap-0.5 mt-0.5">
             <span id="weightDisplay" class="mono-num text-4xl sm:text-5xl font-extrabold tracking-tight text-white whitespace-nowrap">0.0</span>
             <span class="text-sm font-bold text-gray-400">g</span>
           </div>
-          <!-- 저울 측정 보조 수치: 중량보다 작게 유속·시간 배치 -->
-          <div class="flex items-center gap-2.5 mt-1 text-xs whitespace-nowrap">
-            <span class="text-gray-400">유속 <strong id="flowDisplay" class="mono-num text-cyan-300 font-bold">0.0 g/s</strong></span>
-            <span class="text-gray-600">·</span>
-            <span class="text-gray-400">시간 <strong id="timerDisplay" class="mono-num text-gray-100 font-bold">00:00</strong></span>
-          </div>
         </div>
 
-        <div class="col-span-5 bg-[#0c0e12] border border-gray-800 rounded-2xl p-2 flex flex-col items-end min-w-0">
-          <span class="text-[11px] text-orange-300 font-bold whitespace-nowrap">목표 (Target)</span>
+        <div class="col-span-5 bg-[#0c0e12] border border-gray-800 rounded-2xl p-2 flex flex-col items-end justify-center min-w-0">
+          <span class="text-[11px] text-orange-300 font-bold whitespace-nowrap">목표량 (Target)</span>
           <div class="flex items-center gap-1 mt-1">
             <button id="targetMinusBtn" type="button" class="w-6 h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold text-xs btn-press shrink-0">-</button>
             <span id="targetYieldDisplay" class="mono-num text-base sm:text-lg font-extrabold text-orange-300 whitespace-nowrap">36.0g</span>
@@ -160,27 +157,26 @@
         <div id="targetProgressBar" class="h-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-150" style="width: 0%;"></div>
       </div>
 
-      <!-- 도징량, 비율, 낙하 보정(Drip Offset) -->
-      <div class="pt-2 border-t border-gray-800/80 flex flex-wrap items-center justify-between gap-y-2 gap-x-2 text-xs">
-        <div class="flex items-center gap-1.5 whitespace-nowrap">
-          <span class="text-gray-300 font-medium">도징</span>
-          <button id="doseMinusBtn" type="button" class="w-6 h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold btn-press">-</button>
+      <!-- 도징량, 비율, 낙하 보정: 1줄 고정 컴팩트 표기 -->
+      <div class="pt-2 border-t border-gray-800/80 flex items-center justify-between gap-1 text-[11px] whitespace-nowrap">
+        <div class="flex items-center gap-1 min-w-0">
+          <span class="text-gray-300">도징</span>
+          <button id="doseMinusBtn" type="button" class="w-5 h-5 rounded bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold btn-press shrink-0">-</button>
           <span id="doseDisplay" class="mono-num font-bold text-white">18.0g</span>
-          <button id="dosePlusBtn" type="button" class="w-6 h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold btn-press">+</button>
-          <span class="text-gray-600">·</span>
-          <span id="ratioDisplay" class="mono-num font-extrabold text-emerald-400">1:0.0</span>
+          <button id="dosePlusBtn" type="button" class="w-5 h-5 rounded bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold btn-press shrink-0">+</button>
+          <span id="ratioDisplay" class="mono-num font-bold text-emerald-400 ml-0.5">1:0.0</span>
         </div>
 
-        <div class="flex items-center gap-1.5 whitespace-nowrap ml-auto">
-          <span class="text-gray-300 font-medium">낙하보정</span>
-          <button id="offsetMinusBtn" type="button" class="w-6 h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold btn-press">-</button>
+        <div class="flex items-center gap-1 shrink-0">
+          <span class="text-gray-300">낙하보정</span>
+          <button id="offsetMinusBtn" type="button" class="w-5 h-5 rounded bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold btn-press shrink-0">-</button>
           <span id="dripOffsetDisplay" class="mono-num font-bold text-cyan-300">-1.2g</span>
-          <button id="offsetPlusBtn" type="button" class="w-6 h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold btn-press">+</button>
+          <button id="offsetPlusBtn" type="button" class="w-5 h-5 rounded bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold btn-press shrink-0">+</button>
         </div>
       </div>
     </section>
 
-    <!-- 2. 머신부: 추출 방식 + 커스텀 프리셋 + 머신 저장 설정 영역 -->
+    <!-- 2. 머신부: 추출 방식 + 커스텀 프리셋 + 머신 설정 영역 -->
     <section class="panel-card rounded-2xl p-3 flex flex-col gap-2.5 shrink-0">
       <!-- 상단 타이틀 & 단독 가열 버튼 -->
       <div class="flex items-center justify-between gap-2 min-w-0">
@@ -200,19 +196,25 @@
         </button>
       </div>
 
-      <!-- 커스텀 프리셋 3슬롯 (저장 여부 직관적 시각화) -->
+      <!-- 커스텀 프리셋 3슬롯 (수동 변경/저장 시 불빛 자동 해제) -->
       <div class="flex flex-col gap-1">
         <div class="flex items-center justify-between text-[10px] px-0.5">
-          <span class="text-gray-300 font-semibold">내 커스텀 프리셋 (터치해 불러오기)</span>
-          <span class="text-gray-400">우측 버튼으로 현재값 저장</span>
+          <span class="text-gray-300 font-semibold">내 커스텀 프리셋 (목표량 포함)</span>
+          <span class="text-gray-400">우측 버튼으로 저장</span>
         </div>
         <div id="customPresetsGrid" class="grid grid-cols-3 gap-1.5"></div>
       </div>
 
-      <!-- 머신에 저장되는 설정 영역 (시각적 그룹 박스) -->
+      <!-- 머신 설정 영역 (Save 시 머신에 전송되는 값) -->
       <div class="rounded-2xl p-2.5 bg-[#0e1117] border border-orange-500/25 flex flex-col gap-2">
         <div class="flex items-center justify-between gap-2">
-          <span class="text-[11px] font-bold text-orange-300 whitespace-nowrap">머신 내부 저장 설정</span>
+          <div class="flex items-center gap-1.5 min-w-0">
+            <span class="text-[11px] font-bold text-orange-300 whitespace-nowrap">머신 설정</span>
+            <span id="machineSyncBadge" class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-gray-800/80 border border-gray-700/70 text-[10px] font-semibold text-gray-400 whitespace-nowrap" title="현재 설정이 머신에 적용되었는지 표시">
+              <span id="machineSyncDot" class="w-1.5 h-1.5 rounded-full bg-gray-600 shrink-0"></span>
+              <span>적용</span>
+            </span>
+          </div>
           <button id="syncMachineCfgBtn" type="button" class="px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-[11px] font-bold whitespace-nowrap shrink-0 btn-press" title="아래 온도·유량·프리인퓨전 설정을 머신에 저장">
             💾 저장 (Save)
           </button>
@@ -220,8 +222,11 @@
 
         <!-- 온도 + 유량 2열 조절 -->
         <div class="grid grid-cols-2 gap-1.5">
-          <div class="bg-[#090b0f] rounded-xl p-2 border border-gray-800/90 flex flex-col justify-between min-w-0">
-            <div class="text-[11px] text-gray-300 font-medium text-center whitespace-nowrap">목표 온도</div>
+          <div id="targetTempCard" class="bg-[#090b0f] rounded-xl p-2 border border-gray-800/90 flex flex-col justify-between min-w-0 transition-opacity">
+            <div class="flex items-center justify-between gap-1 text-[11px]">
+              <span class="text-gray-300 font-medium whitespace-nowrap">목표 온도</span>
+              <span id="tempModeHint" class="text-[9px] px-1 py-0.2 rounded bg-gray-800 text-gray-400 whitespace-nowrap">현재수온(미적용)</span>
+            </div>
             <div class="flex items-center justify-between gap-1 mt-1.5">
               <button id="tempMinusBtn" type="button" class="w-6 h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold btn-press shrink-0">-</button>
               <span id="targetTempDisplay" class="mono-num text-sm font-extrabold text-orange-400 whitespace-nowrap">92°C</span>
@@ -297,7 +302,7 @@
 
   </main>
 
-  <!-- 4. 작동부: 하단 메인 추출 컨트롤 바 -->
+  <!-- 4. 작동부: 하단 메인 추출 컨트롤 바 (추출 중 버튼 내 타이머/가열 대기 표시) -->
   <footer class="mt-2.5 shrink-0">
     <div class="grid grid-cols-12 gap-2">
       <!-- 저울 영점 -->
@@ -306,9 +311,9 @@
         <span class="text-[10px] font-normal text-gray-300">저울 영점</span>
       </button>
 
-      <!-- 에스프레소 추출 시작 / 즉시 정지 -->
+      <!-- 에스프레소 추출 시작 / 즉시 정지 (실시간 타이머 포함) -->
       <button id="brewActionBtn" type="button" class="col-span-6 py-3 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-gray-950 font-extrabold text-base shadow-lg shadow-orange-500/25 transition btn-press flex items-center justify-center whitespace-nowrap">
-        <span id="brewActionLabel">▶ 추출 시작</span>
+        <span id="brewActionLabel" class="mono-num">▶ 추출 시작</span>
       </button>
 
       <!-- 초기화 -->
@@ -503,7 +508,7 @@
     </div>
   </div>
 
-  <!-- 저장된 에스프레소 샷 기록 모달 -->
+  <!-- 저장된 에스프레소 샷 기록 모달 (자동저장 + 선택삭제 + 텍스트/CSV) -->
   <div id="shotLogModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="panel-card rounded-3xl max-w-md w-full max-h-[85vh] flex flex-col p-5 border border-gray-700">
       <div class="flex items-center justify-between pb-3 border-b border-gray-800">
@@ -514,18 +519,21 @@
         <button id="closeShotLogBtn" type="button" class="text-gray-400 hover:text-white text-lg font-bold px-2">✕</button>
       </div>
 
-      <!-- 자동 저장 설정 토글 -->
-      <div class="py-2.5 px-3 mt-2.5 rounded-xl bg-[#0c0e12] border border-gray-800 flex items-center justify-between gap-2">
-        <div>
-          <div class="text-xs font-bold text-gray-200">추출 종료 시 자동 저장</div>
-          <div class="text-[10px] text-gray-400">정지 시 추출량(0.5g 이상) 또는 시간이 있으면 자동 기록</div>
-        </div>
-        <input type="checkbox" id="autoSaveShotToggle" checked class="accent-orange-500 w-4 h-4 rounded cursor-pointer shrink-0" />
+      <!-- 자동 저장 설정 토글 + 전체 선택 -->
+      <div class="py-2 px-3 mt-2.5 rounded-xl bg-[#0c0e12] border border-gray-800 flex items-center justify-between gap-2">
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input type="checkbox" id="autoSaveShotToggle" checked class="accent-orange-500 w-3.5 h-3.5 rounded" />
+          <span class="text-xs font-bold text-gray-200">추출 종료 시 자동 저장</span>
+        </label>
+        <label class="flex items-center gap-1.5 cursor-pointer text-[11px] text-cyan-300 font-semibold">
+          <input type="checkbox" id="selectAllShotsToggle" class="accent-cyan-400 w-3.5 h-3.5 rounded" />
+          <span>전체 선택</span>
+        </label>
       </div>
 
       <div id="shotLogListContainer" class="flex-1 overflow-y-auto py-3 space-y-2.5"></div>
 
-      <!-- 공유/내보내기 & 삭제 버튼 -->
+      <!-- 공유/내보내기 & 선택/전체 삭제 버튼 -->
       <div class="pt-3 border-t border-gray-800 flex flex-col gap-2">
         <div class="grid grid-cols-2 gap-2">
           <button id="copyShotsTextBtn" type="button" class="py-2 px-2 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/35 text-xs font-bold btn-press">
@@ -535,9 +543,10 @@
             📥 CSV 다운로드
           </button>
         </div>
-        <div class="flex gap-2">
-          <button id="clearShotLogsBtn" type="button" class="px-3 py-2 rounded-xl bg-rose-500/15 text-rose-300 border border-rose-500/30 text-xs font-semibold btn-press">전체 삭제</button>
-          <button id="closeShotLogFooterBtn" type="button" class="flex-1 py-2 rounded-xl bg-gray-800 text-gray-200 font-bold text-xs btn-press">닫기</button>
+        <div class="grid grid-cols-3 gap-2">
+          <button id="deleteSelectedShotsBtn" type="button" class="py-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 text-xs font-semibold btn-press">선택 삭제 (0)</button>
+          <button id="clearShotLogsBtn" type="button" class="py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 text-xs font-semibold btn-press">전체 삭제</button>
+          <button id="closeShotLogFooterBtn" type="button" class="py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold text-xs btn-press">닫기</button>
         </div>
       </div>
     </div>
@@ -603,7 +612,9 @@
     let isMachineConnected = false;
     let isHeaterOn = false;
     let currentMachineTemp = 25;
-    let brewMode = 'immediate';
+    let machineState = 0x00; // 0x00: 대기, 0x05: 가열, 0x03: 추출
+    let brewMode = 'immediate'; // 'immediate' | 'heatBrew'
+    let isMachineSynced = false;
 
     let scaleDevice = null;
     let scaleCmdChar = null;
@@ -622,6 +633,7 @@
     let extractTimeSec = 50;
 
     let isBrewing = false;
+    let isWaitingForHeat = false;
     let autoStopTriggered = false;
     let brewStartTime = null;
     let elapsedSec = 0;
@@ -701,7 +713,7 @@
     }
 
     // =========================================================================
-    // 4. 커스텀 프리셋 3슬롯 (직관적 저장 상태 표시)
+    // 4. 커스텀 프리셋 3슬롯 & 머신 설정 동기화 상태
     // =========================================================================
     const CUSTOM_PRESETS_KEY = 'sepsep_custom_presets_v1';
     let activePresetIdx = null;
@@ -723,6 +735,50 @@
 
     let customPresets = loadCustomPresets();
 
+    function markManualEdit(affectsMachineCfg = true) {
+      if (activePresetIdx !== null) {
+        activePresetIdx = null;
+        renderCustomPresets();
+      }
+      if (affectsMachineCfg) {
+        setMachineSyncState(false);
+      }
+    }
+
+    function setMachineSyncState(synced) {
+      isMachineSynced = synced;
+      const badge = document.getElementById('machineSyncBadge');
+      const dot = document.getElementById('machineSyncDot');
+      if (synced) {
+        badge.className = 'inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-emerald-500/15 border border-emerald-500/40 text-[10px] font-bold text-emerald-300 whitespace-nowrap';
+        dot.className = 'w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399] shrink-0';
+      } else {
+        badge.className = 'inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-gray-800/80 border border-gray-700/70 text-[10px] font-semibold text-gray-500 whitespace-nowrap';
+        dot.className = 'w-1.5 h-1.5 rounded-full bg-gray-600 shrink-0';
+      }
+    }
+
+    function updateBrewModeUi() {
+      const modeImmediateBtn = document.getElementById('modeImmediateBtn');
+      const modeHeatBrewBtn = document.getElementById('modeHeatBrewBtn');
+      const tempCard = document.getElementById('targetTempCard');
+      const tempHint = document.getElementById('tempModeHint');
+
+      if (brewMode === 'immediate') {
+        modeImmediateBtn.className = 'py-1.5 px-2 rounded-lg bg-orange-500/20 text-orange-300 border border-orange-500/40 text-[11px] font-bold whitespace-nowrap btn-press';
+        modeHeatBrewBtn.className = 'py-1.5 px-2 rounded-lg text-gray-400 hover:text-gray-200 border border-transparent text-[11px] font-semibold whitespace-nowrap btn-press';
+        tempCard.classList.add('opacity-55');
+        tempHint.textContent = '현재수온(미적용)';
+        tempHint.className = 'text-[9px] px-1 py-0.2 rounded bg-gray-800 text-gray-400 whitespace-nowrap';
+      } else {
+        modeHeatBrewBtn.className = 'py-1.5 px-2 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[11px] font-bold whitespace-nowrap btn-press';
+        modeImmediateBtn.className = 'py-1.5 px-2 rounded-lg text-gray-400 hover:text-gray-200 border border-transparent text-[11px] font-semibold whitespace-nowrap btn-press';
+        tempCard.classList.remove('opacity-55');
+        tempHint.textContent = '도달 후 추출';
+        tempHint.className = 'text-[9px] px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 whitespace-nowrap';
+      }
+    }
+
     window.applyCustomPreset = function(idx) {
       const p = customPresets[idx];
       if (!p) {
@@ -737,10 +793,11 @@
       extractTimeSec = p.ext;
       targetYield = p.target;
       doseWeight = p.dose;
+      setMachineSyncState(false);
       updateAllDisplays();
       drawChart();
       renderCustomPresets();
-      showToast(`프리셋 [${p.name}] 불러옴 (${p.temp}°C · 목표 ${p.target}g)`);
+      showToast(`프리셋 [${p.name}] 불러옴 (${p.temp}°C · 목표량 ${p.target}g)`);
     };
 
     window.openPresetSaveModal = function(idx) {
@@ -748,7 +805,7 @@
       const existing = customPresets[idx];
       document.getElementById('presetModalTitle').textContent = `프리셋 P${idx + 1} 저장`;
       document.getElementById('presetSummaryBox').textContent =
-        `온도 ${targetTemp}°C · 유량 ${flowSpeed} · 프리 ${preInfuseSec}s · 대기 ${soakSec}s · 추출 ${extractTimeSec}s · 도징 ${doseWeight}g → 목표 ${targetYield}g`;
+        `온도 ${targetTemp}°C · 유량 ${flowSpeed} · 프리 ${preInfuseSec}s · 대기 ${soakSec}s · 추출 ${extractTimeSec}s · 도징 ${doseWeight}g → 목표량 ${targetYield}g`;
       document.getElementById('presetNameInput').value = existing ? existing.name : `레시피 ${idx + 1}`;
       document.getElementById('presetSaveModal').classList.remove('hidden');
     };
@@ -901,6 +958,11 @@
       updateAllDisplays();
 
       if (isBrewing) {
+        if (isWaitingForHeat && newW >= 0.3) {
+          isWaitingForHeat = false;
+          brewStartTime = Date.now();
+        }
+
         chartPoints.push({ t: elapsedSec, w: Math.max(0, currentWeight), f: currentFlow });
         if (chartPoints.length > 180) chartPoints.shift();
         drawChart();
@@ -924,6 +986,8 @@
         const bat = bytes[6];
         const tempC = bytes[8];
         const state = bytes[9];
+        machineState = state;
+
         if (tempC > 0 && tempC < 120) {
           currentMachineTemp = tempC;
           document.getElementById('machineTempBadge').textContent = `${tempC}°C`;
@@ -931,6 +995,14 @@
         if (bat >= 0 && bat <= 100) {
           document.getElementById('machineBatteryBadge').textContent = `${bat}%`;
         }
+
+        // 설정온도 추출 대기 중 실제 추출(0x03) 진입 시 타이머 시작
+        if (isBrewing && isWaitingForHeat && state === 0x03) {
+          isWaitingForHeat = false;
+          brewStartTime = Date.now();
+          elapsedSec = 0;
+        }
+
         const heatBtn = document.getElementById('heaterToggleBtn');
         if (state === 0x05 && !isHeaterOn) {
           isHeaterOn = true;
@@ -961,6 +1033,7 @@
         if (p >= 0 && p <= 10) preInfuseSec = p;
         if (s >= 0 && s <= 10) soakSec = s;
         if (e >= 30 && e <= 250) extractTimeSec = e;
+        setMachineSyncState(true);
         updateAllDisplays();
         logPacket('SYNC', `머신 프로파일 로드: 유량 ${flowSpeed}, 프리 ${preInfuseSec}s, 대기 ${soakSec}s, 추출 ${extractTimeSec}s`);
       }
@@ -1171,11 +1244,13 @@
       machineDevice.addEventListener('gattserverdisconnected', () => {
         isMachineConnected = false;
         machineWriteChar = null;
+        machineState = 0x00;
         document.getElementById('machineDot').className = 'w-2 h-2 rounded-full bg-gray-600 shrink-0';
         document.getElementById('machineStatusText').textContent = '연결 끊김';
         document.getElementById('machineTempBadge').textContent = '--°C';
         document.getElementById('machineBatteryBadge').textContent = '--%';
         document.getElementById('connectMachineBtn').style.borderColor = '';
+        setMachineSyncState(false);
         logPacket('MACHINE', '연결 해제됨');
       });
     }
@@ -1218,36 +1293,54 @@
       }
     }
 
-    // 추출 시작
-    async function startEspressoExtraction() {
+    // 추출 시작 (작동부 버튼 내 실시간 타이머 및 가열 대기 표시)
+    async function startEspressoExtraction(isSimulation = false) {
       if (isBrewing) return;
       isBrewing = true;
       autoStopTriggered = false;
+      lastAutoSavedShotId = null;
+      document.getElementById('saveShotBtn').textContent = '샷 저장';
       chartPoints = [];
 
       if (isScaleConnected) await sendScaleTare();
       currentWeight = 0.0;
       lastWeight = 0.0;
 
+      // 설정온도 추출 + 실제 머신 연결 시 가열 대기 상태로 진입
+      isWaitingForHeat = (!isSimulation && brewMode === 'heatBrew' && isMachineConnected && currentMachineTemp < targetTemp - 1);
       brewStartTime = Date.now();
       elapsedSec = 0;
-      document.getElementById('timerDisplay').textContent = '00:00';
 
       const btn = document.getElementById('brewActionBtn');
-      btn.className = 'col-span-6 py-3 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white font-extrabold text-base shadow-lg shadow-rose-600/30 transition btn-press flex items-center justify-center whitespace-nowrap';
-      document.getElementById('brewActionLabel').textContent = '⏹ 즉시 정지';
+      const labelEl = document.getElementById('brewActionLabel');
+      btn.className = 'col-span-6 py-3 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white font-extrabold text-sm sm:text-base shadow-lg shadow-rose-600/30 transition btn-press flex items-center justify-center whitespace-nowrap';
 
-      if (brewMode === 'heatBrew') {
-        await sendMachineCommand(machineCfg.cmdHeatBrewStart, '설정온도 추출(HEAT+BREW)');
+      if (isWaitingForHeat) {
+        labelEl.textContent = `🔥 가열 중 ${Math.round(currentMachineTemp)}/${targetTemp}°C`;
       } else {
-        await sendMachineCommand(machineCfg.cmdStart, '현재온도 추출(START)');
+        labelEl.textContent = '⏹ 정지 · 00:00';
+      }
+
+      if (!isSimulation) {
+        if (brewMode === 'heatBrew') {
+          await sendMachineCommand(machineCfg.cmdHeatBrewStart, '설정온도 추출(HEAT+BREW)');
+        } else {
+          await sendMachineCommand(machineCfg.cmdStart, '현재온도 추출(START)');
+        }
       }
 
       timerInterval = setInterval(() => {
-        elapsedSec = Math.floor((Date.now() - brewStartTime) / 1000);
-        document.getElementById('timerDisplay').textContent = formatTime(elapsedSec);
-
         const badge = document.getElementById('brewPhaseBadge');
+        if (isWaitingForHeat) {
+          labelEl.textContent = `🔥 가열 중 ${Math.round(currentMachineTemp)}/${targetTemp}°C`;
+          badge.textContent = `목표 온도 가열 중 (${Math.round(currentMachineTemp)}°C)`;
+          badge.className = 'text-[10px] px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-300 font-bold whitespace-nowrap';
+          return;
+        }
+
+        elapsedSec = Math.floor((Date.now() - brewStartTime) / 1000);
+        labelEl.textContent = `⏹ 정지 · ${formatTime(elapsedSec)}`;
+
         if (elapsedSec < preInfuseSec) {
           badge.textContent = `프리인퓨전 (${elapsedSec + 1}/${preInfuseSec}초)`;
           badge.className = 'text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold whitespace-nowrap';
@@ -1255,7 +1348,7 @@
           badge.textContent = `블루밍 대기 (${elapsedSec - preInfuseSec + 1}/${soakSec}초)`;
           badge.className = 'text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-bold whitespace-nowrap';
         } else {
-          badge.textContent = brewMode === 'heatBrew' ? '가열 · 본 추출 중' : '본 추출 진행 중';
+          badge.textContent = '본 추출 진행 중';
           badge.className = 'text-[10px] px-2 py-0.5 rounded-full bg-orange-500/25 text-orange-300 font-bold whitespace-nowrap';
         }
       }, 250);
@@ -1265,14 +1358,17 @@
     async function stopEspressoExtraction(byAutoStop = false) {
       if (!isBrewing) return;
       isBrewing = false;
+      isWaitingForHeat = false;
       clearInterval(timerInterval);
       clearInterval(simInterval);
       simInterval = null;
 
-      if (brewMode === 'heatBrew') {
-        await sendMachineCommand(machineCfg.cmdHeatBrewStop, byAutoStop ? '자동 정지(HEAT+BREW STOP)' : '수동 정지(HEAT+BREW STOP)');
-      } else {
-        await sendMachineCommand(machineCfg.cmdStop, byAutoStop ? '자동 정지(AUTO-STOP)' : '수동 정지(STOP)');
+      if (isMachineConnected) {
+        if (brewMode === 'heatBrew') {
+          await sendMachineCommand(machineCfg.cmdHeatBrewStop, byAutoStop ? '자동 정지(HEAT+BREW STOP)' : '수동 정지(HEAT+BREW STOP)');
+        } else {
+          await sendMachineCommand(machineCfg.cmdStop, byAutoStop ? '자동 정지(AUTO-STOP)' : '수동 정지(STOP)');
+        }
       }
 
       const btn = document.getElementById('brewActionBtn');
@@ -1430,8 +1526,8 @@
         stopEspressoExtraction(false);
         return;
       }
-      showToast('시뮬레이션 시작: 목표 용량 도달 시 자동 정지를 테스트합니다.');
-      startEspressoExtraction();
+      showToast('시뮬레이션 시작: 목표량 도달 시 자동 정지를 테스트합니다.');
+      startEspressoExtraction(true);
 
       simInterval = setInterval(() => {
         if (!isBrewing) {
@@ -1449,10 +1545,12 @@
     }
 
     // =========================================================================
-    // 10. 샷 기록 저장 (자동/수동 + 텍스트 복사 + CSV 다운로드)
+    // 10. 샷 기록 저장 (자동/수동 + 선택 삭제 + 텍스트 복사 + CSV 다운로드)
     // =========================================================================
     const SHOT_LOG_KEY = 'cera_pcm03smax_dot_shots_v1';
     const AUTO_SAVE_CFG_KEY = 'sepsep_auto_save_shot_v1';
+    let selectedShotIds = new Set();
+    let lastAutoSavedShotId = null;
 
     function loadAutoSaveSetting() {
       try {
@@ -1516,10 +1614,31 @@
       const logs = getShotLogs();
       logs.unshift(entry);
       setShotLogs(logs);
+      lastAutoSavedShotId = entry.id;
+      document.getElementById('saveShotBtn').textContent = '메모 반영';
       return true;
     }
 
     function saveCurrentShot() {
+      const noteInput = document.getElementById('shotNoteInput');
+      const note = noteInput.value.trim();
+
+      if (lastAutoSavedShotId !== null) {
+        const logs = getShotLogs();
+        const targetIdx = logs.findIndex(item => item.id === lastAutoSavedShotId);
+        if (targetIdx !== -1) {
+          if (!note) {
+            showToast('이미 자동 저장되었습니다. 수정할 메모를 입력해 주세요.');
+            return;
+          }
+          logs[targetIdx].note = note;
+          setShotLogs(logs);
+          noteInput.value = '';
+          showToast(`✏️ 방금 기록된 샷 메모를 '${note}'로 업데이트했습니다.`);
+          return;
+        }
+      }
+
       const yieldVal = Math.max(0, +currentWeight.toFixed(1));
       if (yieldVal <= 0.3 && elapsedSec === 0) {
         showToast('저장할 추출 데이터가 없습니다.');
@@ -1529,30 +1648,50 @@
       const logs = getShotLogs();
       logs.unshift(entry);
       setShotLogs(logs);
-      document.getElementById('shotNoteInput').value = '';
+      noteInput.value = '';
       showToast(`✅ '${entry.note}' (${entry.dose}g → ${entry.yield}g, ${entry.temp}°C) 저장 완료`);
     }
 
+    function updateShotSelectionControls() {
+      const logs = getShotLogs();
+      document.getElementById('deleteSelectedShotsBtn').textContent = `선택 삭제 (${selectedShotIds.size})`;
+      document.getElementById('selectAllShotsToggle').checked = logs.length > 0 && selectedShotIds.size === logs.length;
+    }
+
+    window.toggleShotSelection = function(id, checked) {
+      if (checked) selectedShotIds.add(id);
+      else selectedShotIds.delete(id);
+      updateShotSelectionControls();
+    };
+
     window.deleteShotEntry = function(id) {
+      selectedShotIds.delete(id);
       setShotLogs(getShotLogs().filter(item => item.id !== id));
       renderShotLogs();
     };
 
     function renderShotLogs() {
       const logs = getShotLogs();
+      const validIds = new Set(logs.map(x => x.id));
+      selectedShotIds = new Set([...selectedShotIds].filter(id => validIds.has(id)));
+      updateShotSelectionControls();
+
       const container = document.getElementById('shotLogListContainer');
       if (logs.length === 0) {
         container.innerHTML = '<div class="text-center py-10 text-gray-500 text-xs">저장된 에스프레소 샷 기록이 없습니다.</div>';
         return;
       }
       container.innerHTML = logs.map(item => `
-        <div class="p-3 rounded-2xl bg-[#0c0e13] border border-gray-800 flex flex-col gap-2">
-          <div class="flex items-start justify-between">
-            <div>
-              <div class="text-xs font-bold text-white">${item.note}</div>
-              <div class="text-[10px] text-gray-500">${item.date} · ${item.temp}°C · 유량 ${item.flowSpeed || 7} · 프리 ${item.preInfuse}s/대기 ${item.soak}s</div>
-            </div>
-            <button type="button" onclick="deleteShotEntry(${item.id})" class="text-[11px] text-gray-500 hover:text-rose-400 px-1.5">삭제</button>
+        <div class="p-3 rounded-2xl bg-[#0c0e13] border ${selectedShotIds.has(item.id) ? 'border-cyan-500/60' : 'border-gray-800'} flex flex-col gap-2">
+          <div class="flex items-start justify-between gap-2">
+            <label class="flex items-start gap-2 cursor-pointer min-w-0 flex-1">
+              <input type="checkbox" ${selectedShotIds.has(item.id) ? 'checked' : ''} onchange="toggleShotSelection(${item.id}, this.checked)" class="accent-cyan-400 w-3.5 h-3.5 mt-0.5 rounded shrink-0" />
+              <div class="min-w-0">
+                <div class="text-xs font-bold text-white truncate">${item.note}</div>
+                <div class="text-[10px] text-gray-500">${item.date} · ${item.temp}°C · 유량 ${item.flowSpeed || 7} · 프리 ${item.preInfuse}s/대기 ${item.soak}s</div>
+              </div>
+            </label>
+            <button type="button" onclick="deleteShotEntry(${item.id})" class="text-[11px] text-gray-500 hover:text-rose-400 px-1.5 shrink-0">삭제</button>
           </div>
           <div class="grid grid-cols-4 gap-1 pt-1.5 border-t border-gray-800/80 text-center text-xs">
             <div>
@@ -1560,7 +1699,7 @@
               <div class="mono-num font-bold text-orange-300">${item.dose}→${item.yield}g</div>
             </div>
             <div>
-              <div class="text-[10px] text-gray-500">목표</div>
+              <div class="text-[10px] text-gray-500">목표량</div>
               <div class="mono-num font-bold text-gray-300">${item.target}g</div>
             </div>
             <div>
@@ -1609,7 +1748,7 @@
         showToast('내보낼 샷 기록이 없습니다.');
         return;
       }
-      const header = ['날짜', '메모', '도징(g)', '추출(g)', '목표(g)', '시간', '비율', '온도(C)', '유량속도', '프리인퓨전(s)', '블루밍(s)'];
+      const header = ['날짜', '메모', '도징(g)', '추출(g)', '목표량(g)', '시간', '비율', '온도(C)', '유량속도', '프리인퓨전(s)', '블루밍(s)'];
       const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
       const rows = logs.map(it => [
         it.date, it.note, it.dose, it.yield, it.target, it.timeStr, it.ratio, it.temp, it.flowSpeed || 7, it.preInfuse, it.soak
@@ -1691,18 +1830,14 @@
     document.getElementById('connectMachineBtn').addEventListener('click', () => connectMachine(true));
     document.getElementById('connectScaleBtn').addEventListener('click', connectScale);
 
-    const modeImmediateBtn = document.getElementById('modeImmediateBtn');
-    const modeHeatBrewBtn = document.getElementById('modeHeatBrewBtn');
-    modeImmediateBtn.addEventListener('click', () => {
+    document.getElementById('modeImmediateBtn').addEventListener('click', () => {
       brewMode = 'immediate';
-      modeImmediateBtn.className = 'py-1.5 px-2 rounded-lg bg-orange-500/20 text-orange-300 border border-orange-500/40 text-[11px] font-bold whitespace-nowrap btn-press';
-      modeHeatBrewBtn.className = 'py-1.5 px-2 rounded-lg text-gray-400 hover:text-gray-200 border border-transparent text-[11px] font-semibold whitespace-nowrap btn-press';
-      showToast('추출 모드: 현재온도 추출');
+      updateBrewModeUi();
+      showToast('추출 모드: 현재온도 추출 (목표온도 미적용)');
     });
-    modeHeatBrewBtn.addEventListener('click', () => {
+    document.getElementById('modeHeatBrewBtn').addEventListener('click', () => {
       brewMode = 'heatBrew';
-      modeHeatBrewBtn.className = 'py-1.5 px-2 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[11px] font-bold whitespace-nowrap btn-press';
-      modeImmediateBtn.className = 'py-1.5 px-2 rounded-lg text-gray-400 hover:text-gray-200 border border-transparent text-[11px] font-semibold whitespace-nowrap btn-press';
+      updateBrewModeUi();
       showToast('추출 모드: 설정온도 추출');
     });
 
@@ -1736,23 +1871,27 @@
       showToast(`프리셋 P${editingPresetIdx + 1}을 비웠습니다.`);
     });
 
-    // 목표 용량 · 도징 · 낙하보정
+    // 목표량 · 도징 · 낙하보정 (변경 시 레시피 불빛 해제)
     document.getElementById('targetMinusBtn').addEventListener('click', () => {
       targetYield = Math.max(5.0, +(targetYield - 0.5).toFixed(1));
+      markManualEdit(false);
       updateAllDisplays();
       drawChart();
     });
     document.getElementById('targetPlusBtn').addEventListener('click', () => {
       targetYield = Math.min(200.0, +(targetYield + 0.5).toFixed(1));
+      markManualEdit(false);
       updateAllDisplays();
       drawChart();
     });
     document.getElementById('doseMinusBtn').addEventListener('click', () => {
       doseWeight = Math.max(5.0, +(doseWeight - 0.5).toFixed(1));
+      markManualEdit(false);
       updateAllDisplays();
     });
     document.getElementById('dosePlusBtn').addEventListener('click', () => {
       doseWeight = Math.min(40.0, +(doseWeight + 0.5).toFixed(1));
+      markManualEdit(false);
       updateAllDisplays();
     });
     document.getElementById('offsetMinusBtn').addEventListener('click', () => {
@@ -1764,51 +1903,63 @@
       updateAllDisplays();
     });
 
-    // 온도 · 유량 · 프리인퓨전 · 블루밍 · 최대 추출시간
+    // 머신 설정 값 조절 (변경 시 레시피 불빛 해제 + 미저장 표시)
     document.getElementById('tempMinusBtn').addEventListener('click', () => {
       targetTemp = Math.max(80, targetTemp - 1);
+      markManualEdit(true);
       updateAllDisplays();
     });
     document.getElementById('tempPlusBtn').addEventListener('click', () => {
       targetTemp = Math.min(96, targetTemp + 1);
+      markManualEdit(true);
       updateAllDisplays();
     });
     document.getElementById('flowSpeedSlider').addEventListener('input', (e) => {
       flowSpeed = Number(e.target.value);
       document.getElementById('flowSpeedDisplay').textContent = `${flowSpeed} / 15`;
+      markManualEdit(true);
     });
     document.getElementById('preMinusBtn').addEventListener('click', () => {
       preInfuseSec = Math.max(0, preInfuseSec - 1);
+      markManualEdit(true);
       updateAllDisplays();
     });
     document.getElementById('prePlusBtn').addEventListener('click', () => {
       preInfuseSec = Math.min(10, preInfuseSec + 1);
+      markManualEdit(true);
       updateAllDisplays();
     });
     document.getElementById('soakMinusBtn').addEventListener('click', () => {
       soakSec = Math.max(0, soakSec - 1);
+      markManualEdit(true);
       updateAllDisplays();
     });
     document.getElementById('soakPlusBtn').addEventListener('click', () => {
       soakSec = Math.min(10, soakSec + 1);
+      markManualEdit(true);
       updateAllDisplays();
     });
     document.getElementById('extMinusBtn').addEventListener('click', () => {
       extractTimeSec = Math.max(30, extractTimeSec - 5);
+      markManualEdit(true);
       updateAllDisplays();
     });
     document.getElementById('extPlusBtn').addEventListener('click', () => {
       extractTimeSec = Math.min(250, extractTimeSec + 5);
+      markManualEdit(true);
       updateAllDisplays();
     });
 
-    // 머신에 설정 저장 (0x16 목표온도 + 0x18 프로파일)
+    // 머신에 설정 저장 (0x16 목표온도 + 0x18 프로파일) -> 레시피 불빛 끄고 동기화됨 표시
     document.getElementById('syncMachineCfgBtn').addEventListener('click', async () => {
+      activePresetIdx = null;
+      renderCustomPresets();
       const tempHex = buildSetTempHex(targetTemp);
       const profileHex = buildSetProfileHex(flowSpeed, preInfuseSec, soakSec, extractTimeSec);
       const ok1 = await sendMachineCommand(tempHex, `목표 온도 설정(${targetTemp}°C)`);
       const ok2 = await sendMachineCommand(profileHex, `프로파일 설정(유량${flowSpeed}/프리${preInfuseSec}s/대기${soakSec}s/시간${extractTimeSec}s)`);
       if (ok1 && ok2) {
+        setMachineSyncState(true);
         showToast(`✅ 머신 저장 완료: ${targetTemp}°C · 유량 ${flowSpeed} · 프리 ${preInfuseSec}s`);
       }
     });
@@ -1835,15 +1986,17 @@
     });
     document.getElementById('brewActionBtn').addEventListener('click', () => {
       if (isBrewing) stopEspressoExtraction(false);
-      else startEspressoExtraction();
+      else startEspressoExtraction(false);
     });
     document.getElementById('resetAllBtn').addEventListener('click', () => {
       if (isBrewing) stopEspressoExtraction(false);
       elapsedSec = 0;
       currentFlow = 0.0;
       autoStopTriggered = false;
+      lastAutoSavedShotId = null;
+      document.getElementById('saveShotBtn').textContent = '샷 저장';
       chartPoints = [];
-      document.getElementById('timerDisplay').textContent = '00:00';
+      document.getElementById('brewActionLabel').textContent = '▶ 추출 시작';
       document.getElementById('brewPhaseBadge').textContent = '대기 중 (STANDBY)';
       document.getElementById('brewPhaseBadge').className = 'text-[10px] px-2 py-0.5 rounded-full bg-gray-800 text-gray-300 font-semibold whitespace-nowrap';
       updateAllDisplays();
@@ -1968,7 +2121,7 @@
       showToast('실측 기본 설정으로 초기화되었습니다.');
     });
 
-    // 샷 기록 모달 & 내보내기
+    // 샷 기록 모달 & 선택 삭제 & 내보내기
     const shotLogModal = document.getElementById('shotLogModal');
     document.getElementById('shotLogBtn').addEventListener('click', () => {
       renderShotLogs();
@@ -1976,7 +2129,25 @@
     });
     document.getElementById('closeShotLogBtn').addEventListener('click', () => shotLogModal.classList.add('hidden'));
     document.getElementById('closeShotLogFooterBtn').addEventListener('click', () => shotLogModal.classList.add('hidden'));
+    document.getElementById('selectAllShotsToggle').addEventListener('change', (e) => {
+      const logs = getShotLogs();
+      if (e.target.checked) selectedShotIds = new Set(logs.map(x => x.id));
+      else selectedShotIds.clear();
+      renderShotLogs();
+    });
+    document.getElementById('deleteSelectedShotsBtn').addEventListener('click', () => {
+      if (selectedShotIds.size === 0) {
+        showToast('삭제할 샷을 먼저 선택해 주세요.');
+        return;
+      }
+      const count = selectedShotIds.size;
+      setShotLogs(getShotLogs().filter(item => !selectedShotIds.has(item.id)));
+      selectedShotIds.clear();
+      renderShotLogs();
+      showToast(`선택한 ${count}건의 샷 기록을 삭제했습니다.`);
+    });
     document.getElementById('clearShotLogsBtn').addEventListener('click', () => {
+      selectedShotIds.clear();
       setShotLogs([]);
       renderShotLogs();
       showToast('모든 샷 기록이 삭제되었습니다.');
@@ -1992,6 +2163,8 @@
     }
 
     // 초기 실행
+    updateBrewModeUi();
+    setMachineSyncState(false);
     renderCustomPresets();
     setShotLogs(getShotLogs());
     updateAllDisplays();
