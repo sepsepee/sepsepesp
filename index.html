@@ -7,8 +7,6 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="CERA+ Brew" />
-  <link id="pwaManifestLink" rel="manifest" />
   <title>CERA+ PCM03S Max × Timemore Dot Smart Brew</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -65,15 +63,15 @@
         </h1>
         <p class="text-[11px] text-gray-400">목표 용량 도달 자동 정지 · 스마트 에스프레소 컨트롤러</p>
       </div>
-      <div class="flex items-center gap-1.5">
-        <button id="installPwaBtn" class="hidden px-2.5 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 text-[11px] font-bold border border-emerald-500/40 btn-press">
-          📲 앱 설치
+      <div class="flex items-center gap-1">
+        <button id="radarScanBtn" class="px-2 py-1.5 rounded-xl bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 text-[11px] font-bold border border-orange-500/40 btn-press" title="머신에 폰을 가까이 대어 신호 세기로 찾기">
+          📡 근접탐색
         </button>
-        <button id="historyBtn" class="px-2.5 py-1.5 rounded-xl bg-gray-800/90 hover:bg-gray-700 text-amber-300 text-[11px] font-semibold border border-gray-700/70 btn-press flex items-center gap-1">
+        <button id="historyBtn" class="px-2 py-1.5 rounded-xl bg-gray-800/90 hover:bg-gray-700 text-amber-300 text-[11px] font-semibold border border-gray-700/70 btn-press flex items-center gap-1">
           <span>기록</span>
           <span id="historyBadge" class="px-1.5 rounded-full bg-amber-500/20 text-[10px] mono-num">0</span>
         </button>
-        <button id="bleConfigBtn" class="px-2.5 py-1.5 rounded-xl bg-gray-800/90 hover:bg-gray-700 text-cyan-300 text-[11px] font-semibold border border-gray-700/70 btn-press" title="와이어샤크 패킷 설정">
+        <button id="bleConfigBtn" class="px-2 py-1.5 rounded-xl bg-gray-800/90 hover:bg-gray-700 text-cyan-300 text-[11px] font-semibold border border-gray-700/70 btn-press" title="와이어샤크 패킷 설정">
           BLE설정
         </button>
       </div>
@@ -283,6 +281,50 @@
     </div>
   </footer>
 
+  <!-- CERA+ PCM03S Max 근접 신호 탐지 레이더 모달 -->
+  <div id="radarModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="card-surface rounded-3xl max-w-md w-full max-h-[85vh] flex flex-col p-5 border border-orange-500/40">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-800">
+        <div>
+          <h2 class="text-sm font-bold text-white flex items-center gap-1.5">
+            <span>📡 머신 근접 신호 탐지기 (RSSI 레이더)</span>
+          </h2>
+          <p class="text-[11px] text-gray-400 mt-0.5">스마트폰을 <strong class="text-orange-400">PCM03S Max 본체 바로 옆(5cm 이내)</strong>에 대세요!</p>
+        </div>
+        <button id="closeRadarBtn" class="text-gray-400 hover:text-white text-lg font-bold px-2">✕</button>
+      </div>
+
+      <div class="my-3 p-3 rounded-2xl bg-[#0e1015] border border-gray-800 text-xs text-gray-300 space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-amber-300">💡 이름으로 못 찾을 때 쓰는 2가지 방법</span>
+        </div>
+        <p class="text-[11px] text-gray-400 leading-relaxed">
+          1) 아래 <strong>[신호 세기 스캔 시작]</strong>을 누르고 폰을 에스프레소 머신에 가까이 대면, 신호가 가장 강한(<code class="text-emerald-400">-30 ~ -50 dBm</code>) 머신이 맨 위에 뜹니다.<br/>
+          2) 스캔이 지원되지 않는 기기라면 <strong>[소형 가전/IoT 칩셋만 필터링]</strong> 버튼으로 TV·이어폰을 제외하고 탐색하세요.
+        </p>
+        <div class="grid grid-cols-2 gap-2 pt-1.5">
+          <button id="startRssiScanBtn" class="py-2 px-2.5 rounded-xl bg-orange-500 hover:bg-orange-400 text-gray-950 font-extrabold text-[11px] btn-press">
+            📡 신호 세기 스캔 시작
+          </button>
+          <button id="filteredConnectBtn" class="py-2 px-2.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 font-bold text-[11px] btn-press">
+            🔍 IoT 칩셋만 필터 탐색
+          </button>
+        </div>
+      </div>
+
+      <div id="radarDeviceList" class="flex-1 overflow-y-auto space-y-2 min-h-[140px]">
+        <div class="text-center py-8 text-gray-500 text-xs">
+          머신 전원을 켠 상태에서 위 <strong>[신호 세기 스캔 시작]</strong>을 누르세요.<br/>가장 가까운 기기부터 실시간으로 정렬됩니다.
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-gray-800 flex justify-between items-center mt-2">
+        <span id="radarStatusLabel" class="text-[10px] text-gray-400">대기 중</span>
+        <button id="closeRadarFooterBtn" class="px-4 py-2 rounded-xl bg-gray-800 text-gray-200 font-bold text-xs btn-press">닫기</button>
+      </div>
+    </div>
+  </div>
+
   <!-- CERA+ PCM03S Max BLE 패킷 커스터마이저 모달 (와이어샤크 추출값 입력용) -->
   <div id="bleConfigModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="card-surface rounded-3xl max-w-md w-full max-h-[88vh] overflow-y-auto p-5 border border-gray-700">
@@ -467,88 +509,6 @@
       return trimmed;
     }
 
-    // ---------------------------------------------------------
-    // 1-1. PWA 동적 매니페스트(PNG 아이콘 포함) & 화면 꺼짐 방지(Wake Lock)
-    // ---------------------------------------------------------
-    function generatePwaIconDataUrl(size) {
-      const c = document.createElement('canvas');
-      c.width = size;
-      c.height = size;
-      const g = c.getContext('2d');
-
-      // 배경 라운드 사각형
-      g.fillStyle = '#0d0f13';
-      g.fillRect(0, 0, size, size);
-
-      const grad = g.createLinearGradient(0, 0, size, size);
-      grad.addColorStop(0, '#f97316');
-      grad.addColorStop(1, '#f59e0b');
-      g.fillStyle = grad;
-      g.beginPath();
-      g.roundRect(size * 0.12, size * 0.12, size * 0.76, size * 0.76, size * 0.18);
-      g.fill();
-
-      // 에스프레소 컵 & 추출 방울 심볼
-      g.fillStyle = '#0d0f13';
-      g.font = `800 ${Math.round(size * 0.24)}px sans-serif`;
-      g.textAlign = 'center';
-      g.textBaseline = 'middle';
-      g.fillText('CERA+', size * 0.5, size * 0.44);
-
-      g.font = `700 ${Math.round(size * 0.14)}px monospace`;
-      g.fillText('× DOT', size * 0.5, size * 0.66);
-
-      return c.toDataURL('image/png');
-    }
-
-    function setupDynamicPwaManifest() {
-      try {
-        const icon192 = generatePwaIconDataUrl(192);
-        const icon512 = generatePwaIconDataUrl(512);
-        const manifest = {
-          name: 'CERA+ PCM03S Max × Timemore Dot',
-          short_name: 'CERA+ Brew',
-          description: '목표 추출량 도달 자동 정지 스마트 에스프레소 컨트롤러',
-          start_url: window.location.href,
-          display: 'standalone',
-          orientation: 'portrait',
-          background_color: '#0d0f13',
-          theme_color: '#0d0f13',
-          icons: [
-            { src: icon192, sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
-            { src: icon512, sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
-          ]
-        };
-        const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
-        document.getElementById('pwaManifestLink').href = URL.createObjectURL(blob);
-      } catch (e) {
-        console.warn('PWA Manifest 생성 건너뜀:', e);
-      }
-    }
-
-    let deferredInstallPrompt = null;
-    const installPwaBtn = document.getElementById('installPwaBtn');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredInstallPrompt = e;
-      installPwaBtn.classList.remove('hidden');
-    });
-
-    installPwaBtn.addEventListener('click', async () => {
-      if (!deferredInstallPrompt) {
-        showToast('Chrome 우측 상단 ⋮ 메뉴에서 [홈 화면에 추가]를 눌러 설치하세요.');
-        return;
-      }
-      deferredInstallPrompt.prompt();
-      const { outcome } = await deferredInstallPrompt.userChoice;
-      if (outcome === 'accepted') {
-        installPwaBtn.classList.add('hidden');
-        showToast('📲 홈 화면에 앱이 설치되었습니다!');
-      }
-      deferredInstallPrompt = null;
-    });
-
     // 추출 중 화면 꺼짐 방지 (Screen Wake Lock)
     let wakeLockSentinel = null;
     async function requestWakeLock() {
@@ -557,76 +517,28 @@
           wakeLockSentinel = await navigator.wakeLock.request('screen');
           wakeLockSentinel.addEventListener('release', () => { wakeLockSentinel = null; });
         }
-      } catch (_) {}
+      } catch (e) {}
     }
 
-    // ---------------------------------------------------------
-    // 1-2. Timemore Dot 저울 연결 및 패킷 파싱
-    // ---------------------------------------------------------
-    async function sendScaleCmd(cmdBytes, label) {
-      logBle(`DOT-TX(${label})`, cmdBytes);
-      if (!scaleWriteChar) return;
-      try {
-        if (scaleWriteChar.properties.writeWithoutResponse) {
-          await scaleWriteChar.writeValueWithoutResponse(cmdBytes);
-        } else {
-          await scaleWriteChar.writeValue(cmdBytes);
-        }
-      } catch (err) {
-        logBle('DOT-ERR', err.message);
-      }
-    }
-
-    function handleDotPacket(bytes) {
-      logBle('DOT-RX', bytes);
-      for (const b of bytes) scaleRxBuffer.push(b);
-
-      while (scaleRxBuffer.length >= 6) {
-        if (scaleRxBuffer[0] !== 0xA5 || scaleRxBuffer[1] !== 0x5A) {
-          scaleRxBuffer.shift();
-          continue;
-        }
-        const payloadLen = scaleRxBuffer[4] | (scaleRxBuffer[5] << 8);
-        const frameLen = 6 + payloadLen + 2;
-        if (scaleRxBuffer.length < frameLen) break;
-
-        const frame = scaleRxBuffer.splice(0, frameLen);
-        const cmd = frame[3];
-        const payload = frame.slice(6, 6 + payloadLen);
-
-        if (cmd === 0x01 && payload.length >= 4) {
-          const rawWeight = (payload[0] | (payload[1] << 8) | (payload[2] << 16) | (payload[3] << 24));
-          const weightGrams = rawWeight / 10.0;
-          let flowRate = null;
-          if (payload.length >= 6) {
-            const rawFlow = (payload[4] | (payload[5] << 8));
-            const signedFlow = rawFlow > 32767 ? rawFlow - 65536 : rawFlow;
-            flowRate = signedFlow / 10.0;
-          }
-          onScaleWeightUpdate(weightGrams, flowRate);
-        } else if (cmd === 0x05 && payload.length >= 1) {
-          const bat = Math.min(100, Math.max(0, payload[0]));
-          const badge = document.getElementById('scaleBatBadge');
-          badge.textContent = `${bat}%`;
-          badge.classList.remove('hidden');
-        }
-      }
-    }
-
-    async function toggleScaleConnect() {
+    /**
+     * 3. Timemore Dot BLE 연결 & 실시간 패킷 파싱
+     */
+    async function connectTimemoreDot() {
       if (scaleConnected && scaleDevice) {
         scaleDevice.gatt.disconnect();
         return;
       }
       if (!navigator.bluetooth) {
-        showToast('안드로이드 Chrome 브라우저(HTTPS 환경)에서 실행해 주세요.');
+        showToast('Web Bluetooth를 지원하지 않습니다. 안드로이드 Chrome(HTTPS)으로 열어주세요.');
         return;
       }
       try {
-        stopSimulation();
-        document.getElementById('scaleStatusText').textContent = '저울 탐색 중...';
         scaleDevice = await navigator.bluetooth.requestDevice({
-          filters: [{ namePrefix: 'TIMEMORE' }, { services: [DOT_SERVICE_UUID] }],
+          filters: [
+            { namePrefix: 'TIMEMORE' },
+            { namePrefix: 'Timemore' },
+            { services: [DOT_SERVICE_UUID] }
+          ],
           optionalServices: [DOT_SERVICE_UUID]
         });
 
@@ -636,6 +548,7 @@
           document.getElementById('scaleDot').className = 'w-2.5 h-2.5 rounded-full bg-gray-600 shrink-0';
           document.getElementById('scaleStatusText').textContent = '연결 끊김';
           document.getElementById('scaleBatBadge').classList.add('hidden');
+          logBle('DOT', '연결 해제됨');
         });
 
         const server = await scaleDevice.gatt.connect();
@@ -645,366 +558,512 @@
 
         await notifyChar.startNotifications();
         notifyChar.addEventListener('characteristicvaluechanged', (ev) => {
-          handleDotPacket(new Uint8Array(ev.target.value.buffer));
+          const chunk = new Uint8Array(ev.target.value.buffer);
+          scaleRxBuffer.push(...chunk);
+          while (scaleRxBuffer.length >= 6) {
+            if (scaleRxBuffer[0] !== 0xA5 || scaleRxBuffer[1] !== 0x5A) {
+              scaleRxBuffer.shift();
+              continue;
+            }
+            const payloadLen = scaleRxBuffer[4] | (scaleRxBuffer[5] << 8);
+            const frameLen = 6 + payloadLen + 2;
+            if (scaleRxBuffer.length < frameLen) break;
+            const frame = scaleRxBuffer.splice(0, frameLen);
+            handleDotFrame(frame);
+          }
         });
 
         scaleConnected = true;
-        document.getElementById('scaleDot').className = 'w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_8px_#fbbf24] shrink-0';
+        document.getElementById('scaleDot').className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] shrink-0';
         document.getElementById('scaleStatusText').textContent = scaleDevice.name || 'Dot 연결됨';
-        showToast('✅ Timemore Dot 저울 연결 완료!');
+        logBle('DOT', `연결 완료 (${scaleDevice.name})`);
+        showToast('Timemore Dot 저울이 연결되었습니다.');
 
-        await sendScaleCmd(DOT_CMD.INIT_GRAM, 'INIT_G');
-        setTimeout(() => sendScaleCmd(DOT_CMD.REQ_BATTERY, 'BAT'), 250);
+        await writeDotCmd(DOT_CMD.INIT_GRAM);
+        setTimeout(() => writeDotCmd(DOT_CMD.REQ_BATTERY), 250);
       } catch (err) {
-        document.getElementById('scaleStatusText').textContent = '터치하여 연결';
-        logBle('DOT-ERR', err.message);
+        if (err.name !== 'NotFoundError') showToast('저울 연결 실패: ' + err.message);
       }
     }
 
-    // ---------------------------------------------------------
-    // 2. CERA+ PCM03S Max 연결 및 명령 전송 (전체 기기 탐색 + 자동 서비스 스캔)
-    // ---------------------------------------------------------
-    async function toggleCeraConnect() {
+    function handleDotFrame(frame) {
+      const cmd = frame[3];
+      const payload = frame.slice(6, frame.length - 2);
+      if (cmd === 0x01 && payload.length >= 4) {
+        const raw = (payload[0] | (payload[1] << 8) | (payload[2] << 16) | (payload[3] << 24)) >> 0;
+        const grams = +(raw / 10).toFixed(1);
+        onScaleWeightUpdate(grams);
+      } else if (cmd === 0x05 && payload.length >= 1) {
+        const bat = document.getElementById('scaleBatBadge');
+        bat.textContent = `${payload[0]}%`;
+        bat.classList.remove('hidden');
+      }
+    }
+
+    async function writeDotCmd(bytes) {
+      if (!scaleConnected || !scaleWriteChar) return;
+      try {
+        await scaleWriteChar.writeValueWithoutResponse(bytes);
+        logBle('DOT TX', bytes);
+      } catch (e) {
+        await scaleWriteChar.writeValue(bytes);
+      }
+    }
+
+    /**
+     * 4. CERA+ PCM03S Max BLE 연결 & 제어
+     */
+    const KNOWN_CERA_SERVICE_UUIDS = [
+      '6e400001-b5a3-f393-e0a9-e50e24dcca9e', // Nordic UART (ESP32/nRF52 소형 가전 표준)
+      0xffe0, // HM-10 / JDY / Telink / Chinese BLE 모듈 표준
+      0xfff0, // 커스텀 IoT 컨트롤러 표준
+      0xff00,
+      0xae00
+    ];
+
+    async function connectCeraMachine(useSmartFilter = false) {
       if (ceraConnected && ceraDevice) {
         ceraDevice.gatt.disconnect();
         return;
       }
       if (!navigator.bluetooth) {
-        showToast('안드로이드 Chrome 브라우저(HTTPS 환경)에서 실행해 주세요.');
+        showToast('Web Bluetooth를 지원하지 않습니다. 안드로이드 Chrome(HTTPS)으로 열어주세요.');
         return;
       }
       try {
-        stopSimulation();
-        document.getElementById('ceraStatusText').textContent = '주변 기기 탐색 중...';
-        const svcUuid = parseUuidInput(ceraCfg.serviceUuid);
-        const wrUuid = parseUuidInput(ceraCfg.writeUuid);
-        const ntUuid = parseUuidInput(ceraCfg.notifyUuid);
+        const customSrv = parseUuidInput(ceraCfg.serviceUuid);
+        const allOptionalServices = Array.from(new Set([
+          customSrv,
+          ...KNOWN_CERA_SERVICE_UUIDS,
+          0x180f, // Battery Service
+          0x180a  // Device Information
+        ]));
 
-        // 기기 이름이 무엇이든 주변의 모든 블루투스 기기를 탐색 목록에 띄움
-        ceraDevice = await navigator.bluetooth.requestDevice({
-          acceptAllDevices: true,
-          optionalServices: [
-            svcUuid,
-            0xfff0, 0xffe0, 0xffe5, 0xff00, 0x180a, 0x180f,
-            '6e400001-b5a3-f393-e0a9-e50e24dcca9e',
-            '0000ffe0-0000-1000-8000-00805f9b34fb',
-            '0000fff0-0000-1000-8000-00805f9b34fb'
-          ]
-        });
+        const requestOptions = useSmartFilter
+          ? {
+              filters: [
+                { namePrefix: 'CERA' },
+                { namePrefix: 'PCM' },
+                { namePrefix: 'ESP' },
+                { namePrefix: 'BLE' },
+                { namePrefix: 'Coffee' },
+                { services: [customSrv] },
+                { services: [0xffe0] },
+                { services: [0xfff0] },
+                { services: ['6e400001-b5a3-f393-e0a9-e50e24dcca9e'] }
+              ],
+              optionalServices: allOptionalServices
+            }
+          : {
+              // 주변 모든 기기를 탐색해 CERA+ PCM03S Max의 정확한 광고 이름이 달라도 즉시 선택 가능
+              acceptAllDevices: true,
+              optionalServices: allOptionalServices
+            };
 
-        ceraDevice.addEventListener('gattserverdisconnected', () => {
-          ceraConnected = false;
-          ceraWriteChar = null;
-          document.getElementById('ceraDot').className = 'w-2.5 h-2.5 rounded-full bg-gray-600 shrink-0';
-          document.getElementById('ceraStatusText').textContent = '연결 끊김';
-          logBle('CERA', 'PCM03S Max 연결 해제');
-        });
+        ceraDevice = await navigator.bluetooth.requestDevice(requestOptions);
+        await bindConnectedCeraDevice(ceraDevice);
+      } catch (err) {
+        if (err.name !== 'NotFoundError') {
+          showToast('PCM03S Max 연결 실패: ' + err.message);
+          logBle('CERA ERR', err.message);
+        }
+      }
+    }
 
-        const server = await ceraDevice.gatt.connect();
+    async function bindConnectedCeraDevice(device) {
+      ceraDevice = device;
+      const customSrv = parseUuidInput(ceraCfg.serviceUuid);
 
-        // 연결된 기기의 모든 서비스와 특성을 자동 탐색하여 BLE설정 창 및 로그에 기록
-        let foundWriteChar = null;
-        let foundNotifyChar = null;
-        const scanSummary = [];
+      ceraDevice.addEventListener('gattserverdisconnected', () => {
+        ceraConnected = false;
+        ceraWriteChar = null;
+        document.getElementById('ceraDot').className = 'w-2.5 h-2.5 rounded-full bg-gray-600 shrink-0';
+        document.getElementById('ceraStatusText').textContent = '연결 끊김';
+        logBle('CERA', '연결 해제됨');
+      });
 
-        try {
-          const allServices = await server.getPrimaryServices();
-          for (const svc of allServices) {
-            scanSummary.push(`[Service] ${svc.uuid}`);
-            const chars = await svc.getCharacteristics();
-            for (const ch of chars) {
-              const props = [];
-              if (ch.properties.write || ch.properties.writeWithoutResponse) {
-                props.push('WRITE');
-                if (!foundWriteChar || ch.uuid === wrUuid) foundWriteChar = ch;
-              }
-              if (ch.properties.notify || ch.properties.indicate) {
-                props.push('NOTIFY');
-                if (!foundNotifyChar || ch.uuid === ntUuid) foundNotifyChar = ch;
-              }
-              if (ch.properties.read) props.push('READ');
-              scanSummary.push(`  └ Char: ${ch.uuid} (${props.join('/')})`);
+      const server = await ceraDevice.gatt.connect();
+
+      // 연결된 기기의 모든 서비스/특성을 자동 스캔하여 UUID 확인 지원
+      let discoveredHtml = '';
+      let autoMatchedWrite = null;
+      let autoMatchedNotify = null;
+
+      try {
+        const services = await server.getPrimaryServices();
+        for (const srv of services) {
+          discoveredHtml += `<div class="text-cyan-300 font-bold mt-1">Service: ${srv.uuid}</div>`;
+          const chars = await srv.getCharacteristics();
+          for (const ch of chars) {
+            const props = [];
+            if (ch.properties.write) props.push('WRITE');
+            if (ch.properties.writeWithoutResponse) props.push('WRITE_NO_RESP');
+            if (ch.properties.notify) props.push('NOTIFY');
+            if (ch.properties.read) props.push('READ');
+            discoveredHtml += `<div class="pl-2 text-gray-400">└ Char: <span class="text-amber-300">${ch.uuid}</span> [${props.join(', ')}]</div>`;
+
+            if (!autoMatchedWrite && (ch.properties.write || ch.properties.writeWithoutResponse)) {
+              autoMatchedWrite = ch;
+            }
+            if (!autoMatchedNotify && ch.properties.notify) {
+              autoMatchedNotify = ch;
             }
           }
-          document.getElementById('discoveredServicesBox').innerHTML = scanSummary.join('<br/>');
-          logBle('CERA-SCAN', `서비스 ${allServices.length}개 자동 탐색 완료`);
-        } catch (scanErr) {
-          logBle('CERA-SCAN', `자동 스캔 제한됨: ${scanErr.message}`);
         }
-
-        // 설정된 UUID 우선 시도, 없으면 자동 탐색된 Write 특성 연결
-        try {
-          const service = await server.getPrimaryService(svcUuid);
-          ceraWriteChar = await service.getCharacteristic(wrUuid);
-        } catch (_) {
-          ceraWriteChar = foundWriteChar;
+        if (discoveredHtml) {
+          document.getElementById('discoveredServicesBox').innerHTML = discoveredHtml;
         }
-
-        const activeNotify = foundNotifyChar;
-        if (activeNotify) {
-          try {
-            await activeNotify.startNotifications();
-            activeNotify.addEventListener('characteristicvaluechanged', (ev) => {
-              const bytes = new Uint8Array(ev.target.value.buffer);
-              logBle('CERA-RX', bytes);
-              if (bytes.length >= 4 && bytes[2] >= 20 && bytes[2] <= 100) {
-                currentTemp = bytes[2];
-                document.getElementById('currentTempDisplay').textContent = `${currentTemp}°C`;
-              }
-            });
-          } catch (_) {}
-        }
-
-        ceraConnected = true;
-        document.getElementById('ceraDot').className = 'w-2.5 h-2.5 rounded-full bg-orange-400 shadow-[0_0_8px_#fb923c] shrink-0';
-        document.getElementById('ceraStatusText').textContent = ceraDevice.name || '연결됨';
-        logBle('CERA', `${ceraDevice.name || '기기'} 연결 성공`);
-        showToast(`✅ ${ceraDevice.name || 'PCM03S Max'} 직접 연결 완료!`);
-      } catch (err) {
-        document.getElementById('ceraStatusText').textContent = '터치하여 연결';
-        logBle('CERA-ERR', err.message);
+      } catch (scanErr) {
+        logBle('CERA SCAN', '일부 서비스 스캔 제한: ' + scanErr.message);
       }
-    }
 
-    async function sendCeraHex(hexStr, label) {
-      const payload = parseHexString(hexStr);
-      logBle(`CERA-TX(${label})`, payload);
-      if (!ceraWriteChar) return;
+      // 설정된 UUID 우선 연결, 실패 시 자동 탐색된 Write 특성으로 폴백
       try {
-        if (ceraWriteChar.properties.writeWithoutResponse) {
-          await ceraWriteChar.writeValueWithoutResponse(payload);
+        const service = await server.getPrimaryService(customSrv);
+        ceraWriteChar = await service.getCharacteristic(parseUuidInput(ceraCfg.writeUuid));
+        try {
+          const notifyChar = await service.getCharacteristic(parseUuidInput(ceraCfg.notifyUuid));
+          await notifyChar.startNotifications();
+          notifyChar.addEventListener('characteristicvaluechanged', (ev) => {
+            const rx = new Uint8Array(ev.target.value.buffer);
+            logBle('CERA RX', rx);
+            if (rx.length >= 4 && rx[0] === 0xAA && rx[2] === 0x03) {
+              currentTemp = rx[3];
+              document.getElementById('currentTempDisplay').textContent = `${currentTemp}°C`;
+            }
+          });
+        } catch (e) {}
+      } catch (uuidErr) {
+        if (autoMatchedWrite) {
+          ceraWriteChar = autoMatchedWrite;
+          if (autoMatchedNotify) {
+            try {
+              await autoMatchedNotify.startNotifications();
+              autoMatchedNotify.addEventListener('characteristicvaluechanged', (ev) => {
+                logBle('CERA RX', new Uint8Array(ev.target.value.buffer));
+              });
+            } catch (e) {}
+          }
+          showToast('기기 연결 완료! [BLE설정]에서 탐색된 UUID를 확인하세요.');
         } else {
-          await ceraWriteChar.writeValue(payload);
+          throw uuidErr;
         }
-      } catch (err) {
-        logBle('CERA-ERR', err.message);
+      }
+
+      ceraConnected = true;
+      const connectedLabel = ceraDevice.name || `BLE 기기 (${ceraDevice.id.slice(0, 6)})`;
+      document.getElementById('ceraDot').className = 'w-2.5 h-2.5 rounded-full bg-orange-400 shadow-[0_0_8px_#fb923c] shrink-0';
+      document.getElementById('ceraStatusText').textContent = connectedLabel;
+      logBle('CERA', `연결 완료 (${connectedLabel})`);
+      showToast(`PCM03S Max(${connectedLabel})에 연결되었습니다.`);
+    }
+
+    /**
+     * 4-1. RSSI 근접 신호 탐지 레이더 (이름이 안 보일 때 폰을 머신에 대어 찾기)
+     */
+    const radarModal = document.getElementById('radarModal');
+    const radarDeviceList = document.getElementById('radarDeviceList');
+    const radarStatusLabel = document.getElementById('radarStatusLabel');
+    let activeLeScan = null;
+    const scannedDevicesMap = new Map();
+
+    function renderRadarDevices() {
+      const items = Array.from(scannedDevicesMap.values()).sort((a, b) => b.rssi - a.rssi);
+      if (items.length === 0) return;
+
+      radarDeviceList.innerHTML = items.map((item, idx) => {
+        const isClosest = idx === 0 && item.rssi >= -62;
+        const signalStrength = item.rssi >= -55 ? '매우 가까움 (5cm 이내)'
+          : item.rssi >= -70 ? '가까움 (1m 이내)'
+          : '멀리 있음';
+        const badgeColor = item.rssi >= -55
+          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+          : item.rssi >= -70
+            ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+            : 'bg-gray-800 text-gray-400 border-gray-700';
+
+        return `
+          <div class="p-3 rounded-2xl bg-[#0e1015] border ${isClosest ? 'border-orange-500 shadow-[0_0_12px_rgba(249,115,22,0.25)]' : 'border-gray-800'} flex items-center justify-between gap-2">
+            <div class="min-w-0">
+              <div class="flex items-center gap-1.5">
+                ${isClosest ? '<span class="px-1.5 py-0.5 rounded bg-orange-500 text-gray-950 text-[9px] font-extrabold">가장 가까움</span>' : ''}
+                <span class="text-xs font-bold text-white truncate">${item.name || '이름 없는 BLE 기기'}</span>
+              </div>
+              <div class="text-[10px] text-gray-400 mono-num mt-0.5">
+                신호: <strong class="text-cyan-300">${item.rssi} dBm</strong> · ${signalStrength}
+              </div>
+              ${item.uuids.length ? `<div class="text-[9px] text-gray-500 mono-num truncate">UUID: ${item.uuids.join(', ')}</div>` : ''}
+            </div>
+            <button onclick="selectRadarDevice('${item.id}')" class="px-3 py-2 rounded-xl bg-orange-500 hover:bg-orange-400 text-gray-950 font-extrabold text-[11px] shrink-0 btn-press">
+              이 기기 연결
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function startRssiRadarScan() {
+      if (!navigator.bluetooth) {
+        showToast('Web Bluetooth를 지원하지 않는 환경입니다.');
+        return;
+      }
+
+      stopRssiRadarScan();
+      scannedDevicesMap.clear();
+
+      // Chrome 실험적 플래그(requestLEScan)가 활성화된 경우 실시간 RSSI 레이더 가동
+      if (typeof navigator.bluetooth.requestLEScan === 'function') {
+        try {
+          radarStatusLabel.textContent = '📡 실시간 신호 세기 측정 중... 폰을 머신에 가까이 대세요';
+          activeLeScan = await navigator.bluetooth.requestLEScan({ acceptAllAdvertisements: true });
+
+          navigator.bluetooth.addEventListener('advertisementreceived', onAdvertisementReceived);
+          return;
+        } catch (e) {
+          logBle('RADAR', 'requestLEScan 폴백: ' + e.message);
+        }
+      }
+
+      // 일반 안드로이드 Chrome 기본 환경: 이름 유무와 무관하게 주변 기기 선택창 실행 + 안내
+      radarStatusLabel.textContent = '표준 탐색 모드 실행 중 (머신 전원을 켠 직후 선택하세요)';
+      showToast('브라우저 탐색창이 열립니다. 머신 전원을 껐다 켜면 목록 맨 아래/위에 새로 나타납니다!');
+      await connectCeraMachine(false);
+    }
+
+    function onAdvertisementReceived(event) {
+      const dev = event.device;
+      const rssi = typeof event.rssi === 'number' ? event.rssi : -99;
+      const uuids = event.uuids ? Array.from(event.uuids) : [];
+      scannedDevicesMap.set(dev.id, {
+        id: dev.id,
+        name: dev.name || '',
+        rssi,
+        uuids,
+        device: dev
+      });
+      renderRadarDevices();
+    }
+
+    function stopRssiRadarScan() {
+      if (activeLeScan) {
+        try { activeLeScan.stop(); } catch (e) {}
+        activeLeScan = null;
+      }
+      navigator.bluetooth?.removeEventListener('advertisementreceived', onAdvertisementReceived);
+      radarStatusLabel.textContent = '스캔 중지됨';
+    }
+
+    window.selectRadarDevice = async function(deviceId) {
+      const entry = scannedDevicesMap.get(deviceId);
+      stopRssiRadarScan();
+      radarModal.classList.add('hidden');
+      if (entry && entry.device) {
+        try {
+          await bindConnectedCeraDevice(entry.device);
+        } catch (e) {
+          showToast('연결 실패: ' + e.message);
+        }
+      }
+    };
+
+    document.getElementById('radarScanBtn').addEventListener('click', () => {
+      radarModal.classList.remove('hidden');
+    });
+    document.getElementById('startRssiScanBtn').addEventListener('click', startRssiRadarScan);
+    document.getElementById('filteredConnectBtn').addEventListener('click', async () => {
+      stopRssiRadarScan();
+      radarModal.classList.add('hidden');
+      await connectCeraMachine(true);
+    });
+    document.getElementById('closeRadarBtn').addEventListener('click', () => {
+      stopRssiRadarScan();
+      radarModal.classList.add('hidden');
+    });
+    document.getElementById('closeRadarFooterBtn').addEventListener('click', () => {
+      stopRssiRadarScan();
+      radarModal.classList.add('hidden');
+    });
+
+    async function sendCeraCommand(hexStr, label) {
+      const bytes = parseHexString(hexStr);
+      logBle(`CERA TX (${label})`, bytes);
+      if (ceraConnected && ceraWriteChar) {
+        try {
+          if (ceraWriteChar.properties.writeWithoutResponse) {
+            await ceraWriteChar.writeValueWithoutResponse(bytes);
+          } else {
+            await ceraWriteChar.writeValue(bytes);
+          }
+        } catch (e) {
+          showToast(`머신 전송 오류 (${label}): ` + e.message);
+        }
       }
     }
 
-    // ---------------------------------------------------------
-    // 3. 핵심 로직: 실시간 무게 감시 & 목표 용량 도달 시 자동 정지
-    // ---------------------------------------------------------
-    function onScaleWeightUpdate(newWeight, packetFlow = null) {
+    /**
+     * 5. 핵심 알고리즘: 저울 무게 수신 -> 목표 용량 도달 시 PCM03S Max 자동 정지
+     */
+    function onScaleWeightUpdate(grams) {
       const now = Date.now();
-      const dt = (now - prevWeightTime) / 1000.0;
-
-      if (packetFlow !== null && !isNaN(packetFlow) && Math.abs(packetFlow) < 50) {
-        currentFlow = Math.max(0, packetFlow);
-      } else if (dt >= 0.08) {
-        const inst = (newWeight - prevWeight) / dt;
-        currentFlow = currentFlow * 0.55 + Math.max(0, inst) * 0.45;
-      }
-
-      currentWeight = newWeight;
-      if (dt >= 0.08) {
-        prevWeight = newWeight;
+      const dt = (now - prevWeightTime) / 1000;
+      if (dt >= 0.15) {
+        const instantFlow = (grams - prevWeight) / dt;
+        currentFlow = Math.max(0, +(currentFlow * 0.4 + instantFlow * 0.6).toFixed(1));
+        prevWeight = grams;
         prevWeightTime = now;
       }
 
-      const displayW = Math.abs(currentWeight) < 0.05 ? 0.0 : currentWeight;
-      document.getElementById('currentWeightDisplay').textContent = displayW.toFixed(1);
+      currentWeight = grams;
+      document.getElementById('currentWeightDisplay').textContent = currentWeight.toFixed(1);
       document.getElementById('flowRateDisplay').textContent = currentFlow.toFixed(1);
 
       // 진행률 바 업데이트
-      const pct = Math.min(100, Math.max(0, (displayW / targetWeight) * 100));
+      const pct = Math.min(100, Math.max(0, (currentWeight / targetWeight) * 100));
       document.getElementById('yieldProgressBar').style.width = `${pct}%`;
 
-      // ★ 목표 용량 도달 자동 정지 판정 ★
+      // 자동 정지 체크 (Auto-Stop)
       const autoStopEnabled = document.getElementById('autoStopToggle').checked;
-      const stopThreshold = Math.max(1.0, targetWeight - dripOffset);
+      const stopThreshold = +(targetWeight - dripOffset).toFixed(1);
 
-      if (isBrewing && autoStopEnabled && !autoStopTriggered && displayW >= stopThreshold) {
-        triggerAutoStop(displayW);
+      if (isBrewing && autoStopEnabled && !autoStopTriggered && currentWeight >= stopThreshold) {
+        autoStopTriggered = true;
+        autoStopMarkerTime = brewSeconds;
+        triggerAutoStopSequence();
       }
     }
 
-    async function triggerAutoStop(triggeredWeight) {
-      autoStopTriggered = true;
-      autoStopMarkerTime = brewSeconds;
-      logBle('AUTO-STOP', `목표 용량(${targetWeight}g) 도달! 보정 기준(${triggeredWeight.toFixed(1)}g)에서 정지 신호 전송`);
-      showToast(`🎯 목표 용량 도달 (${triggeredWeight.toFixed(1)}g)! PCM03S Max 자동 정지 신호 전송!`);
-
-      // CERA+ 머신 정지 신호 즉시 전송
-      await sendCeraHex(ceraCfg.hexStop, 'AUTO_STOP');
-      stopBrewingState('목표 도달 정지');
+    async function triggerAutoStopSequence() {
+      logBle('AUTO-STOP', `목표 도달! 현재 ${currentWeight.toFixed(1)}g >= 기준 ${+(targetWeight - dripOffset).toFixed(1)}g -> PCM03S Max 정지 신호 전송`);
+      showToast(`🎯 목표 용량(${targetWeight}g) 도달! PCM03S Max 추출을 자동 정지했습니다.`);
+      await stopBrewing(true);
     }
 
-    // ---------------------------------------------------------
-    // 4. 스마트 추출 시작 / 수동 정지 & 가열 제어
-    // ---------------------------------------------------------
-    async function toggleBrewAction() {
-      if (isBrewing) {
-        await sendCeraHex(ceraCfg.hexStop, 'MANUAL_STOP');
-        stopBrewingState('수동 정지됨');
-        return;
-      }
-
-      // 1) 저울 자동 영점 & 타이머 리셋
-      await sendScaleCmd(DOT_CMD.TARE, 'AUTO_TARE');
-      await sendScaleCmd(DOT_CMD.TIMER_RESET, 'TIMER_RST');
-      currentWeight = 0.0;
-      prevWeight = 0.0;
-      currentFlow = 0.0;
-      onScaleWeightUpdate(0.0, 0.0);
-
-      // 2) 추출 상태 초기화
+    /**
+     * 6. 추출 시작 / 정지 시퀀스 (프리인퓨전 -> 블루밍 -> 본추출 -> 자동정지)
+     */
+    async function startBrewing() {
+      if (isBrewing) return;
       isBrewing = true;
       autoStopTriggered = false;
       autoStopMarkerTime = null;
       brewSeconds = 0;
       shotChartData = [];
-      drawShotChart();
+      currentWeight = 0.0;
+      prevWeight = 0.0;
+      currentFlow = 0.0;
+      onScaleWeightUpdate(0.0);
 
-      // UI 변경
+      // 1) Timemore Dot 영점 조절 & 타이머 시작
+      await writeDotCmd(DOT_CMD.TARE);
+      setTimeout(() => writeDotCmd(DOT_CMD.TIMER_RESET), 120);
+      setTimeout(() => writeDotCmd(DOT_CMD.TIMER_START), 240);
+
+      // 2) CERA+ PCM03S Max 추출 시작 패킷 전송
+      await sendCeraCommand(ceraCfg.hexStart, 'BREW_START');
+
+      // UI 업데이트
       const btn = document.getElementById('brewActionBtn');
       btn.className = 'col-span-2 py-3.5 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white font-extrabold text-base shadow-lg shadow-rose-600/30 transition btn-press flex flex-col items-center justify-center';
-      document.getElementById('brewActionLabel').textContent = '■ 추출 즉시 정지';
-      document.getElementById('brewActionSub').textContent = `목표 ${targetWeight.toFixed(1)}g (${(targetWeight - dripOffset).toFixed(1)}g 도달 시 자동 컷)`;
-
-      // 3) CERA+ 추출 시작 명령 전송 (온도/프리인퓨전 반영)
-      await sendCeraHex(ceraCfg.hexStart, 'BREW_START');
-      await sendScaleCmd(DOT_CMD.TIMER_START, 'TIMER_START');
+      document.getElementById('brewActionLabel').textContent = '⏹ 추출 즉시 정지';
+      document.getElementById('brewActionSub').textContent = `목표 ${targetWeight.toFixed(1)}g (보정 후 ${(targetWeight - dripOffset).toFixed(1)}g) 도달 시 자동 정지`;
 
       updatePhaseBadge();
-
       brewTimerInterval = setInterval(() => {
         brewSeconds++;
-        const m = Math.floor(brewSeconds / 60).toString().padStart(2, '0');
-        const s = (brewSeconds % 60).toString().padStart(2, '0');
-        document.getElementById('brewTimerDisplay').textContent = `${m}:${s}`;
-
+        updateBrewTimerUI();
         updatePhaseBadge();
-        shotChartData.push({ t: brewSeconds, w: Math.max(0, currentWeight), f: Math.max(0, currentFlow) });
+        shotChartData.push({ t: brewSeconds, w: currentWeight, f: currentFlow });
         drawShotChart();
       }, 1000);
     }
 
-    function updatePhaseBadge() {
-      const badge = document.getElementById('machinePhaseBadge');
-      if (!isBrewing) return;
-      if (brewSeconds < preInfusionSec) {
-        badge.textContent = `프리인퓨전 (${brewSeconds}/${preInfusionSec}s)`;
-        badge.className = 'text-[11px] px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-bold';
-      } else if (brewSeconds < preInfusionSec + bloomSec) {
-        badge.textContent = `블루밍 대기 (${brewSeconds - preInfusionSec}/${bloomSec}s)`;
-        badge.className = 'text-[11px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold';
-      } else {
-        badge.textContent = '고압 추출 중 (20Bar)';
-        badge.className = 'text-[11px] px-2 py-0.5 rounded-full bg-orange-500/25 text-orange-300 font-bold';
-      }
-    }
-
-    function stopBrewingState(statusLabel) {
+    async function stopBrewing(isAuto = false) {
+      if (!isBrewing && !isAuto) return;
       isBrewing = false;
       clearInterval(brewTimerInterval);
-      sendScaleCmd(DOT_CMD.TIMER_STOP, 'TIMER_STOP');
+      brewTimerInterval = null;
+
+      // CERA+ PCM03S Max 정지 명령 전송
+      await sendCeraCommand(ceraCfg.hexStop, isAuto ? 'AUTO_STOP' : 'MANUAL_STOP');
+      // Dot 저울 타이머 정지
+      await writeDotCmd(DOT_CMD.TIMER_STOP);
+
+      // 시뮬레이터도 실행 중이면 함께 정지
+      if (simActive) stopSimulator();
 
       const badge = document.getElementById('machinePhaseBadge');
-      badge.textContent = statusLabel;
+      badge.textContent = isAuto ? '🎯 목표 도달 자동 정지됨' : '수동 정지 완료';
       badge.className = 'text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold';
 
       const btn = document.getElementById('brewActionBtn');
       btn.className = 'col-span-2 py-3.5 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-gray-950 font-extrabold text-base shadow-lg shadow-orange-500/25 transition btn-press flex flex-col items-center justify-center';
       document.getElementById('brewActionLabel').textContent = '▶ 스마트 추출 시작';
       document.getElementById('brewActionSub').textContent = '시작 시 저울 자동 영점 · 목표량 도달 시 정지';
+      drawShotChart();
     }
 
-    // 가열 토글 (PCM03S Max 자체 히팅 기능)
-    async function toggleHeating() {
-      const heatBtn = document.getElementById('heatToggleBtn');
-      if (isHeating) {
-        isHeating = false;
-        clearInterval(heatInterval);
-        heatBtn.textContent = '🔥 가열 시작';
-        heatBtn.className = 'px-3 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 text-[11px] font-bold btn-press';
-        await sendCeraHex(ceraCfg.hexHeatOff, 'HEAT_OFF');
-        return;
+    function updatePhaseBadge() {
+      const badge = document.getElementById('machinePhaseBadge');
+      if (brewSeconds < preInfusionSec) {
+        badge.textContent = `💧 프리인퓨전 (${brewSeconds}/${preInfusionSec}s)`;
+        badge.className = 'text-[11px] px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-bold';
+      } else if (brewSeconds < preInfusionSec + bloomSec) {
+        badge.textContent = `⏳ 블루밍 대기 (${brewSeconds - preInfusionSec}/${bloomSec}s)`;
+        badge.className = 'text-[11px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold';
+      } else {
+        badge.textContent = '☕ 본추출 진행 중 (9 Bar)';
+        badge.className = 'text-[11px] px-2 py-0.5 rounded-full bg-orange-500/25 text-orange-300 font-bold';
       }
-
-      isHeating = true;
-      heatBtn.textContent = '⏹ 가열 중지';
-      heatBtn.className = 'px-3 py-1 rounded-lg bg-rose-600 text-white text-[11px] font-bold btn-press';
-      await sendCeraHex(ceraCfg.hexHeatOn, `HEAT_ON_${targetTemp}C`);
-      showToast(`🔥 PCM03S Max 목표 온도 ${targetTemp}°C 가열 시작`);
-
-      // 미연결/시뮬레이션 시 온도 상승 시각화
-      heatInterval = setInterval(() => {
-        if (!ceraConnected && currentTemp < targetTemp) {
-          currentTemp = Math.min(targetTemp, currentTemp + 1);
-          document.getElementById('currentTempDisplay').textContent = `${currentTemp}°C`;
-          if (currentTemp >= targetTemp) {
-            showToast(`🌡️ 목표 온도 ${targetTemp}°C 도달 완료! 추출을 시작하세요.`);
-            toggleHeating();
-          }
-        }
-      }, 600);
     }
 
-    // ---------------------------------------------------------
-    // 5. 통합 시뮬레이터 (프리인퓨전 -> 블루밍 -> 본추출 -> 목표용량 도달 자동정지)
-    // ---------------------------------------------------------
-    function toggleSimulation() {
-      const simBtn = document.getElementById('simToggleBtn');
-      if (simActive) {
-        stopSimulation();
-        return;
-      }
+    function updateBrewTimerUI() {
+      const m = String(Math.floor(brewSeconds / 60)).padStart(2, '0');
+      const s = String(brewSeconds % 60).padStart(2, '0');
+      document.getElementById('brewTimerDisplay').textContent = `${m}:${s}`;
+    }
+
+    /**
+     * 7. 통합 시뮬레이터 (프리인퓨전 -> 블루밍 -> 본추출 유속 -> 목표용량 도달 자동정지)
+     */
+    function startSimulator() {
       simActive = true;
+      const simBtn = document.getElementById('simToggleBtn');
       simBtn.textContent = '시뮬레이션 중지';
-      simBtn.className = 'px-3 py-1.5 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/40 text-xs font-bold btn-press';
+      simBtn.classList.replace('text-cyan-300', 'text-rose-300');
 
-      if (!isBrewing) {
-        toggleBrewAction();
-      }
-
-      let simW = 0.0;
-      let dripTailTicks = 0;
+      startBrewing();
+      let simWeight = 0.0;
 
       simInterval = setInterval(() => {
-        if (!isBrewing && !autoStopTriggered) {
-          stopSimulation();
+        if (!isBrewing) {
+          stopSimulator();
           return;
         }
-
-        // 자동 정지가 발동된 뒤 잔여 방울(dripOffset만큼)이 떨어지고 멈추는 물리 현상 모사
-        if (autoStopTriggered) {
-          dripTailTicks++;
-          if (dripTailTicks <= 5) {
-            simW += (dripOffset / 5);
-            onScaleWeightUpdate(simW, 0.4);
-          } else {
-            onScaleWeightUpdate(simW, 0.0);
-            stopSimulation();
-          }
-          return;
-        }
-
-        let flow = 0.0;
+        // 프리인퓨전 & 블루밍 구간은 소량 방울, 이후 약 1.6~2.1g/s 에스프레소 추출 시뮬레이션
         if (brewSeconds < preInfusionSec) {
-          flow = 0.6; // 프리인퓨전 적시기
+          simWeight += 0.05;
         } else if (brewSeconds < preInfusionSec + bloomSec) {
-          flow = 0.1; // 블루밍 휴지
+          simWeight += 0.02;
         } else {
-          flow = 1.6 + (Math.random() - 0.5) * 0.3; // 본 추출 유속 (~1.6g/s)
+          const flow = 1.6 + Math.random() * 0.5;
+          simWeight = +(simWeight + flow * 0.25).toFixed(1);
         }
-
-        simW += flow * 0.2;
-        onScaleWeightUpdate(simW, flow);
-      }, 200);
+        onScaleWeightUpdate(simWeight);
+      }, 250);
     }
 
-    function stopSimulation() {
-      if (!simActive) return;
+    function stopSimulator() {
       simActive = false;
       clearInterval(simInterval);
+      simInterval = null;
       const simBtn = document.getElementById('simToggleBtn');
       simBtn.textContent = '시뮬레이션 실행';
-      simBtn.className = 'px-3 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/30 text-xs font-bold btn-press';
+      simBtn.classList.replace('text-rose-300', 'text-cyan-300');
     }
 
-    // ---------------------------------------------------------
-    // 6. 실시간 샷 그래프 렌더링
-    // ---------------------------------------------------------
+    /**
+     * 8. 실시간 샷 그래프 렌더링
+     */
     const canvas = document.getElementById('shotChart');
     const ctx = canvas.getContext('2d');
 
@@ -1013,209 +1072,135 @@
       const dpr = window.devicePixelRatio || 1;
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
-      ctx.scale(dpr, dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       drawShotChart();
     }
 
     function drawShotChart() {
-      const rect = canvas.parentElement.getBoundingClientRect();
-      const W = rect.width;
-      const H = rect.height;
-      ctx.clearRect(0, 0, W, H);
+      const w = canvas.parentElement.clientWidth;
+      const h = canvas.parentElement.clientHeight;
+      ctx.clearRect(0, 0, w, h);
 
-      // 목표 무게 기준 점선
-      const maxW = Math.max(targetWeight * 1.2, 45);
-      const targetY = 10 + (H - 20) * (1 - targetWeight / maxW);
-      ctx.setLineDash([4, 4]);
-      ctx.strokeStyle = 'rgba(251, 146, 60, 0.35)';
-      ctx.beginPath();
-      ctx.moveTo(0, targetY);
-      ctx.lineTo(W, targetY);
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      if (shotChartData.length < 2) {
-        ctx.fillStyle = '#4b5563';
-        ctx.font = '11px Pretendard, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('추출 시작 시 실시간 무게·유속 및 자동정지 지점이 표시됩니다', W / 2, H / 2 + 4);
-        return;
-      }
-
-      const maxT = Math.max(25, shotChartData[shotChartData.length - 1].t);
-      const maxF = 5.0;
-      const padX = 8, padY = 10;
-      const pW = W - padX * 2, pH = H - padY * 2;
-
-      // 유속 곡선 (Cyan)
-      ctx.beginPath();
-      ctx.strokeStyle = '#22d3ee';
-      ctx.lineWidth = 1.8;
-      shotChartData.forEach((pt, i) => {
-        const x = padX + (pt.t / maxT) * pW;
-        const y = padY + pH - (Math.min(pt.f, maxF) / maxF) * pH;
-        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-      });
-      ctx.stroke();
-
-      // 무게 곡선 (Amber)
-      ctx.beginPath();
-      ctx.strokeStyle = '#fbbf24';
-      ctx.lineWidth = 2.4;
-      shotChartData.forEach((pt, i) => {
-        const x = padX + (pt.t / maxT) * pW;
-        const y = padY + pH - (Math.min(pt.w, maxW) / maxW) * pH;
-        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-      });
-      ctx.stroke();
-
-      // 자동 정지 트리거 시점 수직 마커
-      if (autoStopMarkerTime !== null) {
-        const stopX = padX + (autoStopMarkerTime / maxT) * pW;
-        ctx.strokeStyle = '#f43f5e';
-        ctx.lineWidth = 1.5;
+      // 가로 그리드
+      ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+      ctx.lineWidth = 1;
+      for (let i = 1; i <= 3; i++) {
+        const y = (h / 4) * i;
         ctx.beginPath();
-        ctx.moveTo(stopX, padY);
-        ctx.lineTo(stopX, H - padY);
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
         ctx.stroke();
       }
+
+      // 목표 무게 기준 점선 표시
+      const maxW = Math.max(targetWeight * 1.2, ...shotChartData.map(d => d.w), 40);
+      const targetY = h - (targetWeight / maxW) * (h - 14) - 7;
+      ctx.save();
+      ctx.setLineDash([4, 4]);
+      ctx.strokeStyle = 'rgba(249, 115, 22, 0.5)';
+      ctx.beginPath();
+      ctx.moveTo(0, targetY);
+      ctx.lineTo(w, targetY);
+      ctx.stroke();
+      ctx.restore();
+
+      if (shotChartData.length < 2) return;
+      const maxF = Math.max(4, ...shotChartData.map(d => d.f));
+
+      // 무게 곡선 (Amber)
+      ctx.strokeStyle = '#fbbf24';
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      shotChartData.forEach((pt, idx) => {
+        const x = (idx / (shotChartData.length - 1)) * w;
+        const y = h - (pt.w / maxW) * (h - 14) - 7;
+        idx === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+
+      // 유속 곡선 (Cyan)
+      ctx.strokeStyle = '#22d3ee';
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      shotChartData.forEach((pt, idx) => {
+        const x = (idx / (shotChartData.length - 1)) * w;
+        const y = h - (pt.f / maxF) * (h - 14) - 7;
+        idx === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      });
+      ctx.stroke();
     }
 
-    // ---------------------------------------------------------
-    // 7. 추출 기록 저장 (localStorage)
-    // ---------------------------------------------------------
-    const SHOT_LOG_KEY = 'cera_dot_shot_logs_v1';
-
-    function getShotLogs() {
-      try { return JSON.parse(localStorage.getItem(SHOT_LOG_KEY) || '[]'); }
-      catch { return []; }
-    }
-
-    function setShotLogs(logs) {
-      localStorage.setItem(SHOT_LOG_KEY, JSON.stringify(logs));
-      document.getElementById('historyBadge').textContent = logs.length;
-    }
-
-    function saveCurrentShot() {
-      const y = +currentWeight.toFixed(1);
-      if (y <= 0.5 && brewSeconds === 0) {
-        showToast('저장할 추출 기록이 없습니다.');
-        return;
-      }
-      const memoInput = document.getElementById('shotMemoInput');
-      const memo = memoInput.value.trim() || `에스프레소 ${targetTemp}°C 샷`;
-      const entry = {
-        id: Date.now(),
-        date: new Date().toLocaleString('ko-KR', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
-        memo,
-        dose: doseWeight,
-        yield: y,
-        target: targetWeight,
-        temp: targetTemp,
-        pre: preInfusionSec,
-        bloom: bloomSec,
-        timeSec: brewSeconds,
-        autoStopped: autoStopTriggered
-      };
-      const logs = getShotLogs();
-      logs.unshift(entry);
-      setShotLogs(logs);
-      memoInput.value = '';
-      showToast(`✅ '${memo}' (${doseWeight}g → ${y}g / ${brewSeconds}초) 저장 완료`);
-    }
-
-    function renderShotHistory() {
-      const logs = getShotLogs();
-      const box = document.getElementById('historyList');
-      if (logs.length === 0) {
-        box.innerHTML = '<div class="text-center py-8 text-xs text-gray-500">저장된 에스프레소 추출 기록이 없습니다.</div>';
-        return;
-      }
-      box.innerHTML = logs.map(item => `
-        <div class="p-3 rounded-2xl bg-[#0e1015] border border-gray-800 space-y-1.5">
-          <div class="flex items-start justify-between">
-            <div>
-              <div class="text-xs font-bold text-white flex items-center gap-1.5">
-                <span>${item.memo}</span>
-                ${item.autoStopped ? '<span class="text-[9px] px-1.5 py-0.2 rounded bg-orange-500/20 text-orange-300">자동정지</span>' : ''}
-              </div>
-              <div class="text-[10px] text-gray-500">${item.date} · ${item.temp}°C · 프리 ${item.pre}s / 블루밍 ${item.bloom}s</div>
-            </div>
-            <button onclick="deleteShotLog(${item.id})" class="text-[11px] text-gray-500 hover:text-rose-400 px-1">삭제</button>
-          </div>
-          <div class="grid grid-cols-3 gap-1 pt-1.5 border-t border-gray-800/70 text-center text-xs mono-num">
-            <div><span class="text-[10px] text-gray-500 block font-sans">도징 → 추출</span><strong class="text-amber-300">${item.dose}g → ${item.yield}g</strong></div>
-            <div><span class="text-[10px] text-gray-500 block font-sans">추출시간</span><strong class="text-white">${item.timeSec}초</strong></div>
-            <div><span class="text-[10px] text-gray-500 block font-sans">추출비율</span><strong class="text-emerald-400">1 : ${(item.yield / item.dose).toFixed(1)}</strong></div>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    window.deleteShotLog = function(id) {
-      setShotLogs(getShotLogs().filter(x => x.id !== id));
-      renderShotHistory();
-    };
-
-    // ---------------------------------------------------------
-    // 8. UI 이벤트 바인딩
-    // ---------------------------------------------------------
-    document.getElementById('connectScaleBtn').addEventListener('click', toggleScaleConnect);
-    document.getElementById('connectCeraBtn').addEventListener('click', toggleCeraConnect);
-    document.getElementById('brewActionBtn').addEventListener('click', toggleBrewAction);
-    document.getElementById('heatToggleBtn').addEventListener('click', toggleHeating);
-    document.getElementById('simToggleBtn').addEventListener('click', toggleSimulation);
-
-    document.getElementById('tareScaleBtn').addEventListener('click', () => {
-      sendScaleCmd(DOT_CMD.TARE, 'TARE');
-      if (!scaleConnected || simActive) {
-        currentWeight = 0; prevWeight = 0; onScaleWeightUpdate(0, 0);
-      }
-    });
-
-    // 목표 용량 조절
-    function updateTargetDisplay() {
+    /**
+     * 9. UI 컨트롤 이벤트 바인딩
+     */
+    function updateTargetWeightUI() {
       document.getElementById('targetWeightDisplay').textContent = `${targetWeight.toFixed(1)}g`;
       drawShotChart();
     }
+
     document.getElementById('targetMinusBtn').addEventListener('click', () => {
-      targetWeight = Math.max(5, +(targetWeight - 1.0).toFixed(1));
-      updateTargetDisplay();
+      targetWeight = Math.max(10, +(targetWeight - 0.5).toFixed(1));
+      updateTargetWeightUI();
     });
     document.getElementById('targetPlusBtn').addEventListener('click', () => {
-      targetWeight = +(targetWeight + 1.0).toFixed(1);
-      updateTargetDisplay();
+      targetWeight = Math.min(250, +(targetWeight + 0.5).toFixed(1));
+      updateTargetWeightUI();
     });
 
     document.getElementById('doseInput').addEventListener('change', (e) => {
-      doseWeight = Math.max(1, parseFloat(e.target.value) || 18.0);
+      doseWeight = Math.max(5, parseFloat(e.target.value) || 18.0);
     });
 
     document.querySelectorAll('.ratio-preset').forEach(btn => {
       btn.addEventListener('click', () => {
-        const r = parseFloat(btn.dataset.ratio);
-        doseWeight = Math.max(1, parseFloat(document.getElementById('doseInput').value) || 18.0);
-        targetWeight = +(doseWeight * r).toFixed(1);
-        updateTargetDisplay();
+        const ratio = parseFloat(btn.dataset.ratio);
+        doseWeight = parseFloat(document.getElementById('doseInput').value) || 18.0;
+        targetWeight = +(doseWeight * ratio).toFixed(1);
+        updateTargetWeightUI();
+        showToast(`도징 ${doseWeight}g 기준 1:${ratio} 목표(${targetWeight}g) 설정됨`);
       });
     });
 
-    // 낙하 보정값 조절
     document.getElementById('offsetMinusBtn').addEventListener('click', () => {
-      dripOffset = Math.max(0, +(dripOffset - 0.2).toFixed(1));
+      dripOffset = Math.max(0, +(dripOffset - 0.1).toFixed(1));
       document.getElementById('offsetDisplay').textContent = `-${dripOffset.toFixed(1)}g`;
     });
     document.getElementById('offsetPlusBtn').addEventListener('click', () => {
-      dripOffset = Math.min(5, +(dripOffset + 0.2).toFixed(1));
+      dripOffset = Math.min(5.0, +(dripOffset + 0.1).toFixed(1));
       document.getElementById('offsetDisplay').textContent = `-${dripOffset.toFixed(1)}g`;
     });
 
-    // 온도 / 프리인퓨전 / 블루밍 조절
-    document.getElementById('tempSlider').addEventListener('input', (e) => {
-      targetTemp = parseInt(e.target.value, 10);
+    // 온도 슬라이더 & 가열 토글
+    const tempSlider = document.getElementById('tempSlider');
+    tempSlider.addEventListener('input', () => {
+      targetTemp = parseInt(tempSlider.value, 10);
       document.getElementById('targetTempDisplay').textContent = `${targetTemp}°C`;
     });
 
+    document.getElementById('heatToggleBtn').addEventListener('click', async () => {
+      isHeating = !isHeating;
+      const btn = document.getElementById('heatToggleBtn');
+      if (isHeating) {
+        btn.textContent = '⏹ 가열 중지';
+        btn.classList.replace('bg-rose-500/20', 'bg-rose-600');
+        btn.classList.replace('text-rose-300', 'text-white');
+        await sendCeraCommand(ceraCfg.hexHeatOn, `HEAT_ON_${targetTemp}C`);
+        heatInterval = setInterval(() => {
+          if (currentTemp < targetTemp) {
+            currentTemp++;
+            document.getElementById('currentTempDisplay').textContent = `${currentTemp}°C`;
+          }
+        }, 700);
+      } else {
+        btn.textContent = '🔥 가열 시작';
+        btn.classList.replace('bg-rose-600', 'bg-rose-500/20');
+        btn.classList.replace('text-white', 'text-rose-300');
+        clearInterval(heatInterval);
+        await sendCeraCommand(ceraCfg.hexHeatOff, 'HEAT_OFF');
+      }
+    });
+
+    // 프리인퓨전 & 블루밍 조절
     document.getElementById('preMinusBtn').addEventListener('click', () => {
       preInfusionSec = Math.max(0, preInfusionSec - 1);
       document.getElementById('preInfusionDisplay').textContent = `${preInfusionSec}s`;
@@ -1224,7 +1209,6 @@
       preInfusionSec = Math.min(15, preInfusionSec + 1);
       document.getElementById('preInfusionDisplay').textContent = `${preInfusionSec}s`;
     });
-
     document.getElementById('bloomMinusBtn').addEventListener('click', () => {
       bloomSec = Math.max(0, bloomSec - 1);
       document.getElementById('bloomDisplay').textContent = `${bloomSec}s`;
@@ -1234,7 +1218,7 @@
       document.getElementById('bloomDisplay').textContent = `${bloomSec}s`;
     });
 
-    // 레시피 프리셋 버튼
+    // 로스팅 프로파일 프리셋
     document.querySelectorAll('.profile-preset').forEach(btn => {
       btn.addEventListener('click', () => {
         targetTemp = parseInt(btn.dataset.temp, 10);
@@ -1242,18 +1226,43 @@
         bloomSec = parseInt(btn.dataset.bloom, 10);
         targetWeight = parseFloat(btn.dataset.yield);
 
-        document.getElementById('tempSlider').value = targetTemp;
+        tempSlider.value = targetTemp;
         document.getElementById('targetTempDisplay').textContent = `${targetTemp}°C`;
         document.getElementById('preInfusionDisplay').textContent = `${preInfusionSec}s`;
         document.getElementById('bloomDisplay').textContent = `${bloomSec}s`;
-        updateTargetDisplay();
-        showToast(`프리셋 적용: ${targetTemp}°C / 프리 ${preInfusionSec}s / 목표 ${targetWeight}g`);
+        updateTargetWeightUI();
+        showToast(`${btn.textContent} 프로파일 적용 (${targetTemp}°C / 목표 ${targetWeight}g)`);
       });
+    });
+
+    // 연결 & 메인 액션 버튼
+    document.getElementById('connectScaleBtn').addEventListener('click', connectTimemoreDot);
+    document.getElementById('connectCeraBtn').addEventListener('click', () => connectCeraMachine(false));
+    document.getElementById('tareScaleBtn').addEventListener('click', async () => {
+      await writeDotCmd(DOT_CMD.TARE);
+      currentWeight = 0.0;
+      prevWeight = 0.0;
+      onScaleWeightUpdate(0.0);
+      showToast('Timemore Dot 영점 조절 완료');
+    });
+
+    document.getElementById('brewActionBtn').addEventListener('click', () => {
+      if (isBrewing) stopBrewing(false);
+      else startBrewing();
+    });
+
+    document.getElementById('simToggleBtn').addEventListener('click', () => {
+      if (simActive) {
+        stopSimulator();
+        stopBrewing(false);
+      } else {
+        startSimulator();
+      }
     });
 
     // BLE 패킷 설정 모달
     const bleConfigModal = document.getElementById('bleConfigModal');
-    function openBleConfig() {
+    document.getElementById('bleConfigBtn').addEventListener('click', () => {
       document.getElementById('cfgServiceUuid').value = ceraCfg.serviceUuid;
       document.getElementById('cfgWriteUuid').value = ceraCfg.writeUuid;
       document.getElementById('cfgNotifyUuid').value = ceraCfg.notifyUuid;
@@ -1262,15 +1271,13 @@
       document.getElementById('cfgHexHeatOn').value = ceraCfg.hexHeatOn;
       document.getElementById('cfgHexHeatOff').value = ceraCfg.hexHeatOff;
       bleConfigModal.classList.remove('hidden');
-    }
-
-    document.getElementById('bleConfigBtn').addEventListener('click', openBleConfig);
+    });
     document.getElementById('closeBleConfigBtn').addEventListener('click', () => bleConfigModal.classList.add('hidden'));
     document.getElementById('resetBleConfigBtn').addEventListener('click', () => {
       ceraCfg = { ...DEFAULT_CERA_CFG };
       localStorage.setItem('cera_pcm03s_ble_cfg_v1', JSON.stringify(ceraCfg));
-      openBleConfig();
-      showToast('기본 BLE 설정으로 복원되었습니다.');
+      bleConfigModal.classList.add('hidden');
+      showToast('BLE 패킷 설정이 기본값으로 복원되었습니다.');
     });
     document.getElementById('saveBleConfigBtn').addEventListener('click', () => {
       ceraCfg = {
@@ -1280,32 +1287,132 @@
         hexStart:    document.getElementById('cfgHexStart').value.trim(),
         hexStop:     document.getElementById('cfgHexStop').value.trim(),
         hexHeatOn:   document.getElementById('cfgHexHeatOn').value.trim(),
-        hexHeatOff:  document.getElementById('cfgHexHeatOff').value.trim(),
+        hexHeatOff:  document.getElementById('cfgHexHeatOff').value.trim()
       };
       localStorage.setItem('cera_pcm03s_ble_cfg_v1', JSON.stringify(ceraCfg));
       bleConfigModal.classList.add('hidden');
-      showToast('✅ CERA+ BLE 패킷 설정이 저장되었습니다.');
+      showToast('CERA+ BLE 패킷 설정이 저장되었습니다.');
     });
 
-    // 히스토리 모달
-    const historyModal = document.getElementById('historyModal');
-    document.getElementById('saveShotBtn').addEventListener('click', saveCurrentShot);
-    document.getElementById('historyBtn').addEventListener('click', () => {
-      renderShotHistory();
-      historyModal.classList.remove('hidden');
+    // 추출 기록 저장 & 조회
+    const SHOT_LOG_KEY = 'cera_pcm03s_shot_logs_v1';
+    function getShotLogs() {
+      try { return JSON.parse(localStorage.getItem(SHOT_LOG_KEY) || '[]'); } catch { return []; }
+    }
+    function setShotLogs(logs) {
+      localStorage.setItem(SHOT_LOG_KEY, JSON.stringify(logs));
+      document.getElementById('historyBadge').textContent = logs.length;
+    }
+
+    document.getElementById('saveShotBtn').addEventListener('click', () => {
+      const yieldVal = +currentWeight.toFixed(1);
+      if (yieldVal <= 0.5 && brewSeconds === 0) {
+        showToast('저장할 추출 기록이 없습니다.');
+        return;
+      }
+      const memo = document.getElementById('shotMemoInput').value.trim() || `PCM03S Max ${targetTemp}°C 샷`;
+      const logs = getShotLogs();
+      logs.unshift({
+        id: Date.now(),
+        date: new Date().toLocaleString('ko-KR', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+        memo,
+        dose: doseWeight,
+        yield: yieldVal,
+        target: targetWeight,
+        temp: targetTemp,
+        time: `${String(Math.floor(brewSeconds / 60)).padStart(2, '0')}:${String(brewSeconds % 60).padStart(2, '0')}`,
+        autoStopped: autoStopTriggered
+      });
+      setShotLogs(logs);
+      document.getElementById('shotMemoInput').value = '';
+      showToast(`✅ '${memo}' (${yieldVal}g) 샷 기록 저장 완료`);
     });
+
+    const historyModal = document.getElementById('historyModal');
+    function renderShotHistory() {
+      const logs = getShotLogs();
+      const list = document.getElementById('historyList');
+      if (!logs.length) {
+        list.innerHTML = '<div class="text-center py-8 text-xs text-gray-500">저장된 에스프레소 샷 기록이 없습니다.</div>';
+        return;
+      }
+      list.innerHTML = logs.map(item => `
+        <div class="p-3 rounded-2xl bg-[#0e1015] border border-gray-800 text-xs">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-white">${item.memo}</span>
+            <span class="text-[10px] text-gray-500">${item.date}</span>
+          </div>
+          <div class="flex items-center justify-between mt-1.5 pt-1.5 border-t border-gray-800/70 mono-num text-[11px]">
+            <span class="text-amber-300">${item.dose}g → ${item.yield}g (목표 ${item.target}g)</span>
+            <span class="text-orange-400">${item.temp}°C · ${item.time}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('historyBtn').addEventListener('click', () => { renderShotHistory(); historyModal.classList.remove('hidden'); });
     document.getElementById('closeHistoryBtn').addEventListener('click', () => historyModal.classList.add('hidden'));
     document.getElementById('closeHistoryFooterBtn').addEventListener('click', () => historyModal.classList.add('hidden'));
-    document.getElementById('clearHistoryBtn').addEventListener('click', () => {
-      setShotLogs([]);
-      renderShotHistory();
-    });
+    document.getElementById('clearHistoryBtn').addEventListener('click', () => { setShotLogs([]); renderShotHistory(); });
 
     document.getElementById('toggleLogBtn').addEventListener('click', () => {
       packetLogBox.classList.toggle('hidden');
     });
 
-    setupDynamicPwaManifest();
+    // 백그라운드 PWA 매니페스트 및 앱 아이콘 자동 생성 (UI 버튼 없이 WebAPK 설치 지원)
+    (function setupBackgroundPwaManifest() {
+      try {
+        const iconCanvas = document.createElement('canvas');
+        iconCanvas.width = 512;
+        iconCanvas.height = 512;
+        const ctx = iconCanvas.getContext('2d');
+
+        // 다크 에스프레소 배경
+        ctx.fillStyle = '#0d0f13';
+        ctx.fillRect(0, 0, 512, 512);
+
+        // 오렌지 링 테두리
+        ctx.strokeStyle = '#f97316';
+        ctx.lineWidth = 24;
+        ctx.beginPath();
+        ctx.arc(256, 256, 200, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // 중앙 텍스트 아이콘
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 92px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('CERA+', 256, 225);
+
+        ctx.fillStyle = '#fbbf24';
+        ctx.font = 'bold 54px sans-serif';
+        ctx.fillText('× DOT', 256, 310);
+
+        const iconDataUrl = iconCanvas.toDataURL('image/png');
+        const manifest = {
+          name: 'CERA+ PCM03S Max × Dot Brew',
+          short_name: 'CERA+ Brew',
+          start_url: location.href,
+          display: 'standalone',
+          background_color: '#0d0f13',
+          theme_color: '#0d0f13',
+          icons: [
+            { src: iconDataUrl, sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
+            { src: iconDataUrl, sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
+          ]
+        };
+
+        const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = URL.createObjectURL(blob);
+        document.head.appendChild(link);
+      } catch (e) {
+        // 매니페스트 생성 실패 시 무시
+      }
+    })();
+
     requestWakeLock();
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') requestWakeLock();
