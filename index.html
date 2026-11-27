@@ -73,7 +73,7 @@
 
     <!-- 듀얼 기기 연결 카드 -->
     <div class="grid grid-cols-2 gap-2">
-      <!-- CERA+ PCM03S Max (CM03SMAX) 연결 -->
+      <!-- CERA+ PCM03S Max (Hi-t-1292G0) 연결 -->
       <button id="connectMachineBtn" type="button" class="panel-card rounded-2xl p-2.5 text-left flex items-center justify-between border border-gray-800 hover:border-orange-500/40 transition btn-press min-w-0">
         <div class="min-w-0 pr-1.5">
           <div class="flex items-center gap-1.5">
@@ -237,7 +237,7 @@
       </div>
     </section>
 
-    <!-- 3. 실시간 추출 곡선 그래프 + 샷 저장 (남은 세로 공간을 꽉 채우도록 flex-1 적용) -->
+    <!-- 3. 실시간 추출 곡선 그래프 + 샷 저장 -->
     <section class="panel-card rounded-2xl p-3 flex flex-col flex-1 min-h-0">
       <div class="flex items-center justify-between gap-2 mb-1.5 shrink-0">
         <span class="text-xs font-semibold text-gray-400 whitespace-nowrap">에스프레소 추출 곡선</span>
@@ -291,8 +291,8 @@
       <button id="toggleLogBtn" type="button" class="text-[11px] text-gray-500 hover:text-gray-300 underline">
         통합 BLE 통신 패킷 모니터 열기/닫기
       </button>
-      <div id="packetLogBox" class="hidden mt-1.5 p-2 rounded-xl bg-black/85 border border-gray-800 text-left mono-num text-[10px] text-green-400 h-24 overflow-y-auto leading-relaxed">
-        <div>[SYSTEM] CERA+ PCM03S Max (CM03SMAX) × Timemore Dot 컨트롤러 준비 완료</div>
+      <div id="packetLogBox" class="hidden mt-1.5 p-2 rounded-xl bg-black/85 border border-gray-800 text-left mono-num text-[10px] text-green-400 h-28 overflow-y-auto leading-relaxed">
+        <div>[SYSTEM] CERA+ PCM03S Max (Hi-t-1292G0) × Timemore Dot 컨트롤러 준비 완료</div>
       </div>
     </div>
   </footer>
@@ -303,7 +303,7 @@
       <div class="flex items-center justify-between pb-3 border-b border-gray-800">
         <div>
           <h2 class="text-base font-bold text-white">📡 머신 근접 탐색 & 빠른 연결</h2>
-          <p class="text-[11px] text-gray-400">CM03SMAX 필터 또는 전체 블루투스 기기를 탐색합니다</p>
+          <p class="text-[11px] text-gray-400">Hi-t- / CM03SMAX 필터 또는 전체 블루투스 기기를 탐색합니다</p>
         </div>
         <button id="closeRadarBtn" type="button" class="text-gray-400 hover:text-white text-lg font-bold px-2">✕</button>
       </div>
@@ -311,13 +311,13 @@
       <div class="py-3 space-y-3 overflow-y-auto text-xs">
         <div class="p-3 rounded-2xl bg-orange-500/10 border border-orange-500/30 text-orange-200 leading-relaxed break-keep">
           <div class="font-bold text-orange-300 mb-1">💡 기기 연결 안내</div>
-          1. 기본 연결 버튼을 누르면 <strong>CM03SMAX</strong> 기기만 자동으로 필터링됩니다.<br/>
-          2. 만약 목록에 나타나지 않으면 아래 <strong>[전체 기기 탐색창 열기]</strong>를 눌러 목록을 띄운 상태에서 머신 전원을 껐다 켜보세요.
+          1. 기본 연결 버튼을 누르면 <strong>Hi-t-1292G0</strong> 및 <strong>CM03SMAX</strong> 기기가 자동으로 필터링됩니다.<br/>
+          2. 목록에 나타나지 않으면 아래 <strong>[전체 기기 탐색창 열기]</strong>를 눌러 목록을 띄운 상태에서 머신 전원을 껐다 켜보세요.
         </div>
 
         <div class="grid grid-cols-2 gap-2">
           <button id="filterIoTScanBtn" type="button" class="py-2.5 px-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold text-xs btn-press">
-            🔍 CM03SMAX 필터 탐색
+            🔍 머신 필터 탐색 (Hi-t-)
           </button>
           <button id="allDeviceScanBtn" type="button" class="py-2.5 px-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold text-xs border border-gray-700 btn-press">
             📋 전체 기기 탐색창 열기
@@ -352,15 +352,16 @@
       <div class="flex items-center justify-between pb-3 border-b border-gray-800">
         <div>
           <h2 class="text-base font-bold text-white">⚙️ CM03SMAX BLE 프로토콜 설정</h2>
-          <p class="text-[11px] text-gray-400">실측 분석된 UUID 및 제어 Hex 패킷이 기본 적용되어 있습니다</p>
+          <p class="text-[11px] text-gray-400">nRF Connect 실측 규격(0000fff0 / 0000fff2) 적용 완료</p>
         </div>
         <button id="closeBleConfigBtn" type="button" class="text-gray-400 hover:text-white text-lg font-bold px-2">✕</button>
       </div>
 
       <div class="flex-1 overflow-y-auto py-3 space-y-3 text-xs">
         <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-200 text-[11px] leading-relaxed break-keep">
-          <strong>✅ 실측 Hex 패킷 적용 완료:</strong><br/>
-          가열 시작 시 상단에서 설정한 목표 온도(80~96°C)의 체크섬이 자동 계산되어 전송됩니다. (수동 고정값 사용 시 체크 해제)
+          <strong>✅ 실측 통신 규격 적용됨:</strong><br/>
+          • Service: <code>0000fff0-...</code> / Write: <code>0000fff2-...</code><br/>
+          • 연결 즉시 Notify 구독(CCCD 0x2902)을 자동 활성화합니다.
         </div>
 
         <label class="flex items-center gap-2 cursor-pointer px-1">
@@ -448,11 +449,13 @@
 
   <script>
     // =========================================================================
-    // 1. 프로토콜 상수 및 실측 CM03SMAX 설정 관리
+    // 1. 프로토콜 상수 및 실측 CM03SMAX (Hi-t-1292G0) 설정 관리
     // =========================================================================
     const TIMEMORE_SERVICE_UUID = 0xfff0;
     const TIMEMORE_WEIGHT_CHAR_UUID = 0xfff4;
     const TIMEMORE_CMD_CHAR_UUID = 0xfff1;
+
+    const MACHINE_STORAGE_KEY = 'cera_cm03smax_ble_cfg_v4';
 
     function buildCm03sMaxHeatHex(tempC) {
       const clamped = Math.max(80, Math.min(96, Math.round(tempC)));
@@ -462,9 +465,10 @@
       return `AA 55 02 01 ${tempHex} 00 ${csHex}`;
     }
 
+    // nRF Connect 실측 기준: Service 0000fff0, Write Characteristic 0000fff2
     const DEFAULT_MACHINE_CFG = {
-      serviceUuid: '0000ffe0-0000-1000-8000-00805f9b34fb',
-      writeUuid: '0000ffe1-0000-1000-8000-00805f9b34fb',
+      serviceUuid: '0000fff0-0000-1000-8000-00805f9b34fb',
+      writeUuid: '0000fff2-0000-1000-8000-00805f9b34fb',
       cmdStart: 'AA 55 01 01 01 00 02',
       cmdStop: 'AA 55 01 00 00 00 00',
       cmdHeatOn: buildCm03sMaxHeatHex(92),
@@ -474,7 +478,9 @@
 
     let machineCfg = { ...DEFAULT_MACHINE_CFG };
     try {
-      const saved = JSON.parse(localStorage.getItem('cera_cm03smax_ble_cfg_v3') || 'null');
+      // 구버전 캐시(0000ffe0/0000ffe1) 잔존 시 자동 정리
+      localStorage.removeItem('cera_cm03smax_ble_cfg_v3');
+      const saved = JSON.parse(localStorage.getItem(MACHINE_STORAGE_KEY) || 'null');
       if (saved) machineCfg = { ...DEFAULT_MACHINE_CFG, ...saved };
     } catch (e) {}
 
@@ -483,6 +489,7 @@
     // =========================================================================
     let machineDevice = null;
     let machineWriteChar = null;
+    let machineNotifyChars = [];
     let isMachineConnected = false;
     let isHeaterOn = false;
     let currentMachineTemp = 25;
@@ -531,7 +538,7 @@
       div.textContent = `[${now}] [${tag}] ${msg}`;
       packetLogBox.appendChild(div);
       packetLogBox.scrollTop = packetLogBox.scrollHeight;
-      if (packetLogBox.children.length > 80) packetLogBox.removeChild(packetLogBox.firstChild);
+      if (packetLogBox.children.length > 100) packetLogBox.removeChild(packetLogBox.firstChild);
     }
 
     function hexStringToBytes(hexStr) {
@@ -542,6 +549,12 @@
         bytes[i / 2] = parseInt(clean.substr(i, 2), 16);
       }
       return bytes;
+    }
+
+    function bytesToHexString(bytes) {
+      return Array.from(bytes)
+        .map(b => b.toString(16).toUpperCase().padStart(2, '0'))
+        .join(' ');
     }
 
     function formatTime(sec) {
@@ -684,31 +697,56 @@
     }
 
     // =========================================================================
-    // 6. CERA+ PCM03S Max (CM03SMAX) 제어 및 UUID 스캔
+    // 6. CERA+ PCM03S Max (Hi-t-1292G0) 제어, Notify 활성화 & UUID 스캔
     // =========================================================================
+    function handleMachineNotification(event) {
+      const bytes = new Uint8Array(event.target.value.buffer);
+      const hex = bytesToHexString(bytes);
+      logPacket('RX <- MACHINE', hex);
+
+      if (bytes.length >= 6 && bytes[0] === 0xaa && bytes[1] === 0x55) {
+        for (let i = 3; i < bytes.length - 1; i++) {
+          if (bytes[i] >= 20 && bytes[i] <= 105 && bytes[2] === 0x02) {
+            currentMachineTemp = bytes[i];
+            updateAllDisplays();
+            break;
+          }
+        }
+      }
+    }
+
     async function sendMachineCommand(hexStr, label) {
       const bytes = hexStringToBytes(hexStr);
       if (!bytes) {
         logPacket('ERROR', `잘못된 Hex 형식: ${hexStr}`);
         return false;
       }
-      logPacket('TX -> CM03SMAX', `${label}: ${hexStr}`);
+      logPacket('TX -> MACHINE', `${label}: ${hexStr}`);
 
       if (!isMachineConnected || !machineWriteChar) {
-        showToast('⚠️ CM03SMAX 머신이 연결되지 않았습니다.');
+        showToast('⚠️ 머신이 연결되지 않았습니다.');
         return false;
       }
 
       try {
-        if (machineWriteChar.properties.writeWithoutResponse) {
-          await machineWriteChar.writeValueWithoutResponse(bytes);
-        } else if (machineWriteChar.properties.write) {
+        if (machineWriteChar.properties.write) {
           await machineWriteChar.writeValueWithResponse(bytes);
+        } else if (machineWriteChar.properties.writeWithoutResponse) {
+          await machineWriteChar.writeValueWithoutResponse(bytes);
         } else {
           await machineWriteChar.writeValue(bytes);
         }
         return true;
       } catch (err) {
+        if (machineWriteChar.properties.writeWithoutResponse) {
+          try {
+            await machineWriteChar.writeValueWithoutResponse(bytes);
+            logPacket('TX RETRY', `${label}: WithoutResponse 전송 성공`);
+            return true;
+          } catch (retryErr) {
+            logPacket('TX ERR', `${label} 재시도 실패: ${retryErr.message}`);
+          }
+        }
         logPacket('TX ERR', `${label} 전송 실패: ${err.message}`);
         showToast(`신호 전송 오류: ${err.message}`);
         return false;
@@ -717,13 +755,19 @@
 
     async function connectToSelectedMachineDevice(device) {
       machineDevice = device;
+      machineNotifyChars = [];
+      machineWriteChar = null;
       document.getElementById('machineStatusText').textContent = '연결 중...';
+
       const server = await machineDevice.gatt.connect();
       const services = await server.getPrimaryServices();
 
       let discoveredLines = [];
-      let autoDetectedWriteChar = null;
-      let autoDetectedServiceUuid = '';
+      let exactWriteChar = null;
+      let fff2WriteChar = null;
+      let fallbackWriteChar = null;
+      let detectedServiceUuid = '';
+      const charsToNotify = [];
 
       for (const svc of services) {
         try {
@@ -733,19 +777,34 @@
             if (c.properties.write) props.push('WRITE');
             if (c.properties.writeWithoutResponse) props.push('WRITE_NO_RESP');
             if (c.properties.notify) props.push('NOTIFY');
+            if (c.properties.indicate) props.push('INDICATE');
             if (c.properties.read) props.push('READ');
 
             const propStr = props.join(',') || 'NONE';
             discoveredLines.push(`SVC: ${svc.uuid}\n  └ CHAR: ${c.uuid} [${propStr}]`);
 
-            if (machineCfg.writeUuid && c.uuid.toLowerCase() === machineCfg.writeUuid.trim().toLowerCase()) {
-              autoDetectedWriteChar = c;
-              autoDetectedServiceUuid = svc.uuid;
-            } else if (!autoDetectedWriteChar && (c.properties.write || c.properties.writeWithoutResponse)) {
-              if (!svc.uuid.startsWith('00001800') && !svc.uuid.startsWith('00001801')) {
-                autoDetectedWriteChar = c;
-                autoDetectedServiceUuid = svc.uuid;
+            const cUuidLower = c.uuid.toLowerCase();
+            const sUuidLower = svc.uuid.toLowerCase();
+
+            if (c.properties.write || c.properties.writeWithoutResponse) {
+              if (machineCfg.writeUuid && cUuidLower === machineCfg.writeUuid.trim().toLowerCase()) {
+                exactWriteChar = c;
+                detectedServiceUuid = svc.uuid;
+              } else if (cUuidLower.startsWith('0000fff2')) {
+                fff2WriteChar = c;
+                if (!detectedServiceUuid) detectedServiceUuid = svc.uuid;
+              } else if (!sUuidLower.startsWith('00001800') && !sUuidLower.startsWith('00001801')) {
+                if (!fallbackWriteChar) {
+                  fallbackWriteChar = c;
+                  if (!detectedServiceUuid) detectedServiceUuid = svc.uuid;
+                }
               }
+            }
+
+            if ((c.properties.notify || c.properties.indicate) &&
+                !sUuidLower.startsWith('00001800') &&
+                !sUuidLower.startsWith('00001801')) {
+              charsToNotify.push({ svcUuid: sUuidLower, char: c });
             }
           }
         } catch (e) {}
@@ -754,15 +813,25 @@
       document.getElementById('discoveredUuidList').textContent =
         discoveredLines.length > 0 ? discoveredLines.join('\n') : '검색된 특성(Characteristic) 없음';
 
-      if (autoDetectedWriteChar) {
-        machineWriteChar = autoDetectedWriteChar;
-        if (!machineCfg.writeUuid) {
-          machineCfg.serviceUuid = autoDetectedServiceUuid;
-          machineCfg.writeUuid = autoDetectedWriteChar.uuid;
-          document.getElementById('cfgServiceUuid').value = autoDetectedServiceUuid;
-          document.getElementById('cfgWriteUuid').value = autoDetectedWriteChar.uuid;
+      for (const item of charsToNotify) {
+        try {
+          await item.char.startNotifications();
+          item.char.addEventListener('characteristicvaluechanged', handleMachineNotification);
+          machineNotifyChars.push(item.char);
+          logPacket('NOTIFY ON', `CCCD(0x2902) 구독 활성화: ${item.char.uuid}`);
+        } catch (notifyErr) {
+          logPacket('NOTIFY WARN', `${item.char.uuid} 구독 건너뜀: ${notifyErr.message}`);
         }
-        logPacket('CM03SMAX', `쓰기 채널 연결됨: ${autoDetectedWriteChar.uuid}`);
+      }
+
+      machineWriteChar = exactWriteChar || fff2WriteChar || fallbackWriteChar;
+
+      if (machineWriteChar) {
+        machineCfg.serviceUuid = detectedServiceUuid || machineCfg.serviceUuid;
+        machineCfg.writeUuid = machineWriteChar.uuid;
+        document.getElementById('cfgServiceUuid').value = machineCfg.serviceUuid;
+        document.getElementById('cfgWriteUuid').value = machineWriteChar.uuid;
+        logPacket('MACHINE', `쓰기 채널 확정: ${machineWriteChar.uuid}`);
       } else {
         logPacket('WARN', '쓰기(Write) 가능한 BLE 채널을 찾지 못했습니다.');
       }
@@ -770,18 +839,19 @@
       isMachineConnected = true;
       currentMachineTemp = targetTemp;
       document.getElementById('machineDot').className = 'w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] shrink-0';
-      document.getElementById('machineStatusText').textContent = machineDevice.name || 'CM03SMAX 연결됨';
+      document.getElementById('machineStatusText').textContent = machineDevice.name || 'Hi-t-1292G0 연결됨';
       updateAllDisplays();
-      logPacket('CM03SMAX', `연결 완료: ${machineDevice.name || 'CM03SMAX'}`);
-      showToast('CM03SMAX 에스프레소 머신이 연결되었습니다.');
+      logPacket('MACHINE', `연결 완료: ${machineDevice.name || 'Hi-t-1292G0'}`);
+      showToast(`${machineDevice.name || '머신'} 연결 및 알림 구독이 완료되었습니다.`);
 
       machineDevice.addEventListener('gattserverdisconnected', () => {
         isMachineConnected = false;
         machineWriteChar = null;
+        machineNotifyChars = [];
         document.getElementById('machineDot').className = 'w-2 h-2 rounded-full bg-gray-600 shrink-0';
         document.getElementById('machineStatusText').textContent = '연결 끊김 (터치해 재연결)';
         document.getElementById('machineTempBadge').textContent = '--°C';
-        logPacket('CM03SMAX', '연결 해제됨');
+        logPacket('MACHINE', '연결 해제됨');
       });
     }
 
@@ -792,29 +862,32 @@
       }
       if (!checkBluetoothAvailability()) return;
 
+      const commonOptionalServices = [
+        0xfff0, 0xffe0, 0xffe5, 0xff00, 0x180a, 0x180f,
+        '0000fff0-0000-1000-8000-00805f9b34fb',
+        '0000fff1-0000-1000-8000-00805f9b34fb',
+        '0000fff2-0000-1000-8000-00805f9b34fb',
+        '0000ffe0-0000-1000-8000-00805f9b34fb',
+        '0000ffe1-0000-1000-8000-00805f9b34fb',
+        '6e400001-b5a3-f393-e0a9-e50e24dcca9e'
+      ];
+
       try {
         const requestOptions = useSmartFilter
           ? {
               filters: [
+                { namePrefix: 'Hi-t-' },
+                { namePrefix: 'Hi-t' },
                 { namePrefix: 'CM03SMAX' },
                 { namePrefix: 'CM03' },
                 { namePrefix: 'PCM03' },
                 { namePrefix: 'CERA' }
               ],
-              optionalServices: [
-                0xffe0, 0xffe5, 0xfff0, 0x180a,
-                '0000ffe0-0000-1000-8000-00805f9b34fb',
-                '0000ffe1-0000-1000-8000-00805f9b34fb'
-              ]
+              optionalServices: commonOptionalServices
             }
           : {
               acceptAllDevices: true,
-              optionalServices: [
-                0xffe0, 0xffe5, 0xfff0, 0xff00, 0x180a, 0x180f,
-                '6e400001-b5a3-f393-e0a9-e50e24dcca9e',
-                '0000ffe0-0000-1000-8000-00805f9b34fb',
-                '0000fff0-0000-1000-8000-00805f9b34fb'
-              ]
+              optionalServices: commonOptionalServices
             };
 
         const device = await navigator.bluetooth.requestDevice(requestOptions);
@@ -1318,14 +1391,14 @@
         cmdHeatOn: document.getElementById('cfgCmdHeatOn').value.trim() || DEFAULT_MACHINE_CFG.cmdHeatOn,
         cmdHeatOff: document.getElementById('cfgCmdHeatOff').value.trim() || DEFAULT_MACHINE_CFG.cmdHeatOff
       };
-      localStorage.setItem('cera_cm03smax_ble_cfg_v3', JSON.stringify(machineCfg));
+      localStorage.setItem(MACHINE_STORAGE_KEY, JSON.stringify(machineCfg));
       bleConfigModal.classList.add('hidden');
       showToast('BLE 프로토콜 설정이 저장되었습니다.');
     });
 
     document.getElementById('resetBleCfgBtn').addEventListener('click', () => {
       machineCfg = { ...DEFAULT_MACHINE_CFG };
-      localStorage.removeItem('cera_cm03smax_ble_cfg_v3');
+      localStorage.removeItem(MACHINE_STORAGE_KEY);
       document.getElementById('cfgAutoTempChecksum').checked = true;
       document.getElementById('cfgServiceUuid').value = machineCfg.serviceUuid;
       document.getElementById('cfgWriteUuid').value = machineCfg.writeUuid;
@@ -1333,7 +1406,7 @@
       document.getElementById('cfgCmdStop').value = machineCfg.cmdStop;
       document.getElementById('cfgCmdHeatOn').value = machineCfg.cmdHeatOn;
       document.getElementById('cfgCmdHeatOff').value = machineCfg.cmdHeatOff;
-      showToast('CM03SMAX 실측 기본 설정으로 초기화되었습니다.');
+      showToast('실측 기본 설정(0000fff0 / 0000fff2)으로 초기화되었습니다.');
     });
 
     // 샷 기록 모달
