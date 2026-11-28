@@ -7,8 +7,9 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230d0f13'/%3E%3Crect x='4' y='4' width='56' height='56' rx='14' fill='%23f97316'/%3E%3Ctext x='13' y='29' font-family='monospace' font-size='16' font-weight='900' text-anchor='start' fill='%230d0f13'%3ESEP'%3C/text%3E%3Ctext x='13' y='48' font-family='monospace' font-size='16' font-weight='900' text-anchor='start' fill='%230d0f13'%3EESP%3C/text%3E%3C/svg%3E" />
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230d0f13'/%3E%3Crect x='4' y='4' width='56' height='56' rx='14' fill='%23f97316'/%3E%3Ctext x='13' y='29' font-family='monospace' font-size='16' font-weight='900' text-anchor='start' fill='%230d0f13'%3ESEP'%3C/text%3E%3Ctext x='13' y='48' font-family='monospace' font-size='16' font-weight='900' text-anchor='start' fill='%230d0f13'%3EESP%3C/text%3E%3C/svg%3E" />
+  <link rel="manifest" href='data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22SEP%27ESP%20Smart%20Espresso%22%2C%22short_name%22%3A%22SEP%27ESP%22%2C%22display%22%3A%22standalone%22%2C%22orientation%22%3A%22portrait%22%2C%22background_color%22%3A%22%230d0f13%22%2C%22theme_color%22%3A%22%230d0f13%22%2C%22start_url%22%3A%22.%2F%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2716%27 fill=%27%230d0f13%27/%3E%3Crect x=%274%27 y=%274%27 width=%2756%27 height=%2756%27 rx=%2714%27 fill=%27%23f97316%27/%3E%3Ctext x=%2713%27 y=%2729%27 font-family=%27monospace%27 font-size=%2716%27 font-weight=%27900%27 text-anchor=%27start%27 fill=%27%230d0f13%27%3ESEP%27%3C/text%3E%3Ctext x=%2713%27 y=%2748%27 font-family=%27monospace%27 font-size=%2716%27 font-weight=%27900%27 text-anchor=%27start%27 fill=%27%230d0f13%27%3EESP%3C/text%3E%3C/svg%3E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D' />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230d0f13'/%3E%3Crect x='4' y='4' width='56' height='56' rx='14' fill='%23f97316'/%3E%3Ctext x='17' y='29' font-family='monospace' font-size='16' font-weight='900' text-anchor='start' fill='%230d0f13'%3ESEP'%3C/text%3E%3Ctext x='17' y='48' font-family='monospace' font-size='16' font-weight='900' text-anchor='start' fill='%230d0f13'%3EESP%3C/text%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230d0f13'/%3E%3Crect x='4' y='4' width='56' height='56' rx='14' fill='%23f97316'/%3E%3Ctext x='17' y='29' font-family='monospace' font-size='16' font-weight='900' text-anchor='start' fill='%230d0f13'%3ESEP'%3C/text%3E%3Ctext x='17' y='48' font-family='monospace' font-size='16' font-weight='900' text-anchor='start' fill='%230d0f13'%3EESP%3C/text%3E%3C/svg%3E" />
   <title>SEP'ESP · Smart Espresso Brew</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <style>
@@ -53,12 +54,29 @@
   </style>
 </head>
 <body class="min-h-[100dvh] flex flex-col justify-between max-w-md mx-auto px-3 py-1.5 overflow-x-hidden">
+  <!-- 시작 로딩 스플래시 로고 -->
+  <div id="splashOverlay" class="fixed inset-0 z-[100] bg-[#0d0f13] flex flex-col items-center justify-center gap-3 transition-opacity duration-300">
+    <div class="w-20 h-20 rounded-3xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-gray-950 shadow-2xl shadow-orange-500/30">
+      <div class="mono-num pl-1.5 flex flex-col items-start text-left font-extrabold text-2xl leading-none tracking-tight">
+        <span>SEP'</span>
+        <span>ESP</span>
+      </div>
+    </div>
+    <div class="text-sm font-extrabold tracking-widest text-white">SEP'ESP</div>
+    <div class="text-[11px] text-gray-400">CERA+ PCM03S Max × Timemore Dot</div>
+  </div>
+
 
   <!-- 상단 헤더: 듀얼 블루투스 연결 상태 -->
   <header class="flex flex-col gap-1.5 mb-1.5 shrink-0">
     <div class="flex items-center justify-between gap-2 min-w-0">
       <button id="aboutAppBtn" type="button" class="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden text-left hover:opacity-85 transition btn-press" title="앱 정보 · 제작자 · 저작권 보기">
-        <span class="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_8px_#f97316] shrink-0"></span>
+        <span class="w-6 h-6 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-gray-950 shrink-0 shadow shadow-orange-500/20">
+          <span class="mono-num pl-0.5 flex flex-col items-start text-left font-black text-[7px] leading-[7px] tracking-tighter">
+            <span>SEP'</span>
+            <span>ESP</span>
+          </span>
+        </span>
         <h1 class="text-xs sm:text-sm font-extrabold tracking-tight text-white truncate">SEP'ESP</h1>
         <span class="text-[9px] text-gray-500 border border-gray-700 rounded-full w-3.5 h-3.5 inline-flex items-center justify-center shrink-0">i</span>
       </button>
@@ -215,7 +233,32 @@
       </div>
     </section>
 
-    <!-- 2. 저울부: 무게 · 유속 · 목표량 자동 정지 -->
+    <!-- 2. 그래프부: 슬림 실시간 추출 곡선 + 샷 저장 -->
+    <section class="panel-card rounded-2xl p-2 flex flex-col flex-1 min-h-0">
+      <div class="flex items-center justify-between gap-2 mb-1 shrink-0">
+        <span class="text-[11px] font-semibold text-gray-300 whitespace-nowrap">추출 곡선</span>
+        <div class="flex items-center gap-2.5 text-[10px] whitespace-nowrap">
+          <span class="flex items-center gap-1 text-orange-400"><i class="w-1.5 h-1.5 rounded-full bg-orange-400 inline-block"></i>무게(g)</span>
+          <span class="flex items-center gap-1 text-cyan-400"><i class="w-1.5 h-1.5 rounded-full bg-cyan-400 inline-block"></i>유속(g/s)</span>
+        </div>
+      </div>
+      <div id="chartContainer" class="relative w-full flex-1 min-h-[4.5rem] bg-[#0a0c10] rounded-xl border border-gray-800/90 overflow-hidden">
+        <canvas id="shotChart" class="w-full h-full block"></canvas>
+      </div>
+
+      <!-- 샷 메모 저장 & 시뮬레이션 테스트 바 -->
+      <div class="mt-1.5 flex items-center gap-1.5 shrink-0">
+        <input id="shotNoteInput" type="text" placeholder="원두/분쇄도 메모" class="w-0 flex-1 min-w-0 bg-[#0a0c10] border border-gray-800 focus:border-orange-500/60 rounded-xl px-2.5 py-1 text-[11px] text-gray-200 placeholder-gray-600 outline-none" />
+        <button id="saveShotBtn" type="button" class="px-2.5 py-1 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[11px] font-bold whitespace-nowrap shrink-0 btn-press">
+          샷 저장
+        </button>
+        <button id="simEspressoBtn" type="button" class="px-2 py-1 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 text-[10px] font-bold whitespace-nowrap shrink-0 btn-press" title="기기 없이 자동 정지 시뮬레이션">
+          시뮬
+        </button>
+      </div>
+    </section>
+
+    <!-- 3. 저울부: 무게 · 유속 · 목표량 자동 정지 -->
     <section class="panel-card rounded-2xl p-2.5 relative overflow-hidden shrink-0">
       <div class="flex items-center justify-between gap-1.5 mb-1">
         <label class="flex items-center gap-1.5 cursor-pointer shrink-0">
@@ -274,31 +317,6 @@
       </div>
     </section>
 
-    <!-- 3. 그래프부: 슬림 실시간 추출 곡선 + 샷 저장 -->
-    <section class="panel-card rounded-2xl p-2 flex flex-col flex-1 min-h-0">
-      <div class="flex items-center justify-between gap-2 mb-1 shrink-0">
-        <span class="text-[11px] font-semibold text-gray-300 whitespace-nowrap">추출 곡선</span>
-        <div class="flex items-center gap-2.5 text-[10px] whitespace-nowrap">
-          <span class="flex items-center gap-1 text-orange-400"><i class="w-1.5 h-1.5 rounded-full bg-orange-400 inline-block"></i>무게(g)</span>
-          <span class="flex items-center gap-1 text-cyan-400"><i class="w-1.5 h-1.5 rounded-full bg-cyan-400 inline-block"></i>유속(g/s)</span>
-        </div>
-      </div>
-      <div id="chartContainer" class="relative w-full flex-1 min-h-[4.5rem] bg-[#0a0c10] rounded-xl border border-gray-800/90 overflow-hidden">
-        <canvas id="shotChart" class="w-full h-full block"></canvas>
-      </div>
-
-      <!-- 샷 메모 저장 & 시뮬레이션 테스트 바 -->
-      <div class="mt-1.5 flex items-center gap-1.5 shrink-0">
-        <input id="shotNoteInput" type="text" placeholder="원두/분쇄도 메모" class="w-0 flex-1 min-w-0 bg-[#0a0c10] border border-gray-800 focus:border-orange-500/60 rounded-xl px-2.5 py-1 text-[11px] text-gray-200 placeholder-gray-600 outline-none" />
-        <button id="saveShotBtn" type="button" class="px-2.5 py-1 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[11px] font-bold whitespace-nowrap shrink-0 btn-press">
-          샷 저장
-        </button>
-        <button id="simEspressoBtn" type="button" class="px-2 py-1 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 text-[10px] font-bold whitespace-nowrap shrink-0 btn-press" title="기기 없이 자동 정지 시뮬레이션">
-          시뮬
-        </button>
-      </div>
-    </section>
-
   </main>
 
   <!-- 4. 작동부: 하단 메인 추출 컨트롤 바 -->
@@ -328,7 +346,7 @@
         <button id="closeAboutBtn" type="button" class="text-gray-400 hover:text-white text-lg font-bold px-1">✕</button>
       </div>
       <div class="mx-auto w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-gray-950 shadow-lg shadow-orange-500/25">
-        <div class="mono-num flex flex-col items-start text-left font-extrabold text-base leading-none tracking-tight">
+        <div class="mono-num pl-1 flex flex-col items-start text-left font-extrabold text-base leading-none tracking-tight">
           <span>SEP'</span>
           <span>ESP</span>
         </div>
@@ -2059,6 +2077,17 @@
     document.getElementById('aboutAppBtn').addEventListener('click', () => aboutModal.classList.remove('hidden'));
     document.getElementById('closeAboutBtn').addEventListener('click', () => aboutModal.classList.add('hidden'));
     document.getElementById('closeAboutFooterBtn').addEventListener('click', () => aboutModal.classList.add('hidden'));
+
+    // 스플래시 화면 자동 닫기
+    window.addEventListener('DOMContentLoaded', () => {
+      const splash = document.getElementById('splashOverlay');
+      if (splash) {
+        setTimeout(() => {
+          splash.classList.add('opacity-0', 'pointer-events-none');
+          setTimeout(() => splash.remove(), 350);
+        }, 650);
+      }
+    });
 
     // 초기 실행
     updateBrewModeUi();
