@@ -233,32 +233,7 @@
       </div>
     </section>
 
-    <!-- 2. 그래프부: 슬림 실시간 추출 곡선 + 샷 저장 -->
-    <section class="panel-card rounded-2xl p-2 flex flex-col flex-1 min-h-0">
-      <div class="flex items-center justify-between gap-2 mb-1 shrink-0">
-        <span class="text-[11px] font-semibold text-gray-300 whitespace-nowrap">추출 곡선</span>
-        <div class="flex items-center gap-2.5 text-[10px] whitespace-nowrap">
-          <span class="flex items-center gap-1 text-orange-400"><i class="w-1.5 h-1.5 rounded-full bg-orange-400 inline-block"></i>무게(g)</span>
-          <span class="flex items-center gap-1 text-cyan-400"><i class="w-1.5 h-1.5 rounded-full bg-cyan-400 inline-block"></i>유속(g/s)</span>
-        </div>
-      </div>
-      <div id="chartContainer" class="relative w-full flex-1 min-h-[4.5rem] bg-[#0a0c10] rounded-xl border border-gray-800/90 overflow-hidden">
-        <canvas id="shotChart" class="w-full h-full block"></canvas>
-      </div>
-
-      <!-- 샷 메모 저장 & 시뮬레이션 테스트 바 -->
-      <div class="mt-1.5 flex items-center gap-1.5 shrink-0">
-        <input id="shotNoteInput" type="text" placeholder="원두/분쇄도 메모" class="w-0 flex-1 min-w-0 bg-[#0a0c10] border border-gray-800 focus:border-orange-500/60 rounded-xl px-2.5 py-1 text-[11px] text-gray-200 placeholder-gray-600 outline-none" />
-        <button id="saveShotBtn" type="button" class="px-2.5 py-1 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[11px] font-bold whitespace-nowrap shrink-0 btn-press">
-          샷 저장
-        </button>
-        <button id="simEspressoBtn" type="button" class="px-2 py-1 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 text-[10px] font-bold whitespace-nowrap shrink-0 btn-press" title="기기 없이 자동 정지 시뮬레이션">
-          시뮬
-        </button>
-      </div>
-    </section>
-
-    <!-- 3. 저울부: 무게 · 유속 · 목표량 자동 정지 -->
+    <!-- 2. 저울부: 무게 · 유속 · 목표량 자동 정지 -->
     <section class="panel-card rounded-2xl p-2.5 relative overflow-hidden shrink-0">
       <div class="flex items-center justify-between gap-1.5 mb-1">
         <label class="flex items-center gap-1.5 cursor-pointer shrink-0">
@@ -319,7 +294,7 @@
 
   </main>
 
-  <!-- 4. 작동부: 하단 메인 추출 컨트롤 바 -->
+  <!-- 3. 작동부: 하단 메인 추출 컨트롤 바 -->
   <footer class="mt-1.5 shrink-0">
     <div class="grid grid-cols-12 gap-1.5">
       <button id="tareScaleBtn" type="button" class="col-span-3 py-2 rounded-2xl bg-gray-800 hover:bg-gray-700 text-amber-300 font-extrabold text-xs border border-gray-700 transition btn-press flex flex-col items-center justify-center whitespace-nowrap">
@@ -337,6 +312,32 @@
       </button>
     </div>
   </footer>
+
+  <!-- 4. 그래프부(최하단): 슬림 실시간 추출 곡선 + 샷 저장 -->
+    <section class="panel-card rounded-2xl p-2 mt-1.5 flex flex-col flex-1 min-h-0">
+      <div class="flex items-center justify-between gap-2 mb-1 shrink-0">
+        <span class="text-[11px] font-semibold text-gray-300 whitespace-nowrap">추출 곡선</span>
+        <div class="flex items-center gap-2.5 text-[10px] whitespace-nowrap">
+          <span class="flex items-center gap-1 text-orange-400"><i class="w-1.5 h-1.5 rounded-full bg-orange-400 inline-block"></i>무게(g)</span>
+          <span class="flex items-center gap-1 text-cyan-400"><i class="w-1.5 h-1.5 rounded-full bg-cyan-400 inline-block"></i>유속(g/s)</span>
+        </div>
+      </div>
+      <div id="chartContainer" class="relative w-full flex-1 min-h-[4.5rem] bg-[#0a0c10] rounded-xl border border-gray-800/90 overflow-hidden">
+        <canvas id="shotChart" class="w-full h-full block"></canvas>
+      </div>
+
+      <!-- 샷 메모 저장 & 시뮬레이션 테스트 바 -->
+      <div class="mt-1.5 flex items-center gap-1.5 shrink-0">
+        <input id="shotNoteInput" type="text" placeholder="원두/분쇄도 메모" class="w-0 flex-1 min-w-0 bg-[#0a0c10] border border-gray-800 focus:border-orange-500/60 rounded-xl px-2.5 py-1 text-[11px] text-gray-200 placeholder-gray-600 outline-none" />
+        <button id="saveShotBtn" type="button" class="px-2.5 py-1 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[11px] font-bold whitespace-nowrap shrink-0 btn-press">
+          샷 저장
+        </button>
+        <button id="simEspressoBtn" type="button" class="px-2 py-1 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 text-[10px] font-bold whitespace-nowrap shrink-0 btn-press" title="기기 없이 자동 정지 시뮬레이션">
+          시뮬
+        </button>
+      </div>
+    </section>
+
 
   <!-- 앱 정보 (저작권 · 제작자 · 최종 업데이트) 모달 -->
   <div id="aboutModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
