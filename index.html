@@ -7,8 +7,9 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230d0f13'/%3E%3Ccircle cx='32' cy='32' r='20' fill='%23f97316'/%3E%3Ctext x='32' y='38' font-family='sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='%230d0f13'%3EESP%3C/text%3E%3C/svg%3E" />
-  <title>Sepsep'esp · Smart Espresso Brew</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230d0f13'/%3E%3Crect x='4' y='4' width='56' height='56' rx='14' fill='%23f97316'/%3E%3Ctext x='13' y='29' font-family='monospace' font-size='16' font-weight='900' text-anchor='start' fill='%230d0f13'%3ESEP'%3C/text%3E%3Ctext x='13' y='48' font-family='monospace' font-size='16' font-weight='900' text-anchor='start' fill='%230d0f13'%3EESP%3C/text%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230d0f13'/%3E%3Crect x='4' y='4' width='56' height='56' rx='14' fill='%23f97316'/%3E%3Ctext x='13' y='29' font-family='monospace' font-size='16' font-weight='900' text-anchor='start' fill='%230d0f13'%3ESEP'%3C/text%3E%3Ctext x='13' y='48' font-family='monospace' font-size='16' font-weight='900' text-anchor='start' fill='%230d0f13'%3EESP%3C/text%3E%3C/svg%3E" />
+  <title>SEP'ESP · Smart Espresso Brew</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap');
@@ -30,7 +31,7 @@
     .panel-card {
       background: linear-gradient(155deg, #171a21 0%, #12141a 100%);
       border: 1px solid rgba(255, 255, 255, 0.07);
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
     }
 
     .btn-press:active {
@@ -51,23 +52,21 @@
     }
   </style>
 </head>
-<body class="min-h-[100dvh] flex flex-col justify-between max-w-md mx-auto px-3.5 py-3 overflow-x-hidden">
+<body class="min-h-[100dvh] flex flex-col justify-between max-w-md mx-auto px-3 py-1.5 overflow-x-hidden">
 
   <!-- 상단 헤더: 듀얼 블루투스 연결 상태 -->
-  <header class="flex flex-col gap-2 mb-2.5 shrink-0">
+  <header class="flex flex-col gap-1.5 mb-1.5 shrink-0">
     <div class="flex items-center justify-between gap-2 min-w-0">
-      <div class="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
+      <button id="aboutAppBtn" type="button" class="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden text-left hover:opacity-85 transition btn-press" title="앱 정보 · 제작자 · 저작권 보기">
         <span class="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_8px_#f97316] shrink-0"></span>
-        <h1 class="text-xs sm:text-sm font-extrabold tracking-tight text-white truncate">Sepsep'esp</h1>
-      </div>
-      <div class="flex items-center gap-1 shrink-0">
-        <button id="radarScanBtn" type="button" class="px-1.5 sm:px-2 py-1 rounded-lg bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 text-[10px] font-bold border border-orange-500/40 whitespace-nowrap btn-press" title="머신에 폰을 가까이 대어 신호 세기로 찾기">
-          📡 근접탐색
-        </button>
-        <button id="bleConfigBtn" type="button" class="px-1.5 sm:px-2 py-1 rounded-lg bg-gray-800 hover:bg-gray-700 text-amber-300 text-[10px] font-semibold border border-gray-700 whitespace-nowrap btn-press">
+        <h1 class="text-xs sm:text-sm font-extrabold tracking-tight text-white truncate">SEP'ESP</h1>
+        <span class="text-[9px] text-gray-500 border border-gray-700 rounded-full w-3.5 h-3.5 inline-flex items-center justify-center shrink-0">i</span>
+      </button>
+      <div class="flex items-center gap-1.5 shrink-0">
+        <button id="bleConfigBtn" type="button" class="px-2 py-1 rounded-lg bg-gray-800 hover:bg-gray-700 text-amber-300 text-[10px] font-semibold border border-gray-700 whitespace-nowrap btn-press">
           BLE·패킷설정
         </button>
-        <button id="shotLogBtn" type="button" class="px-1.5 sm:px-2 py-1 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 text-[10px] font-semibold border border-gray-700 whitespace-nowrap btn-press flex items-center gap-1">
+        <button id="shotLogBtn" type="button" class="px-2 py-1 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 text-[10px] font-semibold border border-gray-700 whitespace-nowrap btn-press flex items-center gap-1">
           <span>샷기록</span>
           <span id="shotCountBadge" class="px-1 rounded-full bg-amber-500/20 text-amber-300 text-[9px] mono-num">0</span>
         </button>
@@ -75,51 +74,150 @@
     </div>
 
     <!-- 듀얼 기기 연결 카드 -->
-    <div class="grid grid-cols-2 gap-2">
+    <div class="grid grid-cols-2 gap-1.5">
       <!-- PCM03S Max 연결 -->
-      <button id="connectMachineBtn" type="button" class="panel-card rounded-2xl p-2.5 text-left flex flex-col justify-between gap-1.5 border border-gray-800 hover:border-orange-500/40 transition btn-press min-w-0">
-        <div class="flex items-center gap-1.5 w-full min-w-0">
-          <span id="machineDot" class="w-2 h-2 rounded-full bg-gray-600 shrink-0"></span>
-          <span class="text-xs font-bold text-white truncate">PCM03S Max</span>
-        </div>
-        <div class="flex items-center justify-between gap-1 w-full min-w-0">
-          <p id="machineStatusText" class="text-[11px] text-gray-300 truncate min-w-0">터치하여 연결</p>
-          <div class="flex items-center gap-1 shrink-0">
-            <span id="machineTempBadge" class="mono-num text-[11px] font-extrabold text-orange-400 bg-orange-500/15 px-1.5 py-0.5 rounded-md border border-orange-500/25 whitespace-nowrap">
-              --°C
-            </span>
-            <span id="machineBatteryBadge" class="mono-num text-[11px] font-bold text-emerald-400 bg-emerald-500/15 px-1.5 py-0.5 rounded-md border border-emerald-500/25 whitespace-nowrap">
-              --%
-            </span>
+      <button id="connectMachineBtn" type="button" class="panel-card rounded-2xl px-2.5 py-2 text-left flex items-center justify-between gap-1.5 border border-gray-800 hover:border-orange-500/40 transition btn-press min-w-0">
+        <div class="min-w-0">
+          <div class="flex items-center gap-1.5">
+            <span id="machineDot" class="w-2 h-2 rounded-full bg-gray-600 shrink-0"></span>
+            <span class="text-xs font-bold text-white truncate">PCM03S Max</span>
           </div>
+          <p id="machineStatusText" class="text-[10px] text-gray-300 mt-0.5 truncate">터치하여 연결</p>
         </div>
+        <span id="machineBatteryBadge" class="mono-num text-[11px] font-bold text-emerald-400 bg-emerald-500/15 px-1.5 py-0.5 rounded-md border border-emerald-500/25 shrink-0 whitespace-nowrap">
+          --%
+        </span>
       </button>
 
       <!-- Timemore Dot 저울 연결 -->
-      <button id="connectScaleBtn" type="button" class="panel-card rounded-2xl p-2.5 text-left flex flex-col justify-between gap-1.5 border border-gray-800 hover:border-amber-500/40 transition btn-press min-w-0">
-        <div class="flex items-center gap-1.5 w-full min-w-0">
-          <span id="scaleDot" class="w-2 h-2 rounded-full bg-gray-600 shrink-0"></span>
-          <span class="text-xs font-bold text-white truncate">Timemore Dot</span>
+      <button id="connectScaleBtn" type="button" class="panel-card rounded-2xl px-2.5 py-2 text-left flex items-center justify-between gap-1.5 border border-gray-800 hover:border-amber-500/40 transition btn-press min-w-0">
+        <div class="min-w-0">
+          <div class="flex items-center gap-1.5">
+            <span id="scaleDot" class="w-2 h-2 rounded-full bg-gray-600 shrink-0"></span>
+            <span class="text-xs font-bold text-white truncate">Timemore Dot</span>
+          </div>
+          <p id="scaleStatusText" class="text-[10px] text-gray-300 mt-0.5 truncate">터치하여 연결</p>
         </div>
-        <div class="flex items-center justify-between gap-1 w-full min-w-0">
-          <p id="scaleStatusText" class="text-[11px] text-gray-300 truncate min-w-0">터치하여 연결</p>
-          <span id="scaleBatteryBadge" class="mono-num text-[11px] font-bold text-emerald-400 bg-emerald-500/15 px-1.5 py-0.5 rounded-md border border-emerald-500/25 shrink-0 whitespace-nowrap">
-            --%
-          </span>
-        </div>
+        <span id="scaleBatteryBadge" class="mono-num text-[11px] font-bold text-emerald-400 bg-emerald-500/15 px-1.5 py-0.5 rounded-md border border-emerald-500/25 shrink-0 whitespace-nowrap">
+          --%
+        </span>
       </button>
     </div>
   </header>
 
   <!-- 인앱 알림 배너 -->
-  <div id="toastBanner" class="hidden mb-2 px-3 py-2 rounded-xl bg-gray-800/95 border border-amber-500/40 text-xs text-amber-200 shadow-lg break-keep shrink-0"></div>
+  <div id="toastBanner" class="hidden mb-1.5 px-3 py-1.5 rounded-xl bg-gray-800/95 border border-amber-500/40 text-xs text-amber-200 shadow-lg break-keep shrink-0"></div>
 
   <!-- 메인 제어 영역 -->
-  <main class="flex-1 flex flex-col gap-2.5 min-h-0">
+  <main class="flex-1 flex flex-col gap-1.5 min-h-0">
 
-    <!-- 1. 저울부: 무게 · 유속 · 목표량 자동 정지 -->
-    <section class="panel-card rounded-3xl p-3.5 relative overflow-hidden shrink-0">
-      <div class="flex flex-wrap items-center justify-between gap-1.5 mb-1.5">
+    <!-- 1. 머신부: 추출 방식 + 커스텀 프리셋 + 머신 설정 영역 -->
+    <section class="panel-card rounded-2xl p-2.5 flex flex-col gap-1.5 shrink-0">
+      <!-- 상단 타이틀 · 현재 수온 · 단독 가열 버튼 -->
+      <div class="flex items-center justify-between gap-2 min-w-0">
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="text-xs font-bold text-gray-100 whitespace-nowrap">머신 제어</span>
+          <span class="text-[11px] text-gray-400 whitespace-nowrap">현재 수온 <strong id="machineTempBadge" class="mono-num text-orange-400 font-extrabold">--°C</strong></span>
+        </div>
+        <button id="heaterToggleBtn" type="button" class="px-2.5 py-1 rounded-xl bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 border border-orange-500/40 text-[11px] font-bold whitespace-nowrap shrink-0 btn-press">
+          🔥 가열 시작
+        </button>
+      </div>
+
+      <!-- 추출 방식 선택 (현재온도 추출 vs 설정온도 추출) -->
+      <div class="grid grid-cols-2 gap-1 p-0.5 rounded-xl bg-[#0c0e12] border border-gray-800/90">
+        <button id="modeImmediateBtn" type="button" class="py-1 px-2 rounded-lg bg-orange-500/20 text-orange-300 border border-orange-500/40 text-[11px] font-bold whitespace-nowrap btn-press">
+          ⚡ 현재온도 추출
+        </button>
+        <button id="modeHeatBrewBtn" type="button" class="py-1 px-2 rounded-lg text-gray-400 hover:text-gray-200 border border-transparent text-[11px] font-semibold whitespace-nowrap btn-press">
+          🔥 설정온도 추출
+        </button>
+      </div>
+
+      <!-- 커스텀 프리셋 3슬롯 (1줄 슬림 배지형) -->
+      <div id="customPresetsGrid" class="grid grid-cols-3 gap-1.5"></div>
+
+      <!-- 머신 설정 영역 (접기/펼치기 & 추출 시 자동 접힘) -->
+      <div class="rounded-2xl p-2 bg-[#0e1117] border border-orange-500/25 flex flex-col gap-1.5">
+        <div class="flex items-center justify-between gap-1.5">
+          <div class="flex items-center gap-1.5 min-w-0">
+            <span class="text-[11px] font-bold text-orange-300 whitespace-nowrap">머신 설정</span>
+            <span id="machineSyncBadge" class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-gray-800/80 border border-gray-700/70 text-[10px] font-semibold text-gray-400 whitespace-nowrap" title="현재 설정이 머신에 적용되었는지 표시">
+              <span id="machineSyncDot" class="w-1.5 h-1.5 rounded-full bg-gray-600 shrink-0"></span>
+              <span>적용</span>
+            </span>
+            <span id="machineCfgSummary" class="hidden mono-num text-[10px] text-gray-300 truncate min-w-0 flex-1">92°C · 유량7 · 프리3s</span>
+          </div>
+          <div class="flex items-center gap-1 shrink-0">
+            <button id="syncMachineCfgBtn" type="button" class="px-2 py-0.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold whitespace-nowrap btn-press" title="아래 온도·유량·프리인퓨전 설정을 머신에 저장">
+              💾 저장
+            </button>
+            <button id="toggleMachineCfgBtn" type="button" class="px-2 py-0.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 text-[10px] font-semibold whitespace-nowrap btn-press">
+              ▲ 접기
+            </button>
+          </div>
+        </div>
+        <div id="machineCfgBody" class="flex flex-col gap-1.5">
+
+        <!-- 온도 + 유량 2열 조절 -->
+        <div class="grid grid-cols-2 gap-1.5">
+          <div id="targetTempCard" class="bg-[#090b0f] rounded-xl px-2 py-1.5 border border-gray-800/90 flex flex-col justify-between min-w-0 transition-opacity">
+            <div class="flex items-center justify-between gap-1 text-[10px]">
+              <span class="text-gray-300 font-medium whitespace-nowrap">목표 온도</span>
+              <span id="tempModeHint" class="text-[9px] px-1 rounded bg-gray-800 text-gray-400 whitespace-nowrap">현재수온(미적용)</span>
+            </div>
+            <div class="flex items-center justify-between gap-1 mt-1">
+              <button id="tempMinusBtn" type="button" class="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold btn-press shrink-0">-</button>
+              <span id="targetTempDisplay" class="mono-num text-sm font-extrabold text-orange-400 whitespace-nowrap">92°C</span>
+              <button id="tempPlusBtn" type="button" class="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold btn-press shrink-0">+</button>
+            </div>
+          </div>
+
+          <div class="bg-[#090b0f] rounded-xl px-2 py-1.5 border border-gray-800/90 flex flex-col justify-between min-w-0">
+            <div class="flex items-center justify-between text-[10px] px-0.5">
+              <span class="text-gray-300 font-medium whitespace-nowrap">유량 속도</span>
+              <span id="flowSpeedDisplay" class="mono-num text-xs font-extrabold text-amber-300 whitespace-nowrap">7 / 15</span>
+            </div>
+            <input id="flowSpeedSlider" type="range" min="1" max="15" value="7" class="w-full h-1.5 mt-1.5 mb-1 bg-gray-800 rounded-lg cursor-pointer" />
+          </div>
+        </div>
+
+        <!-- 프리인퓨전 · 블루밍 대기 · 최대 추출시간 -->
+        <div class="grid grid-cols-3 gap-1.5 text-center">
+          <div class="bg-[#090b0f] rounded-xl px-1.5 py-1.5 border border-gray-800/90 flex flex-col justify-between min-w-0">
+            <div class="text-[10px] text-gray-300 font-medium whitespace-nowrap">프리인퓨전</div>
+            <div class="flex items-center justify-between gap-0.5 mt-1">
+              <button id="preMinusBtn" type="button" class="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold btn-press shrink-0">-</button>
+              <span id="preInfuseDisplay" class="mono-num text-[11px] sm:text-sm font-extrabold text-amber-300 whitespace-nowrap">3초</span>
+              <button id="prePlusBtn" type="button" class="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold btn-press shrink-0">+</button>
+            </div>
+          </div>
+
+          <div class="bg-[#090b0f] rounded-xl px-1.5 py-1.5 border border-gray-800/90 flex flex-col justify-between min-w-0">
+            <div class="text-[10px] text-gray-300 font-medium whitespace-nowrap">블루밍 대기</div>
+            <div class="flex items-center justify-between gap-0.5 mt-1">
+              <button id="soakMinusBtn" type="button" class="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold btn-press shrink-0">-</button>
+              <span id="soakDisplay" class="mono-num text-[11px] sm:text-sm font-extrabold text-cyan-300 whitespace-nowrap">1초</span>
+              <button id="soakPlusBtn" type="button" class="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold btn-press shrink-0">+</button>
+            </div>
+          </div>
+
+          <div class="bg-[#090b0f] rounded-xl px-1.5 py-1.5 border border-gray-800/90 flex flex-col justify-between min-w-0">
+            <div class="text-[10px] text-gray-300 font-medium whitespace-nowrap">최대 추출</div>
+            <div class="flex items-center justify-between gap-0.5 mt-1">
+              <button id="extMinusBtn" type="button" class="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold btn-press shrink-0">-</button>
+              <span id="extTimeDisplay" class="mono-num text-[11px] sm:text-sm font-extrabold text-gray-100 whitespace-nowrap">50초</span>
+              <button id="extPlusBtn" type="button" class="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold btn-press shrink-0">+</button>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 저울부: 무게 · 유속 · 목표량 자동 정지 -->
+    <section class="panel-card rounded-2xl p-2.5 relative overflow-hidden shrink-0">
+      <div class="flex items-center justify-between gap-1.5 mb-1">
         <label class="flex items-center gap-1.5 cursor-pointer shrink-0">
           <input type="checkbox" id="autoStopToggle" checked class="accent-orange-500 w-3.5 h-3.5 rounded" />
           <span class="text-[11px] font-bold text-orange-300 whitespace-nowrap">저울 연동 자동정지</span>
@@ -129,36 +227,36 @@
         </span>
       </div>
 
-      <!-- 현재 추출량(중량 + 작은 유속) vs 목표량 (좌우 수직 중앙 정렬) -->
-      <div class="grid grid-cols-12 items-center gap-2 my-1">
+      <!-- 현재 추출량(중량 + 작은 유속) vs 목표량 -->
+      <div class="grid grid-cols-12 items-center gap-2">
         <div class="col-span-7 min-w-0">
           <div class="flex items-center gap-2 whitespace-nowrap">
             <span class="text-[11px] text-gray-300 font-semibold">현재 추출량</span>
             <span class="text-[11px] text-gray-400">유속 <strong id="flowDisplay" class="mono-num text-cyan-300 font-bold">0.0 g/s</strong></span>
           </div>
-          <div class="flex items-baseline gap-0.5 mt-0.5">
-            <span id="weightDisplay" class="mono-num text-4xl sm:text-5xl font-extrabold tracking-tight text-white whitespace-nowrap">0.0</span>
-            <span class="text-sm font-bold text-gray-400">g</span>
+          <div class="flex items-baseline gap-0.5">
+            <span id="weightDisplay" class="mono-num text-3xl sm:text-4xl font-extrabold tracking-tight text-white whitespace-nowrap">0.0</span>
+            <span class="text-xs font-bold text-gray-400">g</span>
           </div>
         </div>
 
-        <div class="col-span-5 bg-[#0c0e12] border border-gray-800 rounded-2xl p-2 flex flex-col items-end justify-center min-w-0">
-          <span class="text-[11px] text-orange-300 font-bold whitespace-nowrap">목표량 (Target)</span>
-          <div class="flex items-center gap-1 mt-1">
-            <button id="targetMinusBtn" type="button" class="w-6 h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold text-xs btn-press shrink-0">-</button>
-            <span id="targetYieldDisplay" class="mono-num text-base sm:text-lg font-extrabold text-orange-300 whitespace-nowrap">36.0g</span>
-            <button id="targetPlusBtn" type="button" class="w-6 h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold text-xs btn-press shrink-0">+</button>
+        <div class="col-span-5 bg-[#0c0e12] border border-gray-800 rounded-xl px-2 py-1.5 flex flex-col items-center justify-center min-w-0">
+          <span class="text-[10px] text-orange-300 font-bold whitespace-nowrap">목표량 (Target)</span>
+          <div class="flex items-center gap-1 mt-0.5">
+            <button id="targetMinusBtn" type="button" class="w-5 h-5 rounded bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold text-xs btn-press shrink-0">-</button>
+            <span id="targetYieldDisplay" class="mono-num text-sm sm:text-base font-extrabold text-orange-300 whitespace-nowrap">36.0g</span>
+            <button id="targetPlusBtn" type="button" class="w-5 h-5 rounded bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold text-xs btn-press shrink-0">+</button>
           </div>
         </div>
       </div>
 
       <!-- 목표 도달 진행 게이지 바 -->
-      <div class="w-full h-2 bg-gray-800/90 rounded-full overflow-hidden my-2">
+      <div class="w-full h-1.5 bg-gray-800/90 rounded-full overflow-hidden my-1.5">
         <div id="targetProgressBar" class="h-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-150" style="width: 0%;"></div>
       </div>
 
       <!-- 도징량, 비율, 낙하 보정: 1줄 고정 컴팩트 표기 -->
-      <div class="pt-2 border-t border-gray-800/80 flex items-center justify-between gap-1 text-[11px] whitespace-nowrap">
+      <div class="pt-1.5 border-t border-gray-800/80 flex flex-wrap items-center justify-between gap-y-1 gap-x-1.5 text-[10px] sm:text-[11px] whitespace-nowrap">
         <div class="flex items-center gap-1 min-w-0">
           <span class="text-gray-300">도징</span>
           <button id="doseMinusBtn" type="button" class="w-5 h-5 rounded bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold btn-press shrink-0">-</button>
@@ -176,163 +274,83 @@
       </div>
     </section>
 
-    <!-- 2. 머신부: 추출 방식 + 커스텀 프리셋 + 머신 설정 영역 -->
-    <section class="panel-card rounded-2xl p-3 flex flex-col gap-2.5 shrink-0">
-      <!-- 상단 타이틀 & 단독 가열 버튼 -->
-      <div class="flex items-center justify-between gap-2 min-w-0">
-        <span class="text-xs font-bold text-gray-100 whitespace-nowrap">머신 제어</span>
-        <button id="heaterToggleBtn" type="button" class="px-2.5 py-1.5 rounded-xl bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 border border-orange-500/40 text-xs font-bold whitespace-nowrap shrink-0 btn-press">
-          🔥 가열 시작
-        </button>
-      </div>
-
-      <!-- 추출 방식 선택 (현재온도 추출 vs 설정온도 추출) -->
-      <div class="grid grid-cols-2 gap-1.5 p-1 rounded-xl bg-[#0c0e12] border border-gray-800/90">
-        <button id="modeImmediateBtn" type="button" class="py-1.5 px-2 rounded-lg bg-orange-500/20 text-orange-300 border border-orange-500/40 text-[11px] font-bold whitespace-nowrap btn-press">
-          ⚡ 현재온도 추출
-        </button>
-        <button id="modeHeatBrewBtn" type="button" class="py-1.5 px-2 rounded-lg text-gray-400 hover:text-gray-200 border border-transparent text-[11px] font-semibold whitespace-nowrap btn-press">
-          🔥 설정온도 추출
-        </button>
-      </div>
-
-      <!-- 커스텀 프리셋 3슬롯 (수동 변경/저장 시 불빛 자동 해제) -->
-      <div class="flex flex-col gap-1">
-        <div class="flex items-center justify-between text-[10px] px-0.5">
-          <span class="text-gray-300 font-semibold">내 커스텀 프리셋 (목표량 포함)</span>
-          <span class="text-gray-400">우측 버튼으로 저장</span>
-        </div>
-        <div id="customPresetsGrid" class="grid grid-cols-3 gap-1.5"></div>
-      </div>
-
-      <!-- 머신 설정 영역 (Save 시 머신에 전송되는 값) -->
-      <div class="rounded-2xl p-2.5 bg-[#0e1117] border border-orange-500/25 flex flex-col gap-2">
-        <div class="flex items-center justify-between gap-2">
-          <div class="flex items-center gap-1.5 min-w-0">
-            <span class="text-[11px] font-bold text-orange-300 whitespace-nowrap">머신 설정</span>
-            <span id="machineSyncBadge" class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-gray-800/80 border border-gray-700/70 text-[10px] font-semibold text-gray-400 whitespace-nowrap" title="현재 설정이 머신에 적용되었는지 표시">
-              <span id="machineSyncDot" class="w-1.5 h-1.5 rounded-full bg-gray-600 shrink-0"></span>
-              <span>적용</span>
-            </span>
-          </div>
-          <button id="syncMachineCfgBtn" type="button" class="px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-[11px] font-bold whitespace-nowrap shrink-0 btn-press" title="아래 온도·유량·프리인퓨전 설정을 머신에 저장">
-            💾 저장 (Save)
-          </button>
-        </div>
-
-        <!-- 온도 + 유량 2열 조절 -->
-        <div class="grid grid-cols-2 gap-1.5">
-          <div id="targetTempCard" class="bg-[#090b0f] rounded-xl p-2 border border-gray-800/90 flex flex-col justify-between min-w-0 transition-opacity">
-            <div class="flex items-center justify-between gap-1 text-[11px]">
-              <span class="text-gray-300 font-medium whitespace-nowrap">목표 온도</span>
-              <span id="tempModeHint" class="text-[9px] px-1 py-0.2 rounded bg-gray-800 text-gray-400 whitespace-nowrap">현재수온(미적용)</span>
-            </div>
-            <div class="flex items-center justify-between gap-1 mt-1.5">
-              <button id="tempMinusBtn" type="button" class="w-6 h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold btn-press shrink-0">-</button>
-              <span id="targetTempDisplay" class="mono-num text-sm font-extrabold text-orange-400 whitespace-nowrap">92°C</span>
-              <button id="tempPlusBtn" type="button" class="w-6 h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold btn-press shrink-0">+</button>
-            </div>
-          </div>
-
-          <div class="bg-[#090b0f] rounded-xl p-2 border border-gray-800/90 flex flex-col justify-between min-w-0">
-            <div class="flex items-center justify-between text-[11px] px-0.5">
-              <span class="text-gray-300 font-medium whitespace-nowrap">유량 속도</span>
-              <span id="flowSpeedDisplay" class="mono-num font-extrabold text-amber-300 whitespace-nowrap">7 / 15</span>
-            </div>
-            <input id="flowSpeedSlider" type="range" min="1" max="15" value="7" class="w-full h-1.5 mt-2 bg-gray-800 rounded-lg cursor-pointer" />
-          </div>
-        </div>
-
-        <!-- 프리인퓨전 · 블루밍 대기 · 최대 추출시간 -->
-        <div class="grid grid-cols-3 gap-1.5 text-center">
-          <div class="bg-[#090b0f] rounded-xl p-2 border border-gray-800/90 flex flex-col justify-between min-w-0">
-            <div class="text-[11px] text-gray-300 font-medium whitespace-nowrap">프리인퓨전</div>
-            <div class="flex items-center justify-between gap-0.5 mt-1.5">
-              <button id="preMinusBtn" type="button" class="w-6 h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold btn-press shrink-0">-</button>
-              <span id="preInfuseDisplay" class="mono-num text-sm font-extrabold text-amber-300 whitespace-nowrap">3초</span>
-              <button id="prePlusBtn" type="button" class="w-6 h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold btn-press shrink-0">+</button>
-            </div>
-          </div>
-
-          <div class="bg-[#090b0f] rounded-xl p-2 border border-gray-800/90 flex flex-col justify-between min-w-0">
-            <div class="text-[11px] text-gray-300 font-medium whitespace-nowrap">블루밍 대기</div>
-            <div class="flex items-center justify-between gap-0.5 mt-1.5">
-              <button id="soakMinusBtn" type="button" class="w-6 h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold btn-press shrink-0">-</button>
-              <span id="soakDisplay" class="mono-num text-sm font-extrabold text-cyan-300 whitespace-nowrap">1초</span>
-              <button id="soakPlusBtn" type="button" class="w-6 h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold btn-press shrink-0">+</button>
-            </div>
-          </div>
-
-          <div class="bg-[#090b0f] rounded-xl p-2 border border-gray-800/90 flex flex-col justify-between min-w-0">
-            <div class="text-[11px] text-gray-300 font-medium whitespace-nowrap">최대 추출</div>
-            <div class="flex items-center justify-between gap-0.5 mt-1.5">
-              <button id="extMinusBtn" type="button" class="w-6 h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold btn-press shrink-0">-</button>
-              <span id="extTimeDisplay" class="mono-num text-sm font-extrabold text-gray-100 whitespace-nowrap">50초</span>
-              <button id="extPlusBtn" type="button" class="w-6 h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold btn-press shrink-0">+</button>
-            </div>
-          </div>
+    <!-- 3. 그래프부: 슬림 실시간 추출 곡선 + 샷 저장 -->
+    <section class="panel-card rounded-2xl p-2 flex flex-col flex-1 min-h-0">
+      <div class="flex items-center justify-between gap-2 mb-1 shrink-0">
+        <span class="text-[11px] font-semibold text-gray-300 whitespace-nowrap">추출 곡선</span>
+        <div class="flex items-center gap-2.5 text-[10px] whitespace-nowrap">
+          <span class="flex items-center gap-1 text-orange-400"><i class="w-1.5 h-1.5 rounded-full bg-orange-400 inline-block"></i>무게(g)</span>
+          <span class="flex items-center gap-1 text-cyan-400"><i class="w-1.5 h-1.5 rounded-full bg-cyan-400 inline-block"></i>유속(g/s)</span>
         </div>
       </div>
-    </section>
-
-    <!-- 3. 그래프부: 실시간 추출 곡선 + 샷 저장 -->
-    <section class="panel-card rounded-2xl p-3 flex flex-col flex-1 min-h-0">
-      <div class="flex items-center justify-between gap-2 mb-1.5 shrink-0">
-        <span class="text-xs font-semibold text-gray-300 whitespace-nowrap">에스프레소 추출 곡선</span>
-        <div class="flex items-center gap-2.5 text-[11px] whitespace-nowrap">
-          <span class="flex items-center gap-1 text-orange-400"><i class="w-2 h-2 rounded-full bg-orange-400 inline-block"></i>무게(g)</span>
-          <span class="flex items-center gap-1 text-cyan-400"><i class="w-2 h-2 rounded-full bg-cyan-400 inline-block"></i>유속(g/s)</span>
-        </div>
-      </div>
-      <div id="chartContainer" class="relative w-full flex-1 min-h-[6rem] bg-[#0a0c10] rounded-xl border border-gray-800/90 overflow-hidden">
+      <div id="chartContainer" class="relative w-full flex-1 min-h-[4.5rem] bg-[#0a0c10] rounded-xl border border-gray-800/90 overflow-hidden">
         <canvas id="shotChart" class="w-full h-full block"></canvas>
       </div>
 
       <!-- 샷 메모 저장 & 시뮬레이션 테스트 바 -->
-      <div class="mt-2 flex items-center gap-1.5 shrink-0">
-        <input id="shotNoteInput" type="text" placeholder="원두/분쇄도 메모 (예: 코만단테 8클릭)" class="flex-1 min-w-0 bg-[#0a0c10] border border-gray-800 focus:border-orange-500/60 rounded-xl px-2.5 py-1.5 text-xs text-gray-200 placeholder-gray-600 outline-none" />
-        <button id="saveShotBtn" type="button" class="px-2.5 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold whitespace-nowrap shrink-0 btn-press">
+      <div class="mt-1.5 flex items-center gap-1.5 shrink-0">
+        <input id="shotNoteInput" type="text" placeholder="원두/분쇄도 메모" class="w-0 flex-1 min-w-0 bg-[#0a0c10] border border-gray-800 focus:border-orange-500/60 rounded-xl px-2.5 py-1 text-[11px] text-gray-200 placeholder-gray-600 outline-none" />
+        <button id="saveShotBtn" type="button" class="px-2.5 py-1 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[11px] font-bold whitespace-nowrap shrink-0 btn-press">
           샷 저장
         </button>
-        <button id="simEspressoBtn" type="button" class="px-2.5 py-1.5 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 text-[11px] font-bold whitespace-nowrap shrink-0 btn-press" title="기기 없이 자동 정지 시뮬레이션">
-          시뮬레이션
+        <button id="simEspressoBtn" type="button" class="px-2 py-1 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 text-[10px] font-bold whitespace-nowrap shrink-0 btn-press" title="기기 없이 자동 정지 시뮬레이션">
+          시뮬
         </button>
       </div>
     </section>
 
   </main>
 
-  <!-- 4. 작동부: 하단 메인 추출 컨트롤 바 (추출 중 버튼 내 타이머/가열 대기 표시) -->
-  <footer class="mt-2.5 shrink-0">
-    <div class="grid grid-cols-12 gap-2">
-      <!-- 저울 영점 -->
-      <button id="tareScaleBtn" type="button" class="col-span-3 py-3 rounded-2xl bg-gray-800 hover:bg-gray-700 text-amber-300 font-extrabold text-sm border border-gray-700 transition btn-press flex flex-col items-center justify-center whitespace-nowrap">
+  <!-- 4. 작동부: 하단 메인 추출 컨트롤 바 -->
+  <footer class="mt-1.5 shrink-0">
+    <div class="grid grid-cols-12 gap-1.5">
+      <button id="tareScaleBtn" type="button" class="col-span-3 py-2 rounded-2xl bg-gray-800 hover:bg-gray-700 text-amber-300 font-extrabold text-xs border border-gray-700 transition btn-press flex flex-col items-center justify-center whitespace-nowrap">
         <span>TARE</span>
-        <span class="text-[10px] font-normal text-gray-300">저울 영점</span>
+        <span class="text-[9px] font-normal text-gray-300">영점</span>
       </button>
 
-      <!-- 에스프레소 추출 시작 / 즉시 정지 (실시간 타이머 포함) -->
-      <button id="brewActionBtn" type="button" class="col-span-6 py-3 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-gray-950 font-extrabold text-base shadow-lg shadow-orange-500/25 transition btn-press flex items-center justify-center whitespace-nowrap">
+      <button id="brewActionBtn" type="button" class="col-span-6 py-2 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-gray-950 font-extrabold text-sm sm:text-base shadow-lg shadow-orange-500/25 transition btn-press flex items-center justify-center whitespace-nowrap">
         <span id="brewActionLabel" class="mono-num">▶ 추출 시작</span>
       </button>
 
-      <!-- 초기화 -->
-      <button id="resetAllBtn" type="button" class="col-span-3 py-3 rounded-2xl bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold text-sm border border-gray-700 transition btn-press flex flex-col items-center justify-center whitespace-nowrap">
+      <button id="resetAllBtn" type="button" class="col-span-3 py-2 rounded-2xl bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold text-xs border border-gray-700 transition btn-press flex flex-col items-center justify-center whitespace-nowrap">
         <span>RESET</span>
-        <span class="text-[10px] font-normal text-gray-300">타이머·차트</span>
+        <span class="text-[9px] font-normal text-gray-300">초기화</span>
       </button>
-    </div>
-
-    <!-- 패킷 로그 토글 -->
-    <div class="mt-2 text-center">
-      <button id="toggleLogBtn" type="button" class="text-[11px] text-gray-400 hover:text-gray-200 underline">
-        통합 BLE 통신 패킷 모니터 열기/닫기
-      </button>
-      <div id="packetLogBox" class="hidden mt-1.5 p-2 rounded-xl bg-black/85 border border-gray-800 text-left mono-num text-[10px] text-green-400 h-28 overflow-y-auto leading-relaxed">
-        <div>[SYSTEM] PCM03S Max × Timemore Dot 컨트롤러 준비 완료</div>
-      </div>
     </div>
   </footer>
+
+  <!-- 앱 정보 (저작권 · 제작자 · 최종 업데이트) 모달 -->
+  <div id="aboutModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="panel-card rounded-3xl max-w-sm w-full p-5 border border-gray-700 flex flex-col gap-3.5 text-center">
+      <div class="flex items-center justify-between">
+        <span class="text-xs font-semibold text-gray-400">앱 정보</span>
+        <button id="closeAboutBtn" type="button" class="text-gray-400 hover:text-white text-lg font-bold px-1">✕</button>
+      </div>
+      <div class="mx-auto w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-gray-950 shadow-lg shadow-orange-500/25">
+        <div class="mono-num flex flex-col items-start text-left font-extrabold text-base leading-none tracking-tight">
+          <span>SEP'</span>
+          <span>ESP</span>
+        </div>
+      </div>
+      <div>
+        <h2 class="text-base font-extrabold text-white tracking-tight">SEP'ESP</h2>
+        <p class="text-[11px] text-gray-400 mt-0.5">CERA+ PCM03S Max × Timemore Dot Controller</p>
+      </div>
+      <div class="rounded-2xl bg-[#0c0e12] border border-gray-800 p-3 text-xs space-y-1.5 text-left">
+        <div class="flex items-center justify-between">
+          <span class="text-gray-400">제작자</span>
+          <span class="font-bold text-white">Joseph. Y.</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-gray-400">최종 업데이트</span>
+          <span id="appLastUpdatedText" class="mono-num font-semibold text-orange-300">2026-11-28</span>
+        </div>
+      </div>
+      <p class="text-[11px] text-gray-400 font-medium">© 2026 SEP'ESP. All Rights Reserved.</p>
+      <button id="closeAboutFooterBtn" type="button" class="w-full py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold text-xs btn-press">닫기</button>
+    </div>
+  </div>
 
   <!-- 커스텀 프리셋 이름 입력 & 저장 모달 -->
   <div id="presetSaveModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
@@ -353,70 +371,23 @@
     </div>
   </div>
 
-  <!-- 근접 신호 세기(RSSI) 레이더 탐색 모달 -->
-  <div id="radarModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="panel-card rounded-3xl max-w-md w-full max-h-[85vh] flex flex-col p-5 border border-gray-700">
-      <div class="flex items-center justify-between pb-3 border-b border-gray-800">
-        <div>
-          <h2 class="text-base font-bold text-white">📡 머신 근접 탐색 & 빠른 연결</h2>
-          <p class="text-[11px] text-gray-400">PCM03S Max (Hi-t-) 또는 전체 블루투스 기기를 탐색합니다</p>
-        </div>
-        <button id="closeRadarBtn" type="button" class="text-gray-400 hover:text-white text-lg font-bold px-2">✕</button>
-      </div>
-
-      <div class="py-3 space-y-3 overflow-y-auto text-xs">
-        <div class="p-3 rounded-2xl bg-orange-500/10 border border-orange-500/30 text-orange-200 leading-relaxed break-keep">
-          <div class="font-bold text-orange-300 mb-1">💡 기기 연결 안내</div>
-          1. 기본 연결 시 <strong>PCM03S Max</strong> (Hi-t- 모듈 포함) 기기를 자동 필터링합니다.<br/>
-          2. 목록에 나타나지 않으면 아래 <strong>[전체 기기 탐색창 열기]</strong>를 눌러 연결해 주세요.
-        </div>
-
-        <div class="grid grid-cols-2 gap-2">
-          <button id="filterIoTScanBtn" type="button" class="py-2.5 px-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold text-xs btn-press">
-            🔍 PCM03S Max 탐색
-          </button>
-          <button id="allDeviceScanBtn" type="button" class="py-2.5 px-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold text-xs border border-gray-700 btn-press">
-            📋 전체 기기 탐색창 열기
-          </button>
-        </div>
-
-        <div class="p-3 rounded-2xl bg-[#0b0d11] border border-gray-800">
-          <div class="flex items-center justify-between mb-2">
-            <span class="font-bold text-gray-200">실시간 신호 세기(RSSI) 레이더</span>
-            <button id="startRssiRadarBtn" type="button" class="px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-[11px] font-bold btn-press">
-              레이더 시작
-            </button>
-          </div>
-          <p class="text-[11px] text-gray-500 mb-2 break-keep">
-            스마트폰을 머신 본체에 가까이 대면 신호 세기(dBm)가 가장 강하게 잡힙니다.
-          </p>
-          <div id="rssiListBox" class="space-y-1.5 max-h-36 overflow-y-auto text-[11px] text-gray-400">
-            <div class="text-center py-4 text-gray-600">레이더 시작 버튼을 눌러 주변 신호를 스캔하세요</div>
-          </div>
-        </div>
-      </div>
-
-      <button id="closeRadarFooterBtn" type="button" class="mt-2 w-full py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold text-xs btn-press">
-        닫기
-      </button>
-    </div>
-  </div>
-
-  <!-- PCM03S Max BLE 프로토콜 설정 & 패킷 진단 모달 -->
+  <!-- PCM03S Max BLE 프로토콜 설정 & 통합 패킷 모니터 모달 -->
   <div id="bleConfigModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="panel-card rounded-3xl max-w-md w-full max-h-[90vh] flex flex-col p-5 border border-gray-700">
       <div class="flex items-center justify-between pb-3 border-b border-gray-800">
         <div>
-          <h2 class="text-base font-bold text-white">⚙️ BLE 프로토콜 & 패킷 진단기</h2>
-          <p class="text-[11px] text-gray-400">PCM03S Max (Hi-t-1292G0) 실측 패킷 및 GATT 채널 설정</p>
+          <h2 class="text-base font-bold text-white">⚙️ BLE · 패킷 설정 & 모니터</h2>
+          <p class="text-[11px] text-gray-400">PCM03S Max (Hi-t-1292G0) 실측 패킷 및 통신 로그</p>
         </div>
         <button id="closeBleConfigBtn" type="button" class="text-gray-400 hover:text-white text-lg font-bold px-2">✕</button>
       </div>
 
       <div class="flex-1 overflow-y-auto py-3 space-y-3 text-xs">
-        <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-200 text-[11px] leading-relaxed break-keep">
-          <strong>✅ 실측 프로토콜 적용 완료:</strong><br/>
-          Service <span class="mono-num">0xFFF0</span> · Write <span class="mono-num">0xFFF2</span> · Notify <span class="mono-num">0xFFF1</span> 및 온도(<span class="mono-num">0x16</span>)·프로파일(<span class="mono-num">0x18</span>) 저장 패킷이 기본 적용되어 있습니다.
+        <div class="flex items-center justify-between gap-2 p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-200 text-[11px]">
+          <span><strong>✅ 0xFFF0 / 0xFFF2 / 0xFFF1</strong> 실측 프로토콜 적용됨</span>
+          <button id="allDeviceScanBtn" type="button" class="px-2 py-1 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 text-[10px] font-semibold border border-gray-700 whitespace-nowrap shrink-0 btn-press">
+            전체 기기 탐색
+          </button>
         </div>
 
         <div>
@@ -464,11 +435,11 @@
         <!-- 인터랙티브 GATT 스캔 결과 -->
         <div class="p-2.5 rounded-xl bg-black/70 border border-gray-800">
           <div class="flex items-center justify-between mb-1.5">
-            <span class="text-[11px] font-bold text-cyan-300">🔍 GATT 채널 탐색기 (클릭해 Write 채널 선택)</span>
+            <span class="text-[11px] font-bold text-cyan-300">🔍 GATT 채널 탐색기</span>
             <button id="rescanGattBtn" type="button" class="px-2 py-0.5 rounded bg-gray-800 hover:bg-gray-700 text-[10px] text-gray-300 btn-press">재스캔</button>
           </div>
-          <div id="discoveredUuidList" class="space-y-1.5 max-h-32 overflow-y-auto text-[10px] text-gray-400">
-            머신을 연결하면 사용 가능한 Service / Write / Notify / Read 채널이 여기에 표시됩니다.
+          <div id="discoveredUuidList" class="space-y-1.5 max-h-28 overflow-y-auto text-[10px] text-gray-400">
+            머신을 연결하면 사용 가능한 Service / Write / Notify / Read 채널이 표시됩니다.
           </div>
         </div>
 
@@ -482,21 +453,21 @@
             </button>
           </div>
           <div class="flex flex-wrap items-center gap-1 text-[10px]">
-            <span class="text-gray-400">체크섬 계산:</span>
-            <button type="button" class="cs-append-btn px-2 py-0.5 rounded bg-gray-800 hover:bg-gray-700 text-orange-300 border border-gray-700" data-mode="7f">7F프레임 자동</button>
+            <span class="text-gray-400">체크섬:</span>
+            <button type="button" class="cs-append-btn px-2 py-0.5 rounded bg-gray-800 hover:bg-gray-700 text-orange-300 border border-gray-700" data-mode="7f">7F프레임</button>
             <button type="button" class="cs-append-btn px-2 py-0.5 rounded bg-gray-800 hover:bg-gray-700 text-amber-300 border border-gray-700" data-mode="sum8">+Sum8</button>
             <button type="button" class="cs-append-btn px-2 py-0.5 rounded bg-gray-800 hover:bg-gray-700 text-emerald-300 border border-gray-700" data-mode="crc16">+CRC16</button>
           </div>
         </div>
 
-        <!-- 실시간 머신 RX 모니터 -->
-        <div class="p-2.5 rounded-xl bg-black/80 border border-gray-800">
+        <!-- 통합 BLE 통신 패킷 모니터 -->
+        <div class="p-2.5 rounded-xl bg-black/85 border border-gray-800">
           <div class="flex items-center justify-between mb-1">
-            <span class="text-[11px] font-bold text-emerald-400">📥 머신 실시간 수신 (Notify RX)</span>
+            <span class="text-[11px] font-bold text-green-400">📡 통합 BLE 통신 패킷 로그</span>
             <button id="clearRxLogBtn" type="button" class="text-[10px] text-gray-500 hover:text-gray-300">지우기</button>
           </div>
-          <div id="machineRxBox" class="mono-num text-[10px] text-emerald-300 max-h-24 overflow-y-auto leading-relaxed">
-            머신 연결 후 상태/응답 패킷이 여기에 기록됩니다.
+          <div id="packetLogBox" class="mono-num text-[10px] text-green-400 max-h-28 overflow-y-auto leading-relaxed">
+            <div>[SYSTEM] PCM03S Max × Timemore Dot 컨트롤러 준비 완료</div>
           </div>
         </div>
       </div>
@@ -508,7 +479,7 @@
     </div>
   </div>
 
-  <!-- 저장된 에스프레소 샷 기록 모달 (자동저장 + 선택삭제 + 텍스트/CSV) -->
+  <!-- 저장된 에스프레소 샷 기록 모달 -->
   <div id="shotLogModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="panel-card rounded-3xl max-w-md w-full max-h-[85vh] flex flex-col p-5 border border-gray-700">
       <div class="flex items-center justify-between pb-3 border-b border-gray-800">
@@ -533,7 +504,7 @@
 
       <div id="shotLogListContainer" class="flex-1 overflow-y-auto py-3 space-y-2.5"></div>
 
-      <!-- 공유/내보내기 & 선택/전체 삭제 버튼 -->
+      <!-- 공유/내보내기 & 삭제 버튼 -->
       <div class="pt-3 border-t border-gray-800 flex flex-col gap-2">
         <div class="grid grid-cols-2 gap-2">
           <button id="copyShotsTextBtn" type="button" class="py-2 px-2 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/35 text-xs font-bold btn-press">
@@ -543,9 +514,8 @@
             📥 CSV 다운로드
           </button>
         </div>
-        <div class="grid grid-cols-3 gap-2">
-          <button id="deleteSelectedShotsBtn" type="button" class="py-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 text-xs font-semibold btn-press">선택 삭제 (0)</button>
-          <button id="clearShotLogsBtn" type="button" class="py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 text-xs font-semibold btn-press">전체 삭제</button>
+        <div class="grid grid-cols-2 gap-2">
+          <button id="deleteSelectedShotsBtn" type="button" class="py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 text-xs font-semibold btn-press">삭제 (0)</button>
           <button id="closeShotLogFooterBtn" type="button" class="py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold text-xs btn-press">닫기</button>
         </div>
       </div>
@@ -612,8 +582,8 @@
     let isMachineConnected = false;
     let isHeaterOn = false;
     let currentMachineTemp = 25;
-    let machineState = 0x00; // 0x00: 대기, 0x05: 가열, 0x03: 추출
-    let brewMode = 'immediate'; // 'immediate' | 'heatBrew'
+    let machineState = 0x00;
+    let brewMode = 'immediate';
     let isMachineSynced = false;
 
     let scaleDevice = null;
@@ -650,14 +620,13 @@
     // =========================================================================
     const toastBanner = document.getElementById('toastBanner');
     const packetLogBox = document.getElementById('packetLogBox');
-    const machineRxBox = document.getElementById('machineRxBox');
     let toastTimer = null;
 
     function showToast(msg) {
       toastBanner.textContent = msg;
       toastBanner.classList.remove('hidden');
       clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toastBanner.classList.add('hidden'), 3800);
+      toastTimer = setTimeout(() => toastBanner.classList.add('hidden'), 3500);
     }
 
     function logPacket(tag, msg) {
@@ -713,7 +682,7 @@
     }
 
     // =========================================================================
-    // 4. 커스텀 프리셋 3슬롯 & 머신 설정 동기화 상태
+    // 4. 커스텀 프리셋 3슬롯 (1줄 슬림 배지형) & 머신 설정 적용 라이트
     // =========================================================================
     const CUSTOM_PRESETS_KEY = 'sepsep_custom_presets_v1';
     let activePresetIdx = null;
@@ -765,17 +734,17 @@
       const tempHint = document.getElementById('tempModeHint');
 
       if (brewMode === 'immediate') {
-        modeImmediateBtn.className = 'py-1.5 px-2 rounded-lg bg-orange-500/20 text-orange-300 border border-orange-500/40 text-[11px] font-bold whitespace-nowrap btn-press';
-        modeHeatBrewBtn.className = 'py-1.5 px-2 rounded-lg text-gray-400 hover:text-gray-200 border border-transparent text-[11px] font-semibold whitespace-nowrap btn-press';
+        modeImmediateBtn.className = 'py-1 px-2 rounded-lg bg-orange-500/20 text-orange-300 border border-orange-500/40 text-[11px] font-bold whitespace-nowrap btn-press';
+        modeHeatBrewBtn.className = 'py-1 px-2 rounded-lg text-gray-400 hover:text-gray-200 border border-transparent text-[11px] font-semibold whitespace-nowrap btn-press';
         tempCard.classList.add('opacity-55');
         tempHint.textContent = '현재수온(미적용)';
-        tempHint.className = 'text-[9px] px-1 py-0.2 rounded bg-gray-800 text-gray-400 whitespace-nowrap';
+        tempHint.className = 'text-[9px] px-1 rounded bg-gray-800 text-gray-400 whitespace-nowrap';
       } else {
-        modeHeatBrewBtn.className = 'py-1.5 px-2 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[11px] font-bold whitespace-nowrap btn-press';
-        modeImmediateBtn.className = 'py-1.5 px-2 rounded-lg text-gray-400 hover:text-gray-200 border border-transparent text-[11px] font-semibold whitespace-nowrap btn-press';
+        modeHeatBrewBtn.className = 'py-1 px-2 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[11px] font-bold whitespace-nowrap btn-press';
+        modeImmediateBtn.className = 'py-1 px-2 rounded-lg text-gray-400 hover:text-gray-200 border border-transparent text-[11px] font-semibold whitespace-nowrap btn-press';
         tempCard.classList.remove('opacity-55');
         tempHint.textContent = '도달 후 추출';
-        tempHint.className = 'text-[9px] px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 whitespace-nowrap';
+        tempHint.className = 'text-[9px] px-1 rounded bg-amber-500/20 text-amber-300 whitespace-nowrap';
       }
     }
 
@@ -817,27 +786,19 @@
         const isActive = isSaved && activePresetIdx === idx;
         if (!isSaved) {
           return `
-            <div class="rounded-xl border border-dashed border-gray-700 bg-[#0c0e12]/70 p-1.5 flex flex-col justify-between gap-1 min-w-0">
-              <button type="button" onclick="openPresetSaveModal(${idx})" class="w-full text-left flex items-center justify-between gap-1 min-w-0">
-                <span class="text-[11px] font-bold text-gray-400">P${idx + 1}</span>
-                <span class="text-[10px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-300 font-semibold">+ 저장</span>
-              </button>
-              <div class="text-[10px] text-gray-500 truncate">비어 있음</div>
-            </div>
+            <button type="button" onclick="openPresetSaveModal(${idx})" class="rounded-xl border border-dashed border-gray-700 bg-[#0c0e12]/70 px-2 py-1.5 flex items-center justify-between gap-1 min-w-0 btn-press">
+              <span class="text-[10px] font-bold text-gray-400">P${idx + 1}</span>
+              <span class="text-[10px] text-gray-500">+ 저장</span>
+            </button>
           `;
         }
         return `
-          <div class="rounded-xl border ${isActive ? 'border-orange-500 bg-orange-500/15' : 'border-emerald-500/40 bg-[#0e1319]'} p-1.5 flex flex-col justify-between gap-1 min-w-0 transition">
-            <div class="flex items-center justify-between gap-1 min-w-0">
-              <button type="button" onclick="applyCustomPreset(${idx})" class="flex items-center gap-1 min-w-0 flex-1 text-left">
-                <span class="w-1.5 h-1.5 rounded-full ${isActive ? 'bg-orange-400' : 'bg-emerald-400'} shrink-0"></span>
-                <span class="text-[11px] font-bold ${isActive ? 'text-orange-200' : 'text-white'} truncate">${p.name}</span>
-              </button>
-              <button type="button" onclick="openPresetSaveModal(${idx})" class="text-[9px] px-1.5 py-0.5 rounded bg-gray-800/90 hover:bg-gray-700 text-amber-300 font-semibold shrink-0" title="현재 설정으로 덮어쓰기">저장</button>
-            </div>
-            <button type="button" onclick="applyCustomPreset(${idx})" class="text-left mono-num text-[10px] ${isActive ? 'text-orange-300' : 'text-gray-300'} truncate">
-              ${p.temp}°C · ${p.target}g
+          <div class="rounded-xl border ${isActive ? 'border-orange-500 bg-orange-500/15' : 'border-emerald-500/40 bg-[#0e1319]'} px-1.5 py-1 flex items-center justify-between gap-1 min-w-0 transition">
+            <button type="button" onclick="applyCustomPreset(${idx})" class="flex items-center gap-1 min-w-0 flex-1 text-left">
+              <span class="w-1.5 h-1.5 rounded-full ${isActive ? 'bg-orange-400' : 'bg-emerald-400'} shrink-0"></span>
+              <span class="text-[10px] font-bold ${isActive ? 'text-orange-200' : 'text-white'} truncate">${p.name}</span>
             </button>
+            <button type="button" onclick="openPresetSaveModal(${idx})" class="text-[9px] px-1 py-0.5 rounded bg-gray-800/90 hover:bg-gray-700 text-amber-300 font-semibold shrink-0" title="현재 설정으로 덮어쓰기">저장</button>
           </div>
         `;
       }).join('');
@@ -895,8 +856,8 @@
 
       ctx.strokeStyle = 'rgba(255,255,255,0.05)';
       ctx.lineWidth = 1;
-      for (let i = 1; i <= 3; i++) {
-        const y = (h / 4) * i;
+      for (let i = 1; i <= 2; i++) {
+        const y = (h / 3) * i;
         ctx.beginPath();
         ctx.moveTo(0, y);
         ctx.lineTo(w, y);
@@ -904,7 +865,7 @@
       }
 
       const maxW = Math.max(targetYield * 1.15, 45);
-      const targetY = h - (targetYield / maxW) * (h - 16) - 8;
+      const targetY = h - (targetYield / maxW) * (h - 12) - 6;
       ctx.strokeStyle = 'rgba(249, 115, 22, 0.45)';
       ctx.setLineDash([4, 4]);
       ctx.beginPath();
@@ -921,7 +882,7 @@
       ctx.beginPath();
       chartPoints.forEach((pt, idx) => {
         const x = (idx / Math.max(chartPoints.length - 1, 1)) * w;
-        const y = h - (Math.min(pt.f, maxFlow) / maxFlow) * (h - 16) - 8;
+        const y = h - (Math.min(pt.f, maxFlow) / maxFlow) * (h - 12) - 6;
         idx === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
       });
       ctx.stroke();
@@ -931,7 +892,7 @@
       ctx.beginPath();
       chartPoints.forEach((pt, idx) => {
         const x = (idx / Math.max(chartPoints.length - 1, 1)) * w;
-        const y = h - (Math.min(pt.w, maxW) / maxW) * (h - 16) - 8;
+        const y = h - (Math.min(pt.w, maxW) / maxW) * (h - 12) - 6;
         idx === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
       });
       ctx.stroke();
@@ -996,7 +957,6 @@
           document.getElementById('machineBatteryBadge').textContent = `${bat}%`;
         }
 
-        // 설정온도 추출 대기 중 실제 추출(0x03) 진입 시 타이머 시작
         if (isBrewing && isWaitingForHeat && state === 0x03) {
           isWaitingForHeat = false;
           brewStartTime = Date.now();
@@ -1007,11 +967,11 @@
         if (state === 0x05 && !isHeaterOn) {
           isHeaterOn = true;
           heatBtn.textContent = '🔥 가열 중지';
-          heatBtn.className = 'px-2.5 py-1.5 rounded-xl bg-rose-500/25 text-rose-300 border border-rose-500/50 text-xs font-bold whitespace-nowrap shrink-0 btn-press';
+          heatBtn.className = 'px-2.5 py-1 rounded-xl bg-rose-500/25 text-rose-300 border border-rose-500/50 text-[11px] font-bold whitespace-nowrap shrink-0 btn-press';
         } else if (state === 0x00 && isHeaterOn) {
           isHeaterOn = false;
           heatBtn.textContent = '🔥 가열 시작';
-          heatBtn.className = 'px-2.5 py-1.5 rounded-xl bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 border border-orange-500/40 text-xs font-bold whitespace-nowrap shrink-0 btn-press';
+          heatBtn.className = 'px-2.5 py-1 rounded-xl bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 border border-orange-500/40 text-[11px] font-bold whitespace-nowrap shrink-0 btn-press';
         }
 
         const mCard = document.getElementById('connectMachineBtn');
@@ -1051,18 +1011,8 @@
 
     function logMachineRx(charUuid, bytes) {
       parseMachineStatusRx(bytes);
-      const now = new Date().toTimeString().split(' ')[0];
-      const hex = bytesToHex(bytes);
       const shortUuid = charUuid.slice(4, 8).toUpperCase();
-      logPacket(`RX <- ${shortUuid}`, hex);
-      if (machineRxBox.textContent.includes('기록됩니다')) {
-        machineRxBox.textContent = '';
-      }
-      const div = document.createElement('div');
-      div.textContent = `[${now}] (${shortUuid}) ${hex}`;
-      machineRxBox.appendChild(div);
-      machineRxBox.scrollTop = machineRxBox.scrollHeight;
-      if (machineRxBox.children.length > 60) machineRxBox.removeChild(machineRxBox.firstChild);
+      logPacket(`RX <- ${shortUuid}`, bytesToHex(bytes));
     }
 
     async function sendMachineCommand(hexStr, label) {
@@ -1293,7 +1243,7 @@
       }
     }
 
-    // 추출 시작 (작동부 버튼 내 실시간 타이머 및 가열 대기 표시)
+    // 추출 시작
     async function startEspressoExtraction(isSimulation = false) {
       if (isBrewing) return;
       isBrewing = true;
@@ -1302,18 +1252,18 @@
       document.getElementById('saveShotBtn').textContent = '샷 저장';
       chartPoints = [];
 
+      setMachineCfgCollapsed(true);
       if (isScaleConnected) await sendScaleTare();
       currentWeight = 0.0;
       lastWeight = 0.0;
 
-      // 설정온도 추출 + 실제 머신 연결 시 가열 대기 상태로 진입
       isWaitingForHeat = (!isSimulation && brewMode === 'heatBrew' && isMachineConnected && currentMachineTemp < targetTemp - 1);
       brewStartTime = Date.now();
       elapsedSec = 0;
 
       const btn = document.getElementById('brewActionBtn');
       const labelEl = document.getElementById('brewActionLabel');
-      btn.className = 'col-span-6 py-3 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white font-extrabold text-sm sm:text-base shadow-lg shadow-rose-600/30 transition btn-press flex items-center justify-center whitespace-nowrap';
+      btn.className = 'col-span-6 py-2.5 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white font-extrabold text-sm sm:text-base shadow-lg shadow-rose-600/30 transition btn-press flex items-center justify-center whitespace-nowrap';
 
       if (isWaitingForHeat) {
         labelEl.textContent = `🔥 가열 중 ${Math.round(currentMachineTemp)}/${targetTemp}°C`;
@@ -1372,7 +1322,7 @@
       }
 
       const btn = document.getElementById('brewActionBtn');
-      btn.className = 'col-span-6 py-3 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-gray-950 font-extrabold text-base shadow-lg shadow-orange-500/25 transition btn-press flex items-center justify-center whitespace-nowrap';
+      btn.className = 'col-span-6 py-2.5 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-gray-950 font-extrabold text-sm sm:text-base shadow-lg shadow-orange-500/25 transition btn-press flex items-center justify-center whitespace-nowrap';
       document.getElementById('brewActionLabel').textContent = '▶ 추출 시작';
 
       const autoSaved = maybeAutoSaveShot();
@@ -1545,7 +1495,7 @@
     }
 
     // =========================================================================
-    // 10. 샷 기록 저장 (자동/수동 + 선택 삭제 + 텍스트 복사 + CSV 다운로드)
+    // 10. 샷 기록 저장 (자동/수동 + 중복방지 + 선택 삭제 + 텍스트/CSV)
     // =========================================================================
     const SHOT_LOG_KEY = 'cera_pcm03smax_dot_shots_v1';
     const AUTO_SAVE_CFG_KEY = 'sepsep_auto_save_shot_v1';
@@ -1654,7 +1604,7 @@
 
     function updateShotSelectionControls() {
       const logs = getShotLogs();
-      document.getElementById('deleteSelectedShotsBtn').textContent = `선택 삭제 (${selectedShotIds.size})`;
+      document.getElementById('deleteSelectedShotsBtn').textContent = `삭제 (${selectedShotIds.size})`;
       document.getElementById('selectAllShotsToggle').checked = logs.length > 0 && selectedShotIds.size === logs.length;
     }
 
@@ -1724,7 +1674,7 @@
       const lines = logs.map((it, i) =>
         `${i + 1}. [${it.date}] ${it.note} | ${it.dose}g → ${it.yield}g (${it.ratio}) | ${it.timeStr} | ${it.temp}°C · 유량${it.flowSpeed || 7} · 프리${it.preInfuse}s/대기${it.soak}s`
       );
-      const text = `[Sepsep'esp 샷 기록 (${logs.length}건)]\n` + lines.join('\n');
+      const text = `[SEP'ESP 샷 기록 (${logs.length}건)]\n` + lines.join('\n');
       try {
         if (navigator.clipboard && navigator.clipboard.writeText) {
           await navigator.clipboard.writeText(text);
@@ -1767,65 +1717,7 @@
     }
 
     // =========================================================================
-    // 11. 근접 탐색 & RSSI 레이더
-    // =========================================================================
-    const rssiMap = new Map();
-    let rssiAbortController = null;
-
-    function renderRssiList() {
-      const box = document.getElementById('rssiListBox');
-      if (rssiMap.size === 0) return;
-
-      const sorted = Array.from(rssiMap.values()).sort((a, b) => b.rssi - a.rssi);
-      box.innerHTML = sorted.map((item, idx) => {
-        const isClosest = idx === 0 && item.rssi > -65;
-        return `
-          <div class="p-2 rounded-xl bg-gray-900 border ${isClosest ? 'border-orange-500/60' : 'border-gray-800'} flex items-center justify-between gap-2">
-            <div class="min-w-0">
-              <div class="flex items-center gap-1.5">
-                <span class="font-bold text-white truncate">${item.name || '이름 없는 BLE 기기'}</span>
-                ${isClosest ? '<span class="px-1.5 py-0.2 rounded bg-orange-500 text-gray-950 text-[9px] font-extrabold shrink-0">가장 가까움</span>' : ''}
-              </div>
-              <div class="mono-num text-[10px] text-cyan-300">신호 세기: ${item.rssi} dBm</div>
-            </div>
-          </div>`;
-      }).join('');
-    }
-
-    async function startRssiRadar() {
-      if (!checkBluetoothAvailability()) return;
-      if (!navigator.bluetooth.requestLEScan) {
-        showToast('이 브라우저에서는 실시간 레이더가 제한됩니다. 위 [전체 기기 탐색창 열기]를 이용해 주세요.');
-        return;
-      }
-
-      try {
-        if (rssiAbortController) rssiAbortController.abort();
-        rssiAbortController = new AbortController();
-        rssiMap.clear();
-        document.getElementById('rssiListBox').innerHTML = '<div class="text-center py-3 text-cyan-300">주변 블루투스 신호 스캔 중... 폰을 머신에 가까이 대세요!</div>';
-
-        const scan = await navigator.bluetooth.requestLEScan({ acceptAllAdvertisements: true });
-        navigator.bluetooth.addEventListener('advertisementreceived', (event) => {
-          const id = event.device.id;
-          rssiMap.set(id, {
-            device: event.device,
-            name: event.device.name || event.name || '',
-            rssi: event.rssi || -99
-          });
-          renderRssiList();
-        }, { signal: rssiAbortController.signal });
-
-        setTimeout(() => {
-          if (scan && scan.active) scan.stop();
-        }, 20000);
-      } catch (err) {
-        showToast(`레이더 시작 불가: ${err.message}`);
-      }
-    }
-
-    // =========================================================================
-    // 12. 버튼 이벤트 바인딩
+    // 11. 버튼 이벤트 바인딩
     // =========================================================================
     document.getElementById('connectMachineBtn').addEventListener('click', () => connectMachine(true));
     document.getElementById('connectScaleBtn').addEventListener('click', connectScale);
@@ -1871,7 +1763,7 @@
       showToast(`프리셋 P${editingPresetIdx + 1}을 비웠습니다.`);
     });
 
-    // 목표량 · 도징 · 낙하보정 (변경 시 레시피 불빛 해제)
+    // 목표량 · 도징 · 낙하보정
     document.getElementById('targetMinusBtn').addEventListener('click', () => {
       targetYield = Math.max(5.0, +(targetYield - 0.5).toFixed(1));
       markManualEdit(false);
@@ -1903,7 +1795,7 @@
       updateAllDisplays();
     });
 
-    // 머신 설정 값 조절 (변경 시 레시피 불빛 해제 + 미저장 표시)
+    // 머신 설정 값 조절
     document.getElementById('tempMinusBtn').addEventListener('click', () => {
       targetTemp = Math.max(80, targetTemp - 1);
       markManualEdit(true);
@@ -1950,7 +1842,7 @@
       updateAllDisplays();
     });
 
-    // 머신에 설정 저장 (0x16 목표온도 + 0x18 프로파일) -> 레시피 불빛 끄고 동기화됨 표시
+    // 머신에 설정 저장
     document.getElementById('syncMachineCfgBtn').addEventListener('click', async () => {
       activePresetIdx = null;
       renderCustomPresets();
@@ -1970,11 +1862,11 @@
       const btn = document.getElementById('heaterToggleBtn');
       if (isHeaterOn) {
         btn.textContent = '🔥 가열 중지';
-        btn.className = 'px-2.5 py-1.5 rounded-xl bg-rose-500/25 text-rose-300 border border-rose-500/50 text-xs font-bold whitespace-nowrap shrink-0 btn-press';
+        btn.className = 'px-2.5 py-1 rounded-xl bg-rose-500/25 text-rose-300 border border-rose-500/50 text-[11px] font-bold whitespace-nowrap shrink-0 btn-press';
         await sendMachineCommand(machineCfg.cmdHeatOn, '단독 가열 시작');
       } else {
         btn.textContent = '🔥 가열 시작';
-        btn.className = 'px-2.5 py-1.5 rounded-xl bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 border border-orange-500/40 text-xs font-bold whitespace-nowrap shrink-0 btn-press';
+        btn.className = 'px-2.5 py-1 rounded-xl bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 border border-orange-500/40 text-[11px] font-bold whitespace-nowrap shrink-0 btn-press';
         await sendMachineCommand(machineCfg.cmdHeatOff, '단독 가열 중지');
       }
     });
@@ -2007,26 +1899,6 @@
     document.getElementById('simEspressoBtn').addEventListener('click', runEspressoSimulation);
     document.getElementById('saveShotBtn').addEventListener('click', saveCurrentShot);
 
-    // 패킷 로그 토글
-    document.getElementById('toggleLogBtn').addEventListener('click', () => {
-      packetLogBox.classList.toggle('hidden');
-    });
-
-    // 근접 탐색 모달
-    const radarModal = document.getElementById('radarModal');
-    document.getElementById('radarScanBtn').addEventListener('click', () => radarModal.classList.remove('hidden'));
-    document.getElementById('closeRadarBtn').addEventListener('click', () => radarModal.classList.add('hidden'));
-    document.getElementById('closeRadarFooterBtn').addEventListener('click', () => radarModal.classList.add('hidden'));
-    document.getElementById('filterIoTScanBtn').addEventListener('click', () => {
-      radarModal.classList.add('hidden');
-      connectMachine(true);
-    });
-    document.getElementById('allDeviceScanBtn').addEventListener('click', () => {
-      radarModal.classList.add('hidden');
-      connectMachine(false);
-    });
-    document.getElementById('startRssiRadarBtn').addEventListener('click', startRssiRadar);
-
     // BLE 프로토콜 설정 모달
     const bleConfigModal = document.getElementById('bleConfigModal');
     document.getElementById('bleConfigBtn').addEventListener('click', () => {
@@ -2040,6 +1912,10 @@
       bleConfigModal.classList.remove('hidden');
     });
     document.getElementById('closeBleConfigBtn').addEventListener('click', () => bleConfigModal.classList.add('hidden'));
+    document.getElementById('allDeviceScanBtn').addEventListener('click', () => {
+      bleConfigModal.classList.add('hidden');
+      connectMachine(false);
+    });
 
     document.getElementById('rescanGattBtn').addEventListener('click', async () => {
       if (!machineDevice || !machineDevice.gatt.connected) {
@@ -2051,7 +1927,7 @@
     });
 
     document.getElementById('clearRxLogBtn').addEventListener('click', () => {
-      machineRxBox.textContent = '머신 연결 후 상태/응답 패킷이 여기에 기록됩니다.';
+      packetLogBox.innerHTML = '<div>[SYSTEM] 로그 초기화됨</div>';
     });
 
     document.querySelectorAll('.cs-append-btn').forEach(btn => {
@@ -2146,12 +2022,6 @@
       renderShotLogs();
       showToast(`선택한 ${count}건의 샷 기록을 삭제했습니다.`);
     });
-    document.getElementById('clearShotLogsBtn').addEventListener('click', () => {
-      selectedShotIds.clear();
-      setShotLogs([]);
-      renderShotLogs();
-      showToast('모든 샷 기록이 삭제되었습니다.');
-    });
     document.getElementById('copyShotsTextBtn').addEventListener('click', copyShotsAsText);
     document.getElementById('exportShotsCsvBtn').addEventListener('click', exportShotsAsCsv);
 
@@ -2161,6 +2031,34 @@
         if ('wakeLock' in navigator) await navigator.wakeLock.request('screen');
       } catch (e) {}
     }
+
+    let isMachineCfgCollapsed = false;
+    function setMachineCfgCollapsed(collapsed) {
+      isMachineCfgCollapsed = collapsed;
+      const body = document.getElementById('machineCfgBody');
+      const btn = document.getElementById('toggleMachineCfgBtn');
+      const summary = document.getElementById('machineCfgSummary');
+      if (collapsed) {
+        body.classList.add('hidden');
+        summary.classList.remove('hidden');
+        summary.textContent = `${targetTemp}°C · 유량${flowSpeed} · 프리${preInfuseSec}s`;
+        btn.textContent = '▼ 펼치기';
+      } else {
+        body.classList.remove('hidden');
+        summary.classList.add('hidden');
+        btn.textContent = '▲ 접기';
+      }
+      setTimeout(resizeCanvas, 50);
+    }
+    document.getElementById('toggleMachineCfgBtn').addEventListener('click', () => {
+      setMachineCfgCollapsed(!isMachineCfgCollapsed);
+    });
+
+    // 앱 정보 모달
+    const aboutModal = document.getElementById('aboutModal');
+    document.getElementById('aboutAppBtn').addEventListener('click', () => aboutModal.classList.remove('hidden'));
+    document.getElementById('closeAboutBtn').addEventListener('click', () => aboutModal.classList.add('hidden'));
+    document.getElementById('closeAboutFooterBtn').addEventListener('click', () => aboutModal.classList.add('hidden'));
 
     // 초기 실행
     updateBrewModeUi();
